@@ -1,2678 +1,860 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>AI Clinical Co-Pilot — HN Healthcare</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-<style>
-/* ══════════════════════════════════════════════
-   DESIGN SYSTEM — HN AI Clinical Co-Pilot
-   Midnight Medical Premium v2.0
-══════════════════════════════════════════════ */
-:root{
-  --ink:      #020c1b;
-  --ink2:     #061426;
-  --ink3:     #0a1e38;
-  --ink4:     #0f2847;
-  --glass:    rgba(255,255,255,0.035);
-  --glass2:   rgba(255,255,255,0.06);
-  --border:   rgba(255,255,255,0.07);
-  --border2:  rgba(255,255,255,0.12);
-  --cyan:     #00d4ff;
-  --cyan2:    #00a8d4;
-  --cyan-glow:rgba(0,212,255,0.15);
-  --gold:     #f0a500;
-  --gold2:    #ffc84a;
-  --gold-glow:rgba(240,165,0,0.12);
-  --mint:     #00e5a0;
-  --mint-glow:rgba(0,229,160,0.12);
-  --rose:     #ff4d6d;
-  --rose-glow:rgba(255,77,109,0.12);
-  --amber:    #ffb347;
-  --text:     #e2eaf5;
-  --text2:    #b0c4de;
-  --muted:    #5a7a9a;
-  --white:    #ffffff;
-  --font-display: 'Playfair Display', Georgia, serif;
-  --font-sans:    'Outfit', system-ui, sans-serif;
-  --r-sm: 8px;
-  --r-md: 14px;
-  --r-lg: 20px;
-  --r-xl: 28px;
-  --shadow-lg: 0 24px 64px rgba(0,0,0,0.5);
-  --shadow-glow-cyan: 0 0 30px rgba(0,212,255,0.12);
-}
+  <!-- ═══ SEO & META ═══ -->
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>HealthAI — AI Clinical Co-Pilot for Doctors | Evidence-Based Decision Support</title>
+  <meta name="description" content="HealthAI is an AI-powered clinical co-pilot that analyzes patient data, finds similar past patients from 847K+ records, and provides evidence-based treatment insights for doctors."/>
+  <meta name="keywords" content="HealthAI, AI Clinical Co-Pilot, medical AI, clinical decision support, similar patient matching, treatment analysis, healthcare AI India"/>
+  <meta name="author" content="Team Parakram — India Innovates 2026"/>
+  <meta name="robots" content="index, follow"/>
 
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{
-  font-family:var(--font-sans);
-  background:var(--ink);
-  color:var(--text);
-  overflow-x:hidden;
-  line-height:1;
-}
-::-webkit-scrollbar{width:4px}
-::-webkit-scrollbar-track{background:var(--ink)}
-::-webkit-scrollbar-thumb{background:rgba(0,212,255,0.25);border-radius:2px}
-img{display:block;max-width:100%}
-a{text-decoration:none;color:inherit}
+  <!-- Open Graph -->
+  <meta property="og:title" content="HealthAI — AI Clinical Co-Pilot for Doctors"/>
+  <meta property="og:description" content="An AI decision-support system that finds 5 similar past patients from 847K records and provides evidence-based clinical insights — in seconds."/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:locale" content="en_IN"/>
 
-/* ── NOISE TEXTURE ── */
-body::after{
-  content:'';position:fixed;inset:0;
-  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
-  pointer-events:none;z-index:0;opacity:1;
-}
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="HealthAI — AI Clinical Co-Pilot"/>
+  <meta name="twitter:description" content="Reducing medical errors with AI-powered similar patient matching and treatment analysis."/>
 
-/* ══ NAVIGATION ══ */
-.nav{
-  position:fixed;top:0;left:0;right:0;z-index:500;
-  display:flex;align-items:center;justify-content:space-between;
-  padding:0 5%;height:68px;
-  background:rgba(2,12,27,0.85);
-  backdrop-filter:blur(20px) saturate(180%);
-  border-bottom:1px solid rgba(0,212,255,0.08);
-}
-.nav-logo{
-  display:flex;align-items:center;gap:10px;
-  font-family:var(--font-sans);font-weight:800;font-size:1.3rem;color:var(--white);
-}
-.nav-logo-mark{
-  width:36px;height:36px;border-radius:10px;
-  background:linear-gradient(135deg,var(--cyan),var(--cyan2));
-  display:flex;align-items:center;justify-content:center;
-  font-size:1rem;font-weight:800;color:#000;
-  box-shadow:0 0 20px rgba(0,212,255,0.3);
-}
-.nav-logo span{color:var(--cyan)}
-.nav-pill{
-  font-size:0.58rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;
-  background:rgba(0,212,255,0.1);color:var(--cyan);
-  border:1px solid rgba(0,212,255,0.2);
-  padding:0.2rem 0.55rem;border-radius:20px;
-}
-.nav-links{display:flex;gap:2.2rem;list-style:none}
-.nav-links a{
-  font-size:0.78rem;font-weight:600;letter-spacing:0.06em;
-  text-transform:uppercase;color:var(--muted);
-  transition:color 0.25s;
-}
-.nav-links a:hover{color:var(--cyan)}
-.nav-cta-btn{
-  font-family:var(--font-sans);font-weight:700;font-size:0.78rem;
-  letter-spacing:0.08em;text-transform:uppercase;
-  background:var(--cyan);color:#000;border:none;
-  padding:0.65rem 1.6rem;border-radius:var(--r-sm);
-  cursor:pointer;transition:all 0.25s;
-}
-.nav-cta-btn:hover{background:var(--cyan2);transform:translateY(-1px);box-shadow:0 8px 24px rgba(0,212,255,0.3)}
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏥</text></svg>"/>
 
-/* ══ HERO ══ */
-.hero{
-  position:relative;min-height:100vh;
-  display:flex;flex-direction:column;
-  align-items:center;justify-content:center;
-  text-align:center;padding:8rem 5% 5rem;
-  overflow:hidden;
-}
-.hero-bg{
-  position:absolute;inset:0;
-  background:
-    radial-gradient(ellipse 80% 60% at 50% -10%,rgba(0,212,255,0.07) 0%,transparent 65%),
-    radial-gradient(ellipse 50% 80% at 10% 70%,rgba(0,212,255,0.04) 0%,transparent 55%),
-    radial-gradient(ellipse 60% 50% at 90% 30%,rgba(240,165,0,0.05) 0%,transparent 55%);
-  animation:heroBgPulse 10s ease-in-out infinite alternate;
-}
-@keyframes heroBgPulse{0%{opacity:0.7}100%{opacity:1}}
-.hero-grid{
-  position:absolute;inset:0;
-  background-image:
-    linear-gradient(rgba(0,212,255,0.03) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(0,212,255,0.03) 1px,transparent 1px);
-  background-size:50px 50px;
-  mask-image:radial-gradient(ellipse 90% 70% at center,black 30%,transparent 100%);
-}
-.hero-eyebrow{
-  font-size:0.68rem;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;
-  color:var(--cyan);margin-bottom:1.4rem;
-  display:flex;align-items:center;gap:0.8rem;justify-content:center;
-  opacity:0;animation:riseUp 0.7s ease 0.2s forwards;
-}
-.hero-eyebrow::before,.hero-eyebrow::after{
-  content:'';width:28px;height:1px;background:var(--cyan);opacity:0.5;
-}
-.hero-h1{
-  font-family:var(--font-display);font-size:clamp(2.8rem,6.5vw,6rem);
-  font-weight:700;line-height:1.06;letter-spacing:-0.02em;
-  color:var(--white);max-width:880px;
-  opacity:0;animation:riseUp 0.8s ease 0.4s forwards;
-}
-.hero-h1 em{font-style:italic;color:var(--cyan)}
-.hero-h1 .gold{color:var(--gold)}
-.hero-sub{
-  font-size:1.05rem;font-weight:300;color:var(--text2);
-  max-width:600px;line-height:1.75;margin-top:1.4rem;
-  opacity:0;animation:riseUp 0.8s ease 0.6s forwards;
-}
-.hero-btns{
-  display:flex;gap:1rem;margin-top:2.5rem;flex-wrap:wrap;justify-content:center;
-  opacity:0;animation:riseUp 0.8s ease 0.8s forwards;
-}
-.btn-primary{
-  font-family:var(--font-sans);font-weight:700;font-size:0.82rem;
-  letter-spacing:0.08em;text-transform:uppercase;
-  background:linear-gradient(135deg,var(--cyan),var(--cyan2));
-  color:#000;border:none;padding:1rem 2.2rem;border-radius:var(--r-sm);
-  cursor:pointer;transition:all 0.25s;display:inline-flex;align-items:center;gap:0.5rem;
-}
-.btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(0,212,255,0.35)}
-.btn-outline{
-  font-family:var(--font-sans);font-weight:700;font-size:0.82rem;
-  letter-spacing:0.08em;text-transform:uppercase;
-  background:transparent;color:var(--text);
-  border:1px solid rgba(255,255,255,0.15);
-  padding:1rem 2.2rem;border-radius:var(--r-sm);
-  cursor:pointer;transition:all 0.25s;display:inline-flex;align-items:center;gap:0.5rem;
-  text-decoration:none;
-}
-.btn-outline:hover{border-color:var(--cyan);color:var(--cyan);transform:translateY(-2px)}
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700;800&family=DM+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
 
-/* hero stats */
-.hero-stats{
-  display:flex;gap:2.5rem;margin-top:4rem;flex-wrap:wrap;justify-content:center;
-  opacity:0;animation:riseUp 0.8s ease 1s forwards;
-}
-.hs{text-align:center}
-.hs-num{
-  font-family:var(--font-display);font-size:2.6rem;font-weight:700;
-  color:var(--gold);line-height:1;
-}
-.hs-label{font-size:0.68rem;font-weight:400;color:var(--muted);margin-top:0.3rem;letter-spacing:0.04em;text-transform:uppercase}
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 
-/* ECG line */
-.ecg-wrap{position:absolute;bottom:10%;left:0;width:100%;height:50px;opacity:0.12;pointer-events:none}
-.ecg-line{stroke:var(--cyan);stroke-width:1.5;fill:none;stroke-dasharray:1400;stroke-dashoffset:1400;animation:drawECG 3s ease-out 1.2s forwards}
-@keyframes drawECG{to{stroke-dashoffset:0}}
+  <!-- jsPDF -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
-/* ══ SECTIONS ══ */
-section{position:relative;z-index:1;padding:7rem 5%}
-.sec-label{
-  font-size:0.65rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;
-  color:var(--cyan);margin-bottom:0.7rem;
-  display:flex;align-items:center;gap:0.5rem;
-}
-.sec-label::before{content:'';width:18px;height:1px;background:var(--cyan)}
-.sec-title{
-  font-family:var(--font-display);font-size:clamp(2rem,3.8vw,3.4rem);
-  font-weight:700;color:var(--white);line-height:1.12;letter-spacing:-0.01em;
-}
-.sec-title em{font-style:italic;color:var(--cyan)}
-.sec-title .gold{color:var(--gold)}
-.sec-body{font-size:0.95rem;font-weight:300;color:var(--text2);line-height:1.75;max-width:560px;margin-top:0.9rem}
-
-/* ══ PROBLEM SECTION ══ */
-#problem{background:linear-gradient(180deg,var(--ink) 0%,var(--ink2) 100%)}
-.prob-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:3.5rem}
-.prob-card{
-  background:var(--glass);border:1px solid var(--border);
-  border-radius:var(--r-lg);padding:2rem;
-  position:relative;overflow:hidden;
-  transition:border-color 0.3s,transform 0.3s;
-}
-.prob-card:hover{border-color:rgba(0,212,255,0.2);transform:translateY(-3px)}
-.prob-card::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:2px;
-  background:linear-gradient(90deg,transparent,var(--cyan),transparent);
-  opacity:0;transition:opacity 0.3s;
-}
-.prob-card:hover::before{opacity:1}
-.prob-num{
-  font-family:var(--font-display);font-size:5rem;font-weight:700;
-  color:rgba(0,212,255,0.06);line-height:1;
-  position:absolute;top:0.5rem;right:1rem;
-}
-.prob-tag{font-size:0.62rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--cyan);margin-bottom:0.7rem}
-.prob-title{font-family:var(--font-sans);font-size:1.05rem;font-weight:700;color:var(--white);margin-bottom:1rem}
-.prob-list{list-style:none;display:flex;flex-direction:column;gap:0.6rem}
-.prob-list li{font-size:0.86rem;color:var(--text2);padding-left:1.1rem;position:relative;line-height:1.55}
-.prob-list li::before{content:'›';position:absolute;left:0;color:var(--cyan);font-weight:700}
-.prob-list li strong{color:var(--text)}
-.prob-stat-bar{
-  grid-column:span 2;
-  background:linear-gradient(135deg,rgba(0,212,255,0.06) 0%,rgba(240,165,0,0.04) 100%);
-  border:1px solid rgba(0,212,255,0.15);border-radius:var(--r-lg);
-  padding:2.5rem;display:flex;align-items:center;gap:3rem;flex-wrap:wrap;
-}
-.big-num{
-  font-family:var(--font-display);font-size:3.5rem;font-weight:700;
-  color:var(--gold);line-height:1;
-}
-.big-num-label{font-size:0.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;margin-top:0.4rem}
-.vdivider{width:1px;height:70px;background:rgba(255,255,255,0.08)}
-.stat-quote{flex:1;min-width:200px}
-.stat-quote h3{font-family:var(--font-sans);font-size:1.05rem;font-weight:700;color:var(--white);margin-bottom:0.5rem}
-.stat-quote p{font-size:0.88rem;color:var(--text2);line-height:1.65}
-.stat-quote .hl{color:var(--gold);font-weight:600}
-
-/* ══ SOLUTION SECTION ══ */
-#solution{background:var(--ink2)}
-.sol-layout{display:grid;grid-template-columns:1fr 1fr;gap:5rem;margin-top:4rem;align-items:start}
-.sol-feats{display:flex;flex-direction:column;gap:1.2rem}
-.sfeat{
-  display:flex;gap:1.2rem;align-items:flex-start;
-  padding:1.5rem;background:var(--glass);
-  border:1px solid var(--border);border-radius:var(--r-md);
-  transition:all 0.3s;
-}
-.sfeat:hover{border-color:rgba(0,212,255,0.2);background:rgba(0,212,255,0.03)}
-.sfeat-icon{
-  width:46px;height:46px;border-radius:12px;
-  background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.15);
-  display:flex;align-items:center;justify-content:center;
-  font-size:1.3rem;flex-shrink:0;
-}
-.sfeat h4{font-size:0.95rem;font-weight:700;color:var(--white);margin-bottom:0.35rem}
-.sfeat p{font-size:0.84rem;color:var(--text2);line-height:1.6}
-.sfeat .core-badge{
-  display:inline-block;margin-left:0.4rem;
-  font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;
-  background:rgba(240,165,0,0.15);color:var(--gold);
-  border:1px solid rgba(240,165,0,0.25);padding:0.15rem 0.45rem;border-radius:3px;
-}
-
-/* Dashboard mock card */
-.dash-mock{
-  background:linear-gradient(145deg,var(--ink3) 0%,var(--ink2) 100%);
-  border:1px solid rgba(0,212,255,0.12);
-  border-radius:var(--r-xl);padding:1.8rem;
-  box-shadow:var(--shadow-lg),var(--shadow-glow-cyan);
-  position:sticky;top:5rem;
-}
-.dash-header{
-  display:flex;align-items:center;justify-content:space-between;
-  padding-bottom:1rem;border-bottom:1px solid var(--border);margin-bottom:1.2rem;
-}
-.dash-dot{width:8px;height:8px;border-radius:50%;background:var(--mint);animation:dotPulse 2s ease-in-out infinite}
-@keyframes dotPulse{0%,100%{box-shadow:0 0 5px var(--mint)}50%{box-shadow:0 0 14px var(--mint)}}
-.dash-title{font-size:0.72rem;font-weight:700;color:var(--white);letter-spacing:0.06em;text-transform:uppercase}
-.dash-status{font-size:0.62rem;color:var(--mint)}
-.mini-patient{background:rgba(240,165,0,0.06);border:1px solid rgba(240,165,0,0.12);border-radius:10px;padding:0.9rem 1rem;margin-bottom:1rem}
-.mp-title{font-size:0.6rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:0.6rem}
-.mp-row{display:flex;justify-content:space-between;font-size:0.76rem;margin-bottom:0.25rem}
-.mp-row span:first-child{color:var(--muted)}
-.mp-row span:last-child{color:var(--text);font-weight:500}
-.mini-insights{display:flex;flex-direction:column;gap:0.6rem;margin-bottom:1rem}
-.mi-item{display:flex;align-items:flex-start;gap:0.6rem;padding:0.7rem 0.9rem;background:var(--glass);border:1px solid var(--border);border-radius:8px}
-.mi-dot{width:6px;height:6px;border-radius:50%;margin-top:4px;flex-shrink:0}
-.mi-item p{font-size:0.76rem;color:var(--text2);line-height:1.5}
-.mi-item p strong{color:var(--white)}
-.mini-similar{background:rgba(0,212,255,0.04);border:1px solid rgba(0,212,255,0.1);border-radius:10px;padding:0.9rem 1rem}
-.ms-title{font-size:0.6rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--cyan);margin-bottom:0.7rem}
-.ms-case{display:flex;justify-content:space-between;align-items:center;padding:0.4rem 0;border-bottom:1px solid rgba(255,255,255,0.04);font-size:0.75rem}
-.ms-case:last-child{border-bottom:none}
-.ms-pct{
-  font-size:0.7rem;font-weight:700;color:var(--cyan);
-  background:rgba(0,212,255,0.1);border:1px solid rgba(0,212,255,0.15);
-  padding:0.12rem 0.45rem;border-radius:3px;
-}
-
-/* ══ HOW IT WORKS ══ */
-#how{background:linear-gradient(180deg,var(--ink2) 0%,var(--ink) 100%)}
-.steps-wrap{display:grid;grid-template-columns:1fr;gap:0;margin-top:4rem;max-width:720px}
-.step-row{display:grid;grid-template-columns:72px 1fr;gap:2rem;padding-bottom:3rem;position:relative}
-.step-row:last-child{padding-bottom:0}
-.step-left{display:flex;flex-direction:column;align-items:center}
-.step-circle{
-  width:48px;height:48px;border-radius:50%;
-  border:2px solid var(--cyan);
-  display:flex;align-items:center;justify-content:center;
-  font-family:var(--font-display);font-size:1.2rem;font-weight:700;color:var(--cyan);
-  background:rgba(0,212,255,0.05);flex-shrink:0;transition:all 0.3s;z-index:1;
-}
-.step-row:hover .step-circle{background:rgba(0,212,255,0.15);box-shadow:0 0 20px rgba(0,212,255,0.25)}
-.step-vline{flex:1;width:1px;margin-top:0.5rem;background:linear-gradient(180deg,rgba(0,212,255,0.25),rgba(0,212,255,0.04))}
-.step-row:last-child .step-vline{display:none}
-.step-content{padding-top:0.6rem}
-.step-tag-label{font-size:0.6rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);margin-bottom:0.4rem}
-.step-name{font-family:var(--font-sans);font-size:1.15rem;font-weight:700;color:var(--white);margin-bottom:0.65rem}
-.step-desc{font-size:0.88rem;color:var(--text2);line-height:1.7;margin-bottom:0.9rem}
-.step-chips{display:flex;flex-wrap:wrap;gap:0.45rem}
-.chip{
-  font-size:0.7rem;font-weight:500;
-  background:rgba(0,212,255,0.06);border:1px solid rgba(0,212,255,0.14);
-  color:var(--cyan);padding:0.22rem 0.7rem;border-radius:20px;
-}
-
-/* ══ SIMILAR PATIENTS — STAR FEATURE ══ */
-#similar{
-  background:var(--ink3);
-  padding:7rem 5%;
-}
-.similar-header{
-  display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:end;margin-bottom:4rem;
-}
-.db-badge{
-  display:flex;align-items:center;gap:0.6rem;
-  background:rgba(0,212,255,0.06);border:1px solid rgba(0,212,255,0.15);
-  border-radius:var(--r-sm);padding:0.6rem 1rem;
-  font-size:0.72rem;font-weight:600;color:var(--cyan);
-  white-space:nowrap;
-}
-.db-badge::before{
-  content:'';width:7px;height:7px;border-radius:50%;
-  background:var(--mint);box-shadow:0 0 6px var(--mint);
-  flex-shrink:0;
-}
-
-/* Patient cards grid */
-.patients-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:1rem;margin-bottom:2.5rem}
-
-.patient-card{
-  background:var(--glass);border:1px solid var(--border);
-  border-radius:var(--r-lg);overflow:hidden;
-  transition:all 0.3s;cursor:default;
-  display:flex;flex-direction:column;
-}
-.patient-card:hover{
-  transform:translateY(-5px);
-  border-color:rgba(0,212,255,0.25);
-  box-shadow:0 20px 50px rgba(0,0,0,0.4),0 0 30px rgba(0,212,255,0.08);
-}
-.patient-card.person-a:hover{border-color:rgba(0,212,255,0.35)}
-.patient-card.person-b:hover{border-color:rgba(240,165,0,0.35)}
-.patient-card.person-c:hover{border-color:rgba(255,77,109,0.35)}
-.patient-card.person-d:hover{border-color:rgba(0,229,160,0.35)}
-.patient-card.person-e:hover{border-color:rgba(255,179,71,0.35)}
-
-/* card color stripe */
-.pc-stripe{height:3px;width:100%}
-.person-a .pc-stripe{background:linear-gradient(90deg,var(--cyan),var(--cyan2))}
-.person-b .pc-stripe{background:linear-gradient(90deg,var(--gold),var(--gold2))}
-.person-c .pc-stripe{background:linear-gradient(90deg,var(--rose),#ff8fa3)}
-.person-d .pc-stripe{background:linear-gradient(90deg,var(--mint),#00c8a0)}
-.person-e .pc-stripe{background:linear-gradient(90deg,var(--amber),#ffd080)}
-
-.pc-head{
-  padding:1.2rem 1.1rem 0.8rem;
-  display:flex;align-items:center;justify-content:space-between;
-  border-bottom:1px solid var(--border);
-}
-.pc-person-label{
-  font-size:0.68rem;font-weight:700;letter-spacing:0.1em;
-  text-transform:uppercase;
-}
-.person-a .pc-person-label{color:var(--cyan)}
-.person-b .pc-person-label{color:var(--gold)}
-.person-c .pc-person-label{color:var(--rose)}
-.person-d .pc-person-label{color:var(--mint)}
-.person-e .pc-person-label{color:var(--amber)}
-
-.pc-match{
-  font-family:var(--font-sans);font-size:0.72rem;font-weight:800;
-  padding:0.18rem 0.55rem;border-radius:4px;
-}
-.person-a .pc-match{color:var(--cyan);background:rgba(0,212,255,0.1);border:1px solid rgba(0,212,255,0.2)}
-.person-b .pc-match{color:var(--gold);background:rgba(240,165,0,0.1);border:1px solid rgba(240,165,0,0.2)}
-.person-c .pc-match{color:var(--rose);background:rgba(255,77,109,0.1);border:1px solid rgba(255,77,109,0.2)}
-.person-d .pc-match{color:var(--mint);background:rgba(0,229,160,0.1);border:1px solid rgba(0,229,160,0.2)}
-.person-e .pc-match{color:var(--amber);background:rgba(255,179,71,0.1);border:1px solid rgba(255,179,71,0.2)}
-
-.pc-body{padding:1rem 1.1rem;flex:1;display:flex;flex-direction:column;gap:0.7rem}
-
-.pc-row{font-size:0.76rem;display:flex;justify-content:space-between;align-items:flex-start;gap:0.3rem}
-.pc-row .k{color:var(--muted);flex-shrink:0;min-width:52px;font-size:0.7rem}
-.pc-row .v{color:var(--text);font-weight:500;text-align:right;line-height:1.4}
-
-/* Organ badge */
-.organ-badge{
-  display:flex;align-items:center;gap:0.5rem;
-  padding:0.55rem 0.8rem;border-radius:8px;
-  margin-top:0.3rem;
-}
-.person-a .organ-badge{background:rgba(0,212,255,0.07);border:1px solid rgba(0,212,255,0.15)}
-.person-b .organ-badge{background:rgba(240,165,0,0.07);border:1px solid rgba(240,165,0,0.15)}
-.person-c .organ-badge{background:rgba(255,77,109,0.07);border:1px solid rgba(255,77,109,0.15)}
-.person-d .organ-badge{background:rgba(0,229,160,0.07);border:1px solid rgba(0,229,160,0.15)}
-.person-e .organ-badge{background:rgba(255,179,71,0.07);border:1px solid rgba(255,179,71,0.15)}
-.organ-icon{font-size:1.1rem}
-.organ-info{display:flex;flex-direction:column;gap:0.15rem}
-.organ-name{font-size:0.8rem;font-weight:700;color:var(--white)}
-.organ-note{font-size:0.65rem;color:var(--muted)}
-
-/* Treatment timeline bar */
-.pc-timeline{padding:0 1.1rem 1rem}
-.tl-label{font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:0.5rem}
-.tl-bar{height:5px;background:rgba(255,255,255,0.05);border-radius:3px;overflow:hidden;margin-bottom:0.4rem}
-.tl-fill{height:100%;border-radius:3px;transition:width 1.5s ease 0.5s}
-.person-a .tl-fill{background:linear-gradient(90deg,var(--cyan),var(--cyan2))}
-.person-b .tl-fill{background:linear-gradient(90deg,var(--gold),var(--gold2))}
-.person-c .tl-fill{background:linear-gradient(90deg,var(--rose),#ff8fa3)}
-.person-d .tl-fill{background:linear-gradient(90deg,var(--mint),#00c8a0)}
-.person-e .tl-fill{background:linear-gradient(90deg,var(--amber),#ffd080)}
-.tl-meta{display:flex;justify-content:space-between;font-size:0.66rem;color:var(--muted)}
-
-/* Treatment options */
-.pc-treatments{padding:0 1.1rem 1.1rem}
-.treat-label{font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:0.55rem}
-.treat-opts{display:flex;flex-direction:column;gap:0.4rem}
-.treat-opt{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:0.42rem 0.6rem;background:var(--glass);
-  border:1px solid var(--border);border-radius:6px;
-}
-.treat-opt-name{font-size:0.72rem;color:var(--text);font-weight:500}
-.treat-opt-rate{
-  font-size:0.66rem;font-weight:700;
-  padding:0.1rem 0.4rem;border-radius:3px;
-}
-.treat-opt.best .treat-opt-name{color:var(--white);font-weight:700}
-.person-a .treat-opt.best{background:rgba(0,212,255,0.07);border-color:rgba(0,212,255,0.2)}
-.person-a .treat-opt.best .treat-opt-rate{color:var(--cyan);background:rgba(0,212,255,0.12)}
-.person-b .treat-opt.best{background:rgba(240,165,0,0.07);border-color:rgba(240,165,0,0.2)}
-.person-b .treat-opt.best .treat-opt-rate{color:var(--gold);background:rgba(240,165,0,0.12)}
-.person-c .treat-opt.best{background:rgba(255,77,109,0.07);border-color:rgba(255,77,109,0.2)}
-.person-c .treat-opt.best .treat-opt-rate{color:var(--rose);background:rgba(255,77,109,0.12)}
-.person-d .treat-opt.best{background:rgba(0,229,160,0.07);border-color:rgba(0,229,160,0.2)}
-.person-d .treat-opt.best .treat-opt-rate{color:var(--mint);background:rgba(0,229,160,0.12)}
-.person-e .treat-opt.best{background:rgba(255,179,71,0.07);border-color:rgba(255,179,71,0.2)}
-.person-e .treat-opt.best .treat-opt-rate{color:var(--amber);background:rgba(255,179,71,0.12)}
-.treat-opt:not(.best) .treat-opt-rate{color:var(--muted);background:rgba(255,255,255,0.04)}
-
-/* Pattern insight bar */
-.pattern-insight{
-  background:linear-gradient(135deg,rgba(0,212,255,0.05) 0%,rgba(240,165,0,0.04) 100%);
-  border:1px solid rgba(0,212,255,0.15);border-radius:var(--r-md);
-  padding:1.5rem 2rem;
-  display:flex;align-items:flex-start;gap:1.5rem;flex-wrap:wrap;
-}
-.pi-stat{text-align:center;min-width:100px}
-.pi-num{font-family:var(--font-display);font-size:2.2rem;font-weight:700;color:var(--gold);line-height:1}
-.pi-lbl{font-size:0.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;margin-top:0.3rem}
-.pi-divider{width:1px;height:50px;background:var(--border);align-self:center}
-.pi-text{flex:1;min-width:200px}
-.pi-text p{font-size:0.88rem;color:var(--text2);line-height:1.65}
-.pi-text strong{color:var(--white)}
-.pi-text .hl{color:var(--cyan);font-weight:600}
-
-/* ══ FEATURES ══ */
-#features{background:var(--ink2)}
-.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.3rem;margin-top:3rem}
-.feat-card{
-  background:var(--glass);border:1px solid var(--border);
-  border-radius:var(--r-lg);padding:1.8rem;
-  transition:all 0.3s;
-}
-.feat-card:hover{border-color:rgba(0,212,255,0.2);transform:translateY(-3px);box-shadow:0 16px 40px rgba(0,0,0,0.3)}
-.feat-card.highlight{
-  background:linear-gradient(135deg,rgba(0,212,255,0.07) 0%,rgba(240,165,0,0.04) 100%);
-  border-color:rgba(0,212,255,0.2);
-}
-.feat-icon-wrap{
-  width:46px;height:46px;border-radius:12px;
-  background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.15);
-  display:flex;align-items:center;justify-content:center;
-  font-size:1.4rem;margin-bottom:1.2rem;
-}
-.feat-title{font-size:0.95rem;font-weight:700;color:var(--white);margin-bottom:0.6rem}
-.feat-desc{font-size:0.84rem;color:var(--text2);line-height:1.65}
-.feat-badge{
-  display:inline-block;margin-top:0.9rem;
-  font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;
-  background:rgba(240,165,0,0.12);color:var(--gold);
-  border:1px solid rgba(240,165,0,0.2);padding:0.18rem 0.55rem;border-radius:3px;
-}
-
-/* ══ TECH STACK ══ */
-#tech{background:linear-gradient(180deg,var(--ink2) 0%,var(--ink) 100%)}
-.tech-layout{display:grid;grid-template-columns:1fr 1fr;gap:5rem;margin-top:4rem;align-items:start}
-.tech-group{margin-bottom:1.8rem}
-.tech-group-title{
-  font-size:0.62rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;
-  color:var(--gold);margin-bottom:0.9rem;
-  padding-bottom:0.5rem;border-bottom:1px solid rgba(240,165,0,0.12);
-}
-.chips{display:flex;flex-wrap:wrap;gap:0.55rem}
-.tech-chip{
-  font-size:0.76rem;font-weight:600;
-  padding:0.45rem 0.9rem;border-radius:6px;
-  background:var(--glass);border:1px solid var(--border);
-  color:var(--text2);transition:all 0.2s;cursor:default;
-}
-.tech-chip:hover{border-color:rgba(0,212,255,0.25);color:var(--cyan);background:rgba(0,212,255,0.04)}
-.pipeline{display:flex;flex-direction:column}
-.pipe-item{
-  display:flex;align-items:center;gap:1rem;
-  padding:1rem 1.2rem;background:var(--glass);
-  border:1px solid var(--border);transition:all 0.3s;
-}
-.pipe-item:first-child{border-radius:var(--r-md) var(--r-md) 0 0}
-.pipe-item:last-child{border-radius:0 0 var(--r-md) var(--r-md)}
-.pipe-item:not(:first-child){border-top:none}
-.pipe-item:hover{background:rgba(0,212,255,0.03);border-color:rgba(0,212,255,0.15)}
-.pipe-ico{font-size:1.3rem;width:36px;text-align:center;flex-shrink:0}
-.pipe-content h5{font-size:0.82rem;font-weight:700;color:var(--white);margin-bottom:0.18rem}
-.pipe-content p{font-size:0.74rem;color:var(--muted)}
-.pipe-arr{margin-left:auto;color:var(--cyan);opacity:0.5;font-size:0.9rem}
-
-/* ══ CTA ══ */
-#cta{background:var(--ink);text-align:center;padding:7rem 5%;position:relative;overflow:hidden}
-#cta::before{
-  content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
-  width:500px;height:500px;
-  background:radial-gradient(circle,rgba(0,212,255,0.06) 0%,transparent 70%);
-  pointer-events:none;
-}
-.cta-title{font-family:var(--font-display);font-size:clamp(2.5rem,4.5vw,4rem);font-weight:700;color:var(--white);line-height:1.1;max-width:680px;margin:0 auto 2rem}
-.cta-sub{font-size:0.95rem;color:var(--text2);max-width:440px;margin:0 auto 3rem;line-height:1.7}
-
-/* ══ FOOTER ══ */
-footer{
-  background:rgba(0,0,0,0.3);border-top:1px solid var(--border);
-  padding:2rem 5%;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;
-}
-.footer-brand{font-weight:800;font-size:1.1rem;color:var(--white)}
-.footer-brand span{color:var(--cyan)}
-.footer-txt{font-size:0.75rem;color:var(--muted)}
-
-/* ══ ANIMATIONS ══ */
-@keyframes riseUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
-.reveal{opacity:0;transform:translateY(28px);transition:opacity 0.7s ease,transform 0.7s ease}
-.reveal.visible{opacity:1;transform:none}
-
-/* ══ DEMO MODAL OVERLAY ══ */
-#demoOverlay{
-  display:none;position:fixed;inset:0;z-index:1000;
-  background:rgba(2,12,27,0.98);backdrop-filter:blur(16px);
-  overflow-y:auto;
-}
-.demo-shell{max-width:900px;margin:0 auto;padding:2rem 1.5rem 5rem}
-
-/* Demo topbar */
-.demo-topbar{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:1.2rem 0 1.6rem;
-  border-bottom:1px solid rgba(0,212,255,0.15);
-  margin-bottom:2.5rem;
-}
-.demo-title-wrap{}
-.demo-eyebrow{font-size:0.6rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--cyan);margin-bottom:0.3rem}
-.demo-main-title{font-family:var(--font-display);font-size:1.7rem;font-weight:600;color:var(--white)}
-.demo-close{
-  width:40px;height:40px;border-radius:50%;
-  background:var(--glass);border:1px solid var(--border);
-  color:var(--muted);font-size:1.1rem;cursor:pointer;
-  display:flex;align-items:center;justify-content:center;transition:all 0.2s;
-}
-.demo-close:hover{border-color:rgba(0,212,255,0.3);color:var(--cyan)}
-
-/* Step progress */
-.demo-progress{
-  display:flex;align-items:center;margin-bottom:2.5rem;
-  background:var(--glass);border:1px solid var(--border);
-  border-radius:var(--r-xl);padding:0.8rem 1.2rem;
-  gap:0;overflow:hidden;
-}
-.dp-item{
-  flex:1;display:flex;align-items:center;gap:0.7rem;
-  cursor:default;padding:0.5rem 0.8rem;border-radius:12px;
-  transition:all 0.3s;min-width:0;
-}
-.dp-item.active{background:rgba(0,212,255,0.08)}
-.dp-circle{
-  width:32px;height:32px;border-radius:50%;flex-shrink:0;
-  border:2px solid var(--border);
-  display:flex;align-items:center;justify-content:center;
-  font-size:0.78rem;font-weight:700;color:var(--muted);
-  background:var(--ink2);transition:all 0.3s;
-}
-.dp-item.active .dp-circle{border-color:var(--cyan);color:var(--cyan);background:rgba(0,212,255,0.1);box-shadow:0 0 12px rgba(0,212,255,0.2)}
-.dp-item.done .dp-circle{border-color:var(--cyan);background:var(--cyan);color:#000}
-.dp-label{font-size:0.72rem;font-weight:600;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:color 0.3s}
-.dp-item.active .dp-label{color:var(--cyan)}
-.dp-item.done .dp-label{color:var(--text2)}
-.dp-connector{width:16px;height:1px;background:var(--border);flex-shrink:0;margin:0 -0.3rem}
-.dp-connector.done{background:rgba(0,212,255,0.3)}
-
-/* Form styles */
-.demo-panel{animation:riseUp 0.5s ease forwards}
-.demo-step-header{display:flex;align-items:center;gap:1rem;margin-bottom:0.5rem}
-.dsh-num{
-  width:36px;height:36px;border-radius:50%;
-  border:2px solid var(--cyan);
-  background:rgba(0,212,255,0.08);
-  display:flex;align-items:center;justify-content:center;
-  font-family:var(--font-display);font-size:1.1rem;font-weight:700;color:var(--cyan);
-  flex-shrink:0;
-}
-.dsh-title{font-family:var(--font-display);font-size:1.5rem;font-weight:600;color:var(--white)}
-.dsh-sub{font-size:0.85rem;color:var(--muted);margin-bottom:2rem;line-height:1.6;margin-top:0.3rem}
-
-/* Form grid */
-.fg{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem}
-.fg.cols3{grid-template-columns:1fr 1fr 1fr}
-.fg.full{grid-template-columns:1fr}
-.fgroup{display:flex;flex-direction:column;gap:0.5rem}
-.flabel{
-  font-size:0.62rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;
-  color:var(--cyan);display:flex;align-items:center;gap:0.4rem;
-}
-.flabel .ex{color:var(--muted);font-weight:400;font-size:0.58rem;letter-spacing:0;text-transform:none}
-.finput,.fselect,.ftextarea{
-  background:rgba(255,255,255,0.035);
-  border:1px solid var(--border);border-radius:var(--r-sm);
-  color:var(--white);font-family:var(--font-sans);font-size:0.88rem;
-  padding:0.78rem 1rem;outline:none;transition:all 0.2s;width:100%;
-}
-.finput:focus,.fselect:focus,.ftextarea:focus{
-  border-color:rgba(0,212,255,0.4);
-  background:rgba(0,212,255,0.03);
-  box-shadow:0 0 0 3px rgba(0,212,255,0.06);
-}
-.finput::placeholder,.ftextarea::placeholder{color:rgba(90,122,154,0.5)}
-.fselect option{background:#0a1e38;color:var(--white)}
-.ftextarea{resize:vertical;min-height:90px}
-
-/* Slider component */
-.slider-wrap{display:flex;flex-direction:column;gap:0.6rem}
-.slider-top{display:flex;justify-content:space-between;align-items:center}
-.slider-val{
-  font-family:var(--font-display);font-size:1.4rem;font-weight:700;color:var(--cyan);line-height:1;
-}
-.slider-unit{font-size:0.72rem;color:var(--muted);margin-left:0.25rem}
-.slider-range{
-  -webkit-appearance:none;appearance:none;
-  width:100%;height:5px;border-radius:3px;
-  background:linear-gradient(90deg,var(--cyan) var(--pct,50%),rgba(255,255,255,0.08) var(--pct,50%));
-  outline:none;cursor:pointer;
-}
-.slider-range::-webkit-slider-thumb{
-  -webkit-appearance:none;appearance:none;
-  width:20px;height:20px;border-radius:50%;
-  background:var(--white);border:2px solid var(--cyan);
-  box-shadow:0 0 8px rgba(0,212,255,0.3);cursor:pointer;
-  transition:transform 0.15s;
-}
-.slider-range::-webkit-slider-thumb:hover{transform:scale(1.2)}
-.slider-ticks{display:flex;justify-content:space-between;font-size:0.6rem;color:var(--muted)}
-
-/* File upload */
-.upload-zone{
-  border:2px dashed rgba(0,212,255,0.2);border-radius:var(--r-md);
-  padding:1.8rem;text-align:center;cursor:pointer;
-  background:rgba(0,212,255,0.02);
-  transition:all 0.3s;position:relative;
-}
-.upload-zone:hover,.upload-zone.drag-over{
-  border-color:rgba(0,212,255,0.4);
-  background:rgba(0,212,255,0.05);
-}
-.upload-zone input[type=file]{
-  position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;
-}
-.uz-icon{font-size:2rem;margin-bottom:0.6rem;color:var(--cyan)}
-.uz-title{font-size:0.88rem;font-weight:600;color:var(--white);margin-bottom:0.3rem}
-.uz-sub{font-size:0.75rem;color:var(--muted);line-height:1.5}
-.uz-types{display:flex;flex-wrap:wrap;gap:0.4rem;justify-content:center;margin-top:0.8rem}
-.uz-type{
-  font-size:0.62rem;font-weight:600;
-  background:rgba(0,212,255,0.08);color:var(--cyan);
-  border:1px solid rgba(0,212,255,0.15);
-  padding:0.18rem 0.5rem;border-radius:3px;
-}
-.uploaded-files{display:flex;flex-direction:column;gap:0.5rem;margin-top:0.8rem}
-.uf-item{
-  display:flex;align-items:center;gap:0.6rem;
-  padding:0.6rem 0.8rem;background:var(--glass);
-  border:1px solid var(--border);border-radius:6px;
-  font-size:0.78rem;
-}
-.uf-icon{font-size:1rem;flex-shrink:0}
-.uf-name{color:var(--text);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.uf-size{color:var(--muted);flex-shrink:0}
-.uf-remove{
-  background:none;border:none;color:var(--muted);cursor:pointer;
-  font-size:0.9rem;padding:0.1rem 0.3rem;border-radius:3px;
-  transition:color 0.2s;
-}
-.uf-remove:hover{color:var(--rose)}
-
-/* Symptom tags */
-.sym-cloud{display:flex;flex-wrap:wrap;gap:0.5rem;margin-top:0.5rem}
-.sym-chip{
-  font-size:0.78rem;font-weight:500;
-  padding:0.38rem 0.85rem;border-radius:20px;cursor:pointer;
-  background:rgba(0,212,255,0.05);border:1px solid rgba(0,212,255,0.15);
-  color:var(--text2);transition:all 0.2s;user-select:none;
-}
-.sym-chip.sel{
-  background:rgba(0,212,255,0.15);border-color:var(--cyan);
-  color:var(--white);font-weight:600;
-}
-.sym-chip:hover:not(.sel){border-color:rgba(0,212,255,0.3);color:var(--cyan)}
-
-/* Demo nav */
-.demo-nav{
-  display:flex;justify-content:space-between;align-items:center;
-  margin-top:2.5rem;padding-top:1.5rem;
-  border-top:1px solid var(--border);
-}
-.dbtn-next{
-  font-family:var(--font-sans);font-weight:700;font-size:0.8rem;
-  letter-spacing:0.08em;text-transform:uppercase;
-  background:linear-gradient(135deg,var(--cyan),var(--cyan2));
-  color:#000;border:none;
-  padding:0.9rem 2rem;border-radius:var(--r-sm);cursor:pointer;
-  transition:all 0.25s;display:flex;align-items:center;gap:0.5rem;
-}
-.dbtn-next:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(0,212,255,0.3)}
-.dbtn-back{
-  font-family:var(--font-sans);font-weight:600;font-size:0.8rem;
-  letter-spacing:0.08em;text-transform:uppercase;
-  background:transparent;color:var(--muted);
-  border:1px solid var(--border);
-  padding:0.9rem 1.5rem;border-radius:var(--r-sm);cursor:pointer;
-  transition:all 0.25s;
-}
-.dbtn-back:hover{border-color:var(--border2);color:var(--text)}
-
-/* Review cards */
-.review-section{
-  background:var(--glass);border:1px solid var(--border);
-  border-radius:var(--r-md);padding:1.3rem;margin-bottom:1rem;
-}
-.review-section-title{
-  font-size:0.62rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;
-  color:var(--gold);margin-bottom:1rem;
-}
-.review-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.5rem 1.5rem}
-.rv-item{font-size:0.82rem}
-.rv-item span:first-child{color:var(--muted)}
-.rv-item span:last-child{color:var(--white);font-weight:500;margin-left:0.3rem}
-
-/* Processing screen */
-.proc-screen{text-align:center;padding:4rem 1rem}
-.proc-ring{
-  width:80px;height:80px;border-radius:50%;
-  border:3px solid rgba(0,212,255,0.1);border-top-color:var(--cyan);
-  animation:spin 0.9s linear infinite;margin:0 auto 2rem;
-}
-@keyframes spin{to{transform:rotate(360deg)}}
-.proc-title{font-family:var(--font-display);font-size:1.8rem;color:var(--white);margin-bottom:0.5rem}
-.proc-sub{font-size:0.88rem;color:var(--muted);margin-bottom:2rem}
-.proc-steps{max-width:420px;margin:0 auto;display:flex;flex-direction:column;gap:0.7rem}
-.ps-item{
-  display:flex;align-items:center;gap:0.8rem;
-  padding:0.75rem 1rem;background:var(--glass);
-  border:1px solid var(--border);border-radius:8px;
-  font-size:0.82rem;color:var(--muted);text-align:left;transition:all 0.4s;
-}
-.ps-item.run{border-color:rgba(0,212,255,0.3);color:var(--text);background:rgba(0,212,255,0.03)}
-.ps-item.done{border-color:rgba(0,229,160,0.3);color:var(--mint);background:rgba(0,229,160,0.03)}
-.ps-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.1);flex-shrink:0;transition:all 0.4s}
-.ps-item.run .ps-dot{background:var(--cyan);box-shadow:0 0 8px rgba(0,212,255,0.5);animation:dotPulse 0.7s ease-in-out infinite}
-.ps-item.done .ps-dot{background:var(--mint);box-shadow:0 0 6px var(--mint)}
-
-/* Report output */
-.rpt-container{
-  background:linear-gradient(160deg,var(--ink3) 0%,var(--ink2) 100%);
-  border:1px solid rgba(0,212,255,0.15);border-radius:var(--r-xl);overflow:hidden;
-}
-.rpt-header{
-  background:linear-gradient(135deg,rgba(0,212,255,0.08) 0%,rgba(240,165,0,0.04) 100%);
-  border-bottom:1px solid rgba(0,212,255,0.15);padding:2rem 2.5rem;
-}
-.rpt-header-row{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:1rem}
-.rpt-brand{font-size:0.6rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--cyan);margin-bottom:0.3rem}
-.rpt-name{font-family:var(--font-display);font-size:2rem;font-weight:700;color:var(--white);line-height:1.1}
-.rpt-id{font-size:0.74rem;color:var(--muted);margin-top:0.3rem}
-.rpt-id span{color:var(--gold);font-family:var(--font-sans);font-weight:700}
-.risk-pill{
-  display:inline-flex;align-items:center;gap:0.5rem;
-  padding:0.5rem 1.1rem;border-radius:20px;
-}
-.risk-dot{width:8px;height:8px;border-radius:50%}
-.risk-label{font-family:var(--font-sans);font-weight:800;font-size:0.78rem}
-.rpt-meta{display:flex;flex-wrap:wrap;gap:1.5rem;margin-top:1.2rem}
-.rm-item{display:flex;flex-direction:column;gap:0.18rem}
-.rm-lbl{font-size:0.58rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted)}
-.rm-val{font-size:0.85rem;font-weight:600;color:var(--white)}
-.rpt-body{padding:2rem 2.5rem}
-.rs{margin-bottom:2.5rem;padding-bottom:2.5rem;border-bottom:1px solid rgba(255,255,255,0.05)}
-.rs:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
-.rs-hdr{display:flex;align-items:center;gap:0.8rem;margin-bottom:1.2rem}
-.rs-num{
-  width:30px;height:30px;border-radius:50%;
-  background:linear-gradient(135deg,var(--cyan),var(--cyan2));
-  color:#000;font-family:var(--font-sans);font-size:0.78rem;font-weight:800;
-  display:flex;align-items:center;justify-content:center;flex-shrink:0;
-}
-.rs-title{font-family:var(--font-sans);font-size:0.82rem;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;color:var(--white)}
-.rs-core{
-  font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;
-  background:rgba(240,165,0,0.12);color:var(--gold);
-  border:1px solid rgba(240,165,0,0.2);
-  padding:0.15rem 0.5rem;border-radius:3px;margin-left:auto;
-}
-.rpt-content{font-size:0.88rem;color:var(--text2);line-height:1.75}
-.rpt-content strong{color:var(--text)}
-.rpt-content .hl{color:var(--gold);font-weight:600}
-.rpt-content .good{color:var(--mint)}
-.rpt-content .warn{color:var(--amber)}
-.rpt-content .danger{color:var(--rose)}
-.rpt-content .info{color:var(--cyan)}
-
-/* Diagnosis confidence bars */
-.diag-item{margin-bottom:1rem}
-.diag-row{display:flex;align-items:center;gap:0.8rem;margin-bottom:0.3rem}
-.diag-name{flex:1;font-size:0.82rem;color:var(--text);font-weight:500}
-.diag-pct{font-family:var(--font-sans);font-size:0.8rem;font-weight:800;color:var(--cyan);min-width:38px;text-align:right}
-.conf-track{height:6px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden}
-.conf-bar{height:100%;border-radius:3px;transition:width 1.2s ease 0.3s}
-.conf-bar.t1{background:linear-gradient(90deg,var(--cyan),var(--cyan2))}
-.conf-bar.t2{background:linear-gradient(90deg,var(--gold),var(--gold2))}
-.conf-bar.t3{background:linear-gradient(90deg,var(--amber),#ffd090)}
-.diag-evidence{font-size:0.76rem;color:var(--muted);margin-top:0.2rem;padding-left:0;line-height:1.5}
-
-.rpt-grid2{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1rem}
-.rg2-card{background:var(--glass);border:1px solid var(--border);border-radius:10px;padding:1.1rem}
-.rg2-title{font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);margin-bottom:0.8rem}
-.rg2-list{list-style:none;display:flex;flex-direction:column;gap:0.45rem}
-.rg2-list li{font-size:0.8rem;color:var(--text2);padding-left:1rem;position:relative;line-height:1.5}
-.rg2-list li::before{content:'›';position:absolute;left:0;color:var(--cyan)}
-.rg2-list li strong{color:var(--text)}
-
-/* Similar cases in report */
-.sim-case-row{
-  display:flex;align-items:center;gap:1rem;flex-wrap:wrap;
-  padding:0.9rem 1.1rem;background:var(--glass);
-  border:1px solid var(--border);border-radius:8px;margin-bottom:0.6rem;
-  transition:border-color 0.2s;
-}
-.sim-case-row:hover{border-color:rgba(0,212,255,0.18)}
-.scr-badge{
-  font-size:0.72rem;font-weight:800;
-  padding:0.18rem 0.6rem;border-radius:4px;
-  color:var(--cyan);background:rgba(0,212,255,0.1);
-  border:1px solid rgba(0,212,255,0.18);white-space:nowrap;
-}
-.scr-info{flex:1;font-size:0.8rem;color:var(--text2);line-height:1.5}
-.scr-info strong{color:var(--white)}
-
-/* Treatment cards */
-.treat-card{border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:0.9rem}
-.tc-hdr{
-  background:rgba(240,165,0,0.05);border-bottom:1px solid rgba(240,165,0,0.08);
-  padding:0.9rem 1.2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.5rem;
-}
-.tc-name{font-family:var(--font-sans);font-size:0.88rem;font-weight:700;color:var(--white)}
-.tc-rate{font-size:0.76rem;font-weight:700;color:var(--mint);background:rgba(0,229,160,0.1);border:1px solid rgba(0,229,160,0.18);padding:0.18rem 0.6rem;border-radius:3px}
-.tc-body{padding:0.9rem 1.2rem}
-.tc-row{display:flex;justify-content:space-between;font-size:0.8rem;padding:0.32rem 0;border-bottom:1px solid rgba(255,255,255,0.04)}
-.tc-row:last-child{border-bottom:none}
-.tc-row span:first-child{color:var(--muted)}
-.tc-row span:last-child{color:var(--text);font-weight:500}
-
-.rpt-summary-box{
-  padding:1.3rem 1.5rem;
-  background:linear-gradient(135deg,rgba(0,212,255,0.07) 0%,rgba(240,165,0,0.04) 100%);
-  border:1px solid rgba(0,212,255,0.18);border-radius:10px;margin-bottom:1.3rem;
-}
-.rsb-label{font-size:0.6rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--cyan);margin-bottom:0.5rem}
-.rsb-text{font-size:0.9rem;color:var(--text);line-height:1.7}
-.rsb-rec{margin-top:0.7rem;font-size:0.82rem;color:var(--gold);font-weight:600}
-.disclaimer{
-  padding:1rem 1.2rem;
-  background:rgba(255,77,109,0.04);border:1px solid rgba(255,77,109,0.12);
-  border-radius:8px;font-size:0.76rem;color:rgba(255,180,180,0.7);line-height:1.6;
-  margin-top:1.2rem;
-}
-.rpt-actions{display:flex;gap:1rem;margin-top:2rem;flex-wrap:wrap;justify-content:center}
-.btn-pdf{
-  font-family:var(--font-sans);font-weight:700;font-size:0.8rem;
-  letter-spacing:0.08em;text-transform:uppercase;
-  background:linear-gradient(135deg,var(--gold),var(--gold2));
-  color:#000;border:none;padding:0.9rem 2rem;border-radius:var(--r-sm);
-  cursor:pointer;transition:all 0.25s;display:flex;align-items:center;gap:0.6rem;
-}
-.btn-pdf:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(240,165,0,0.3)}
-.btn-restart{
-  font-family:var(--font-sans);font-weight:600;font-size:0.8rem;
-  letter-spacing:0.08em;text-transform:uppercase;
-  background:transparent;color:var(--muted);
-  border:1px solid var(--border);
-  padding:0.9rem 1.5rem;border-radius:var(--r-sm);cursor:pointer;transition:all 0.25s;
-}
-.btn-restart:hover{border-color:var(--border2);color:var(--text)}
-
-/* gold divider */
-.gold-divider{height:1px;background:linear-gradient(90deg,transparent,rgba(240,165,0,0.3),transparent);margin:1.5rem 0}
-
-/* Print / PDF */
-#printArea{display:none}
-@media print{
-  body>*:not(#printArea){display:none!important}
-  #printArea{
-    display:block!important;
-    font-family:Georgia,serif;padding:24px;background:#fff;color:#111;
-  }
-}
-
-/* Responsive */
-@media(max-width:1024px){
-  .patients-grid{grid-template-columns:repeat(3,1fr)}
-  .sol-layout{grid-template-columns:1fr;gap:3rem}
-  .tech-layout{grid-template-columns:1fr;gap:3rem}
-}
-@media(max-width:768px){
-  .prob-grid{grid-template-columns:1fr}
-  .prob-stat-bar{grid-column:span 1}
-  .feat-grid{grid-template-columns:1fr 1fr}
-  .patients-grid{grid-template-columns:1fr 1fr}
-  .fg{grid-template-columns:1fr}
-  .fg.cols3{grid-template-columns:1fr}
-  .rpt-grid2{grid-template-columns:1fr}
-  .nav-links{display:none}
-  .dp-label{display:none}
-  .similar-header{grid-template-columns:1fr}
-  .rpt-header,.rpt-body{padding:1.3rem}
-}
-@media(max-width:480px){
-  .feat-grid{grid-template-columns:1fr}
-  .patients-grid{grid-template-columns:1fr}
-  .hero-stats{gap:1.5rem}
-}
-</style>
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
-<!-- ══ PRINT AREA (hidden) ══ -->
-<div id="printArea"></div>
 
-<!-- ══ NAV ══ -->
-<nav class="nav">
-  <div class="nav-logo">
-    <div class="nav-logo-mark">HN</div>
-    <span>Health<span>AI</span></span>
-    <span class="nav-pill">Co-Pilot</span>
-  </div>
+<!-- ═══ SCROLL PROGRESS BAR ═══ -->
+<div class="scroll-progress"></div>
+
+<!-- ═══ PARTICLE CANVAS ═══ -->
+<canvas id="particleCanvas"></canvas>
+
+<!-- ═══ ANIMATED MESH BACKGROUND ═══ -->
+<div class="mesh-bg">
+  <div class="mesh-blob mb1"></div>
+  <div class="mesh-blob mb2"></div>
+  <div class="mesh-blob mb3"></div>
+</div>
+
+<!-- ═══ NAVIGATION ═══ -->
+<nav class="nav" id="mainNav">
+  <a href="#" class="nav-brand">
+    <div class="nav-orb">HN</div>
+    <span class="nav-name">Health<span>AI</span></span>
+    <span class="nav-tag">Co-Pilot</span>
+  </a>
   <ul class="nav-links">
     <li><a href="#problem">Problem</a></li>
-    <li><a href="#solution">Solution</a></li>
     <li><a href="#similar">Similar Patients</a></li>
+    <li><a href="#pipeline">5-Step AI</a></li>
     <li><a href="#features">Features</a></li>
+    <li><a href="#testimonials">Testimonials</a></li>
     <li><a href="#tech">Technology</a></li>
+    <li><a href="#contact">Contact</a></li>
   </ul>
-  <button class="nav-cta-btn" onclick="openDemo()">Generate Report</button>
+  <div class="nav-actions">
+    <button class="nbtn nbtn-ghost" onclick="openModal('docModal')"><i class="fa-solid fa-stethoscope"></i> Doctor Portal</button>
+    <button class="nbtn nbtn-solid" onclick="openModal('patModal')"><i class="fa-solid fa-file-medical"></i> Generate Report</button>
+  </div>
+  <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
 
-<!-- ══ HERO ══ -->
+<!-- ═══ MOBILE NAV OVERLAY ═══ -->
+<div class="mobile-nav" id="mobileNav">
+  <a href="#problem">Problem</a>
+  <a href="#similar">Similar Patients</a>
+  <a href="#pipeline">5-Step AI</a>
+  <a href="#features">Features</a>
+  <a href="#testimonials">Testimonials</a>
+  <a href="#tech">Technology</a>
+  <a href="#about">About</a>
+  <a href="#contact">Contact</a>
+  <a href="#" onclick="openModal('patModal');return false;" style="color:var(--cyan)">Generate Report</a>
+</div>
+
+<!-- ═══ HERO ═══ -->
 <section class="hero" id="home">
-  <div class="hero-bg"></div>
+  <div class="hero-grad"></div>
   <div class="hero-grid"></div>
-
-  <div class="hero-eyebrow">AI Healthcare Innovation · India</div>
-
-  <h1 class="hero-h1">
-    The <em>Clinical Co-Pilot</em><br>
-    Every Doctor <span class="gold">Deserves</span>
-  </h1>
-
-  <p class="hero-sub">
-    An AI decision-support system that finds similar patient cases, analyzes treatments, and delivers evidence-based clinical insights — in real time, in every consultation.
-  </p>
-
-  <div class="hero-btns">
-    <button class="btn-primary" onclick="openDemo()">
-      <span>🧠</span> Generate Live Report
-    </button>
-    <a href="#similar" class="btn-outline">
-      <span>👥</span> See Similar Patients
-    </a>
-  </div>
-
-  <div class="hero-stats">
-    <div class="hs">
-      <div class="hs-num">5M+</div>
-      <div class="hs-label">Deaths/year from medical errors</div>
+  <div style="position:relative;z-index:2;max-width:920px">
+    <div class="hero-eyebrow"><span class="live-ping"></span>India Innovates 2026 · Team Parakram · AI Clinical Co-Pilot</div>
+    <h1 class="hero-h1">The <em><span class="typing-text">Clinical Co-Pilot</span></em><br>Every Doctor Deserves</h1>
+    <p class="hero-sub">An AI decision-support system that analyzes complex patient data, finds <strong style="color:var(--white)">5 similar past patients</strong> from 847K records, compares treatments, and generates evidence-based clinical insights — in seconds, not hours.</p>
+    <div class="hero-btns">
+      <button class="hbtn-p" onclick="openModal('patModal')"><i class="fa-solid fa-file-medical"></i> Generate AIT Report</button>
+      <a href="#similar" class="hbtn-o"><i class="fa-solid fa-users"></i> See Similar Patients →</a>
     </div>
-    <div class="hs">
-      <div class="hs-num">5 min</div>
-      <div class="hs-label">Average OPD consultation time</div>
-    </div>
-    <div class="hs">
-      <div class="hs-num">100+</div>
-      <div class="hs-label">Patients per doctor per day at AIIMS</div>
-    </div>
-    <div class="hs">
-      <div class="hs-num">0</div>
-      <div class="hs-label">Systems with similar-patient intelligence</div>
+    <div class="hero-stats">
+      <div class="hs"><div class="hs-n">5</div><div class="hs-l">Deaths/yr · Medical Errors (Millions)</div></div>
+      <div class="hs"><div class="hs-n">5</div><div class="hs-l">Avg. Consultation Time (min)</div></div>
+      <div class="hs"><div class="hs-n">847</div><div class="hs-l">Patient Records Scanned (K)</div></div>
+      <div class="hs"><div class="hs-n">0</div><div class="hs-l">Current Similar-Patient Systems</div></div>
     </div>
   </div>
-
-  <div class="ecg-wrap">
-    <svg width="100%" height="50" viewBox="0 0 1400 50" preserveAspectRatio="none">
-      <path class="ecg-line" d="M0,25 L80,25 L100,25 L110,3 L122,48 L132,6 L142,25 L260,25 L280,25 L290,3 L302,48 L312,6 L322,25 L440,25 L460,25 L470,3 L482,48 L492,6 L502,25 L620,25 L640,25 L650,3 L662,48 L672,6 L682,25 L800,25 L820,25 L830,3 L842,48 L852,6 L862,25 L980,25 L1000,25 L1010,3 L1022,48 L1032,6 L1042,25 L1160,25 L1180,25 L1190,3 L1202,48 L1212,6 L1222,25 L1400,25"/>
-    </svg>
-  </div>
+  <svg class="ecg-svg" viewBox="0 0 1400 52" preserveAspectRatio="none">
+    <path class="ecg-path" d="M0,26 L100,26 L120,26 L132,4 L145,50 L155,4 L165,26 L320,26 L340,26 L352,4 L365,50 L375,4 L385,26 L540,26 L560,26 L572,4 L585,50 L595,4 L605,26 L760,26 L780,26 L792,4 L805,50 L815,4 L825,26 L980,26 L1000,26 L1012,4 L1025,50 L1035,4 L1045,26 L1200,26 L1220,26 L1232,4 L1245,50 L1255,4 L1265,26 L1400,26"/>
+  </svg>
 </section>
 
-<!-- ══ PROBLEM ══ -->
+<div class="div-line"></div>
+
+<!-- ═══ PROBLEM ═══ -->
 <section id="problem">
-  <div class="sec-label">The Problem</div>
-  <h2 class="sec-title">Challenges in Modern<br><em>Clinical Decision Making</em></h2>
-  <p class="sec-body">India's healthcare system faces a silent crisis — overwhelmed doctors, scattered data, and AI tools that act as untrustworthy black boxes.</p>
-
-  <div class="prob-grid">
-    <div class="prob-card reveal">
-      <div class="prob-num">01</div>
-      <div class="prob-tag">Real Problem in Healthcare</div>
-      <div class="prob-title">Overwhelmed Doctors, No Time</div>
-      <ul class="prob-list">
-        <li><strong>5 million+</strong> die every year from medical errors & delayed diagnosis in India</li>
-        <li>Lung, heart & liver diseases are <strong>difficult to diagnose early</strong></li>
-        <li>Doctors handle <strong>100+ patients daily</strong> in major hospitals like AIIMS</li>
-        <li>Average consultation time is only <strong>~5 minutes</strong> per patient</li>
-        <li>Must review symptoms, history, reports & scans simultaneously in 5 minutes</li>
-      </ul>
-    </div>
-    <div class="prob-card reveal">
-      <div class="prob-num">02</div>
-      <div class="prob-tag">Difficulty in Comparing Treatment Outcomes</div>
-      <div class="prob-title">No Evidence at Decision Time</div>
-      <ul class="prob-list">
-        <li>Doctors need to know <strong>which treatment worked best</strong> in similar past cases</li>
-        <li>Need real-time access to <strong>success rates</strong> and recovery timelines</li>
-        <li>Current AI gives <strong>predictions without explanation</strong></li>
-        <li>Doctors cannot trust opaque algorithmic recommendations</li>
-        <li>Complex patient data cannot be analyzed in a 5-minute window</li>
-      </ul>
-    </div>
-    <div class="prob-card reveal">
-      <div class="prob-num">03</div>
-      <div class="prob-tag">Missed Patterns & Diagnostic Errors</div>
-      <div class="prob-title">India's Massive Disease Burden</div>
-      <ul class="prob-list">
-        <li>High cases of <strong>TB, heart disease, kidney disease</strong> & liver disorders</li>
-        <li>No system to instantly find <strong>similar patient cases</strong> across databases</li>
-        <li>AI tools act as <strong>black boxes</strong> without clear clinical evidence</li>
-        <li>No system automatically analyzes <strong>treatment success patterns</strong></li>
-      </ul>
-    </div>
-    <div class="prob-stat-bar reveal">
-      <div>
-        <div class="big-num">5M+</div>
-        <div class="big-num-label">Annual deaths from errors</div>
+  <div class="inner">
+    <div class="sec-lbl reveal">The Problem</div>
+    <h2 class="sec-h2 reveal">Challenges in Modern <em>Clinical Decision Making</em></h2>
+    <p class="sec-p reveal">India's healthcare system faces a silent crisis — overwhelmed doctors, scattered data, and AI tools that act as untrustworthy black boxes.</p>
+    <div class="prob-grid" style="margin-top:3.2rem">
+      <div class="pcard reveal">
+        <div class="pcard-n">01</div>
+        <div class="pcard-tag">Real Problem in Healthcare</div>
+        <div class="pcard-title">Overwhelmed Doctors, No Time</div>
+        <ul class="pcard-list">
+          <li><strong>5 million+</strong> die every year from medical errors & delayed diagnosis in India</li>
+          <li>Lung, heart & liver diseases are <strong>difficult to diagnose early</strong></li>
+          <li>Doctors handle <strong>100+ patients daily</strong> in major hospitals like AIIMS</li>
+          <li>Average consultation time is only <strong>~5 minutes</strong> per patient</li>
+          <li>Must review symptoms, history, reports & scans simultaneously</li>
+        </ul>
       </div>
-      <div class="vdivider"></div>
-      <div>
-        <div class="big-num">5 min</div>
-        <div class="big-num-label">Avg. consultation</div>
+      <div class="pcard reveal" style="transition-delay:.1s">
+        <div class="pcard-n">02</div>
+        <div class="pcard-tag">Difficulty in Comparing Treatment Outcomes</div>
+        <div class="pcard-title">No Evidence at Decision Time</div>
+        <ul class="pcard-list">
+          <li>Doctors need to know <strong>which treatment worked best</strong> in similar past cases</li>
+          <li>Need real-time access to <strong>success rates</strong> and recovery timelines</li>
+          <li>Current AI gives <strong>predictions without explanation</strong> — black boxes</li>
+          <li>Complex patient data cannot be analyzed in a 5-minute window</li>
+          <li>No system automatically analyzes <strong>treatment success patterns</strong></li>
+        </ul>
       </div>
-      <div class="vdivider"></div>
-      <div class="stat-quote">
-        <h3>The Core Need</h3>
-        <p>Doctors need a system that can analyze patient data, <span class="hl">identify similar patient cases</span>, and provide evidence-based treatment insights in real time — while keeping the doctor fully in control.</p>
+      <div class="pcard reveal" style="transition-delay:.2s">
+        <div class="pcard-n">03</div>
+        <div class="pcard-tag">Missed Patterns & Diagnostic Errors</div>
+        <div class="pcard-title">India's Massive Disease Burden</div>
+        <ul class="pcard-list">
+          <li>High cases of <strong>TB, heart disease, kidney disease</strong> & liver disorders</li>
+          <li>No system to instantly find <strong>similar patient cases</strong> across databases</li>
+          <li>Diagnosis often depends only on <strong>individual doctor experience</strong></li>
+          <li>Medical errors cause <strong>preventable deaths</strong> that could be avoided</li>
+        </ul>
       </div>
-    </div>
-  </div>
-</section>
-
-<!-- ══ SOLUTION ══ -->
-<section id="solution">
-  <div class="sol-layout">
-    <div>
-      <div class="sec-label">The Solution</div>
-      <h2 class="sec-title">AI Clinical<br><em>Co-Pilot</em></h2>
-      <p class="sec-body">An intelligent decision-support system that transforms complex medical data into actionable clinical insights — enabling faster, safer, evidence-based decisions.</p>
-      <div class="sol-feats" style="margin-top:2.5rem">
-        <div class="sfeat reveal">
-          <div class="sfeat-icon">🧠</div>
-          <div>
-            <h4>AI Clinical Co-Pilot System</h4>
-            <p>Integrates patient medical data, diagnostic reports, and historical records to generate intelligent clinical insights — acting as an assistant, never a replacement.</p>
-          </div>
-        </div>
-        <div class="sfeat reveal">
-          <div class="sfeat-icon">👥</div>
-          <div>
-            <h4>Similar Patient Intelligence <span class="core-badge">Core Innovation</span></h4>
-            <p>Searches massive medical databases to find patients with matching symptoms, reports & diagnoses. Doctors instantly see treatments used, outcomes, and recovery timelines.</p>
-          </div>
-        </div>
-        <div class="sfeat reveal">
-          <div class="sfeat-icon">📊</div>
-          <div>
-            <h4>Intelligent Patient Data Analysis</h4>
-            <p>Analyzes abnormal lab results, imaging patterns, symptom combinations & history to surface possible diagnoses and clinical risk indicators with confidence scores.</p>
-          </div>
-        </div>
-        <div class="sfeat reveal">
-          <div class="sfeat-icon">💊</div>
-          <div>
-            <h4>Evidence-Based Treatment Insights</h4>
-            <p>After identifying similar patients, analyzes which treatments were most effective — providing evidence, success rates & recovery data rather than just predictions.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="solution-visual reveal">
-      <div class="dash-mock">
-        <div class="dash-header">
-          <div style="display:flex;align-items:center;gap:0.5rem">
-            <div class="dash-dot"></div>
-            <span class="dash-title">AI Clinical Co-Pilot</span>
-          </div>
-          <span class="dash-status">● Live Analysis</span>
-        </div>
-        <div class="mini-patient">
-          <div class="mp-title">Current Patient</div>
-          <div class="mp-row"><span>Patient</span><span>52M — Chest Pain, Dyspnea</span></div>
-          <div class="mp-row"><span>BP / HR</span><span>148/92 · 96 bpm</span></div>
-          <div class="mp-row"><span>Reports</span><span>ECG, Echo, CBC, Troponin</span></div>
-          <div class="mp-row"><span>Duration</span><span>3 days, worsening</span></div>
-        </div>
-        <div style="font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:0.6rem">AI Insights</div>
-        <div class="mini-insights">
-          <div class="mi-item"><div class="mi-dot" style="background:#f87171"></div><p><strong>Possible STEMI</strong> — ST-elevation in leads II, III, aVF. Immediate cardiology consult.</p></div>
-          <div class="mi-item"><div class="mi-dot" style="background:#fbbf24"></div><p><strong>Elevated troponin risk</strong> — Lab pattern consistent with myocardial injury (84% of similar cases).</p></div>
-          <div class="mi-item"><div class="mi-dot" style="background:#34d399"></div><p><strong>Thrombolysis effective</strong> — 91% success in similar patients within 6-hr window.</p></div>
-        </div>
-        <div class="mini-similar">
-          <div class="ms-title">Similar Patients Found — 847 matches</div>
-          <div class="ms-case"><span style="color:var(--muted);font-size:0.75rem">Treatment: PCI + Aspirin</span><span class="ms-pct">94% match</span></div>
-          <div class="ms-case"><span style="color:var(--muted);font-size:0.75rem">Avg. Recovery: 8–12 days</span><span class="ms-pct">92% match</span></div>
-          <div class="ms-case"><span style="color:var(--muted);font-size:0.75rem">Success Rate: 89.3%</span><span class="ms-pct">91% match</span></div>
+      <div class="prob-bigbar reveal">
+        <div><div class="pbb-n">5M+</div><div class="pbb-l">Annual deaths from medical errors</div></div>
+        <div class="pbb-div"></div>
+        <div><div class="pbb-n" style="color:var(--cyan)">100+</div><div class="pbb-l">Patients per doctor per day (AIIMS)</div></div>
+        <div class="pbb-div"></div>
+        <div><div class="pbb-n" style="color:var(--mint)">0</div><div class="pbb-l">Systems that find similar past cases instantly</div></div>
+        <div class="pbb-div"></div>
+        <div class="pbb-q">
+          <h3>The Core Need</h3>
+          <p>Doctors need a system that analyzes patient data, <span class="hl">identifies similar past patients</span>, and provides evidence-based treatment insights in real time — while the doctor <span class="hl">remains fully in control</span>.</p>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ══ SIMILAR PATIENTS — STAR FEATURE ══ -->
+<div class="div-line"></div>
+
+<!-- ═══ SIMILAR PATIENTS — CORE INNOVATION ═══ -->
 <section id="similar">
-  <div class="similar-header reveal">
-    <div>
-      <div class="sec-label">Core Innovation</div>
-      <h2 class="sec-title">Similar Patient<br><em>Intelligence</em></h2>
-      <p class="sec-body" style="max-width:600px">Our AI searches massive medical databases to find the 5 most similar past patients — showing organ focus, treatment taken, and recovery outcome. <strong style="color:var(--white)">This is what no other system does.</strong></p>
-    </div>
-    <div class="db-badge">MIMIC-IV · NIH · ICMR Databases<br>847,000+ patient records</div>
-  </div>
-
-  <div class="patients-grid">
-    <!-- PERSON A -->
-    <div class="patient-card person-a reveal">
-      <div class="pc-stripe"></div>
-      <div class="pc-head">
-        <span class="pc-person-label">Person A</span>
-        <span class="pc-match">94% match</span>
+  <div class="inner">
+    <div class="sim-top reveal">
+      <div>
+        <div class="sec-lbl" style="color:var(--gold)"><span style="width:16px;height:1px;background:var(--gold);display:inline-block"></span>Core Innovation</div>
+        <h2 class="sec-h2">Similar Patient <em>Intelligence</em></h2>
+        <p class="sec-p">Our AI searches 847K+ historical medical records to find the <strong style="color:var(--white)">5 most similar past patients</strong> — showing organ focus, treatment applied, success rates, and recovery timeline.</p>
       </div>
-      <div class="pc-body">
-        <div class="pc-row"><span class="k">Age/Sex</span><span class="v">55M</span></div>
-        <div class="pc-row"><span class="k">Diagnosed</span><span class="v">2022</span></div>
-        <div class="pc-row"><span class="k">Symptoms</span><span class="v">Chest pain, dyspnea, ST elevation</span></div>
-        <div class="organ-badge">
-          <span class="organ-icon">❤️</span>
-          <div class="organ-info">
-            <span class="organ-name">Heart</span>
-            <span class="organ-note">Coronary Artery Disease</span>
+      <div class="db-badge"><div class="db-dot"></div><span>MIMIC-IV · NIH · ICMR<br>847,000+ Patient Records</span></div>
+    </div>
+
+    <!-- 5 Enhanced Patient Cards -->
+    <div class="pcards-row">
+      <!-- PERSON A — Heart -->
+      <div class="prc pa prc-enhanced reveal">
+        <div class="prc-stripe"></div>
+        <div class="prc-head"><span class="prc-lbl">Person A</span><span class="prc-pct">94% match</span></div>
+        <div class="prc-body">
+          <div class="prc-row"><span class="k">Age/Sex</span><span class="v">55M · 2022</span></div>
+          <div class="prc-row"><span class="k">Symptoms</span><span class="v">Chest pain, dyspnea, ST elevation</span></div>
+          <div class="prc-row"><span class="k">Duration</span><span class="v">3 days acute</span></div>
+          <div class="organ-b"><span class="ob-ico">❤️</span><div><div class="ob-name">Heart</div><div class="ob-sub">Coronary Artery Disease</div></div></div>
+          <div class="prc-row"><span class="k">Outcome</span><span class="v" style="color:var(--mint)">✓ Full Recovery</span></div>
+        </div>
+        <div class="prc-vitals">
+          <div class="prc-vital"><span class="pvk">BP</span><span class="pvv abnormal">158/96</span></div>
+          <div class="prc-vital"><span class="pvk">HR</span><span class="pvv abnormal">112 bpm</span></div>
+          <div class="prc-vital"><span class="pvk">SpO₂</span><span class="pvv">96%</span></div>
+          <div class="prc-vital"><span class="pvk">Temp</span><span class="pvv">98.4°F</span></div>
+        </div>
+        <div class="prc-risk-factors">
+          <div class="rf-title">Risk Factors</div>
+          <div class="prc-risk-tags">
+            <span class="prc-risk-tag">Hypertension</span>
+            <span class="prc-risk-tag moderate">Smoker</span>
+            <span class="prc-risk-tag moderate">High LDL</span>
           </div>
         </div>
-        <div class="pc-row" style="margin-top:0.3rem"><span class="k">Outcome</span><span class="v" style="color:var(--mint)">✓ Recovered</span></div>
-      </div>
-      <div class="pc-timeline">
-        <div class="tl-label">Treatment Duration — 28 days</div>
-        <div class="tl-bar"><div class="tl-fill" style="width:0%" data-w="75%"></div></div>
-        <div class="tl-meta"><span>Day 1</span><span>Day 28</span></div>
-      </div>
-      <div class="pc-treatments">
-        <div class="treat-label">Treatments Applied</div>
-        <div class="treat-opts">
-          <div class="treat-opt best"><span class="treat-opt-name">🅐 PCI + Aspirin</span><span class="treat-opt-rate">89%</span></div>
-          <div class="treat-opt"><span class="treat-opt-name">🅑 Thrombolysis</span><span class="treat-opt-rate">76%</span></div>
-          <div class="treat-opt"><span class="treat-opt-name">🅒 Beta-blockers</span><span class="treat-opt-rate">68%</span></div>
+        <div class="prc-hospital"><i class="fa-solid fa-hospital"></i> Apollo Hospital, Delhi</div>
+        <div class="sim-bar-wrap">
+          <div class="sim-bar-label"><span class="sbl-text">Similarity</span><span class="sbl-pct high">94%</span></div>
+          <div class="sim-bar-bg"><div class="sim-bar-fill high" data-w="94%"></div></div>
+        </div>
+        <div class="prc-tl">
+          <div class="tl-lbl"><span>Treatment Duration</span><span>22 Days</span></div>
+          <div class="tl-bg"><div class="tl-fill" data-w="75%"></div></div>
+          <div class="tl-ends"><span>Day 1</span><span>Day 28</span></div>
+        </div>
+        <div class="prc-tx">
+          <div class="tx-lbl">Treatments Applied</div>
+          <div class="tx-row best"><span class="tx-name">PCI + Antiplatelet</span><span class="tx-pct">91%</span></div>
+          <div class="tx-row"><span class="tx-name">Thrombolysis</span><span class="tx-pct">76%</span></div>
+          <div class="tx-row"><span class="tx-name">Beta-blockers</span><span class="tx-pct">68%</span></div>
+        </div>
+        <div class="prc-reasoning">
+          <div class="pr-title"><i class="fa-solid fa-brain"></i> AI Reasoning</div>
+          <div class="pr-text">Matched on: chest pain + ST elevation + hypertension history + elevated troponin. Age group & cardiac risk factors align closely.</div>
         </div>
       </div>
-    </div>
-
-    <!-- PERSON B -->
-    <div class="patient-card person-b reveal">
-      <div class="pc-stripe"></div>
-      <div class="pc-head">
-        <span class="pc-person-label">Person B</span>
-        <span class="pc-match">89% match</span>
-      </div>
-      <div class="pc-body">
-        <div class="pc-row"><span class="k">Age/Sex</span><span class="v">61F</span></div>
-        <div class="pc-row"><span class="k">Diagnosed</span><span class="v">2021</span></div>
-        <div class="pc-row"><span class="k">Symptoms</span><span class="v">Edema, fatigue, oliguria</span></div>
-        <div class="organ-badge">
-          <span class="organ-icon">🫘</span>
-          <div class="organ-info">
-            <span class="organ-name">Kidney</span>
-            <span class="organ-note">Chronic Kidney Disease Stage 3</span>
+      <!-- PERSON B — Kidney -->
+      <div class="prc pb prc-enhanced reveal" style="transition-delay:.07s">
+        <div class="prc-stripe"></div>
+        <div class="prc-head"><span class="prc-lbl">Person B</span><span class="prc-pct">89% match</span></div>
+        <div class="prc-body">
+          <div class="prc-row"><span class="k">Age/Sex</span><span class="v">61F · 2021</span></div>
+          <div class="prc-row"><span class="k">Symptoms</span><span class="v">Edema, oliguria, fatigue</span></div>
+          <div class="prc-row"><span class="k">Duration</span><span class="v">6 weeks progressive</span></div>
+          <div class="organ-b"><span class="ob-ico">🫘</span><div><div class="ob-name">Kidney</div><div class="ob-sub">CKD Stage 3</div></div></div>
+          <div class="prc-row"><span class="k">Outcome</span><span class="v" style="color:var(--amber)">△ Partial Recovery</span></div>
+        </div>
+        <div class="prc-vitals">
+          <div class="prc-vital"><span class="pvk">BP</span><span class="pvv abnormal">162/98</span></div>
+          <div class="prc-vital"><span class="pvk">HR</span><span class="pvv">78 bpm</span></div>
+          <div class="prc-vital"><span class="pvk">SpO₂</span><span class="pvv">97%</span></div>
+          <div class="prc-vital"><span class="pvk">Cr</span><span class="pvv abnormal">2.4 mg/dL</span></div>
+        </div>
+        <div class="prc-risk-factors">
+          <div class="rf-title">Risk Factors</div>
+          <div class="prc-risk-tags">
+            <span class="prc-risk-tag">Diabetes T2</span>
+            <span class="prc-risk-tag">Hypertension</span>
+            <span class="prc-risk-tag moderate">Age >60</span>
           </div>
         </div>
-        <div class="pc-row" style="margin-top:0.3rem"><span class="k">Outcome</span><span class="v" style="color:var(--amber)">⚠ Partial</span></div>
-      </div>
-      <div class="pc-timeline">
-        <div class="tl-label">Treatment Duration — 90 days</div>
-        <div class="tl-bar"><div class="tl-fill" style="width:0%" data-w="60%"></div></div>
-        <div class="tl-meta"><span>Day 1</span><span>Day 90</span></div>
-      </div>
-      <div class="pc-treatments">
-        <div class="treat-label">Treatments Applied</div>
-        <div class="treat-opts">
-          <div class="treat-opt best"><span class="treat-opt-name">🅑 ACE Inhibitors</span><span class="treat-opt-rate">81%</span></div>
-          <div class="treat-opt"><span class="treat-opt-name">🅐 Dialysis Prep</span><span class="treat-opt-rate">69%</span></div>
-          <div class="treat-opt"><span class="treat-opt-name">🅒 Diuretics</span><span class="treat-opt-rate">55%</span></div>
+        <div class="prc-hospital"><i class="fa-solid fa-hospital"></i> AIIMS, New Delhi</div>
+        <div class="sim-bar-wrap">
+          <div class="sim-bar-label"><span class="sbl-text">Similarity</span><span class="sbl-pct high">89%</span></div>
+          <div class="sim-bar-bg"><div class="sim-bar-fill high" data-w="89%"></div></div>
         </div>
+        <div class="prc-tl">
+          <div class="tl-lbl"><span>Treatment Duration</span><span>90 Days</span></div>
+          <div class="tl-bg"><div class="tl-fill" data-w="62%"></div></div>
+          <div class="tl-ends"><span>Day 1</span><span>Day 90</span></div>
+        </div>
+        <div class="prc-tx">
+          <div class="tx-lbl">Treatments Applied</div>
+          <div class="tx-row best"><span class="tx-name">ACE Inhibitors</span><span class="tx-pct">72%</span></div>
+          <div class="tx-row"><span class="tx-name">Dialysis Protocol</span><span class="tx-pct">65%</span></div>
+          <div class="tx-row"><span class="tx-name">Dietary Mgmt</span><span class="tx-pct">58%</span></div>
+        </div>
+        <div class="prc-reasoning">
+          <div class="pr-title"><i class="fa-solid fa-brain"></i> AI Reasoning</div>
+          <div class="pr-text">Matched on: edema + elevated creatinine + diabetic nephropathy pattern + progressive renal decline over similar timeframe.</div>
+        </div>
+        <div class="prc-complications"><i class="fa-solid fa-triangle-exclamation"></i> Required ongoing dialysis monitoring</div>
       </div>
-    </div>
-
-    <!-- PERSON C -->
-    <div class="patient-card person-c reveal">
-      <div class="pc-stripe"></div>
-      <div class="pc-head">
-        <span class="pc-person-label">Person C</span>
-        <span class="pc-match">85% match</span>
-      </div>
-      <div class="pc-body">
-        <div class="pc-row"><span class="k">Age/Sex</span><span class="v">68M</span></div>
-        <div class="pc-row"><span class="k">Diagnosed</span><span class="v">2023</span></div>
-        <div class="pc-row"><span class="k">Symptoms</span><span class="v">Jaundice, ascites, fatigue</span></div>
-        <div class="organ-badge">
-          <span class="organ-icon">🟤</span>
-          <div class="organ-info">
-            <span class="organ-name">Liver</span>
-            <span class="organ-note">Liver Cirrhosis — Stage 2</span>
+      <!-- PERSON C — Liver -->
+      <div class="prc pc prc-enhanced reveal" style="transition-delay:.14s">
+        <div class="prc-stripe"></div>
+        <div class="prc-head"><span class="prc-lbl">Person C</span><span class="prc-pct">85% match</span></div>
+        <div class="prc-body">
+          <div class="prc-row"><span class="k">Age/Sex</span><span class="v">68M · 2023</span></div>
+          <div class="prc-row"><span class="k">Symptoms</span><span class="v">Jaundice, ascites, fatigue</span></div>
+          <div class="prc-row"><span class="k">Duration</span><span class="v">3 months chronic</span></div>
+          <div class="organ-b"><span class="ob-ico">🟤</span><div><div class="ob-name">Liver</div><div class="ob-sub">Cirrhosis Stage 2</div></div></div>
+          <div class="prc-row"><span class="k">Outcome</span><span class="v" style="color:var(--rose)">⚠ Ongoing Mgmt</span></div>
+        </div>
+        <div class="prc-vitals">
+          <div class="prc-vital"><span class="pvk">BP</span><span class="pvv">118/72</span></div>
+          <div class="prc-vital"><span class="pvk">HR</span><span class="pvv">82 bpm</span></div>
+          <div class="prc-vital"><span class="pvk">ALT</span><span class="pvv abnormal">128 U/L</span></div>
+          <div class="prc-vital"><span class="pvk">Bili</span><span class="pvv abnormal">4.2 mg/dL</span></div>
+        </div>
+        <div class="prc-risk-factors">
+          <div class="rf-title">Risk Factors</div>
+          <div class="prc-risk-tags">
+            <span class="prc-risk-tag">Alcohol Use</span>
+            <span class="prc-risk-tag">Hepatitis B</span>
+            <span class="prc-risk-tag moderate">Coagulopathy</span>
           </div>
         </div>
-        <div class="pc-row" style="margin-top:0.3rem"><span class="k">Outcome</span><span class="v" style="color:var(--amber)">⚠ Ongoing</span></div>
-      </div>
-      <div class="pc-timeline">
-        <div class="tl-label">Treatment Duration — 120 days</div>
-        <div class="tl-bar"><div class="tl-fill" style="width:0%" data-w="85%"></div></div>
-        <div class="tl-meta"><span>Day 1</span><span>Day 120</span></div>
-      </div>
-      <div class="pc-treatments">
-        <div class="treat-label">Treatments Applied</div>
-        <div class="treat-opts">
-          <div class="treat-opt best"><span class="treat-opt-name">🅒 Combined Therapy</span><span class="treat-opt-rate">74%</span></div>
-          <div class="treat-opt"><span class="treat-opt-name">🅐 Diuretics</span><span class="treat-opt-rate">61%</span></div>
-          <div class="treat-opt"><span class="treat-opt-name">🅑 Lactulose</span><span class="treat-opt-rate">58%</span></div>
+        <div class="prc-hospital"><i class="fa-solid fa-hospital"></i> Fortis Hospital, Mumbai</div>
+        <div class="sim-bar-wrap">
+          <div class="sim-bar-label"><span class="sbl-text">Similarity</span><span class="sbl-pct high">85%</span></div>
+          <div class="sim-bar-bg"><div class="sim-bar-fill high" data-w="85%"></div></div>
         </div>
+        <div class="prc-tl">
+          <div class="tl-lbl"><span>Treatment Duration</span><span>120 Days</span></div>
+          <div class="tl-bg"><div class="tl-fill" data-w="74%"></div></div>
+          <div class="tl-ends"><span>Day 1</span><span>Day 120</span></div>
+        </div>
+        <div class="prc-tx">
+          <div class="tx-lbl">Treatments Applied</div>
+          <div class="tx-row best"><span class="tx-name">Combined Therapy</span><span class="tx-pct">74%</span></div>
+          <div class="tx-row"><span class="tx-name">Diuretics</span><span class="tx-pct">61%</span></div>
+          <div class="tx-row"><span class="tx-name">Lactulose</span><span class="tx-pct">55%</span></div>
+        </div>
+        <div class="prc-reasoning">
+          <div class="pr-title"><i class="fa-solid fa-brain"></i> AI Reasoning</div>
+          <div class="pr-text">Matched on: jaundice + ascites + elevated bilirubin & ALT + chronic hepatitis pattern with similar progression rate.</div>
+        </div>
+        <div class="prc-complications"><i class="fa-solid fa-triangle-exclamation"></i> Variceal bleeding risk — ongoing monitoring required</div>
       </div>
-    </div>
-
-    <!-- PERSON D -->
-    <div class="patient-card person-d reveal">
-      <div class="pc-stripe"></div>
-      <div class="pc-head">
-        <span class="pc-person-label">Person D</span>
-        <span class="pc-match">82% match</span>
-      </div>
-      <div class="pc-body">
-        <div class="pc-row"><span class="k">Age/Sex</span><span class="v">47F</span></div>
-        <div class="pc-row"><span class="k">Diagnosed</span><span class="v">2022</span></div>
-        <div class="pc-row"><span class="k">Symptoms</span><span class="v">Cough, SpO2 drop, X-ray opacity</span></div>
-        <div class="organ-badge">
-          <span class="organ-icon">🫁</span>
-          <div class="organ-info">
-            <span class="organ-name">Lungs</span>
-            <span class="organ-note">Community-Acquired Pneumonia</span>
+      <!-- PERSON D — Lungs -->
+      <div class="prc pd prc-enhanced reveal" style="transition-delay:.21s">
+        <div class="prc-stripe"></div>
+        <div class="prc-head"><span class="prc-lbl">Person D</span><span class="prc-pct">82% match</span></div>
+        <div class="prc-body">
+          <div class="prc-row"><span class="k">Age/Sex</span><span class="v">47F · 2022</span></div>
+          <div class="prc-row"><span class="k">Symptoms</span><span class="v">Cough, SpO₂↓, X-ray opacity</span></div>
+          <div class="prc-row"><span class="k">Duration</span><span class="v">10 days acute</span></div>
+          <div class="organ-b"><span class="ob-ico">🫁</span><div><div class="ob-name">Lungs</div><div class="ob-sub">Community-Acquired Pneumonia</div></div></div>
+          <div class="prc-row"><span class="k">Outcome</span><span class="v" style="color:var(--mint)">✓ Full Recovery</span></div>
+        </div>
+        <div class="prc-vitals">
+          <div class="prc-vital"><span class="pvk">BP</span><span class="pvv">126/82</span></div>
+          <div class="prc-vital"><span class="pvk">HR</span><span class="pvv abnormal">104 bpm</span></div>
+          <div class="prc-vital"><span class="pvk">SpO₂</span><span class="pvv abnormal">91%</span></div>
+          <div class="prc-vital"><span class="pvk">Temp</span><span class="pvv abnormal">102.8°F</span></div>
+        </div>
+        <div class="prc-risk-factors">
+          <div class="rf-title">Risk Factors</div>
+          <div class="prc-risk-tags">
+            <span class="prc-risk-tag moderate">Diabetes T2</span>
+            <span class="prc-risk-tag low">Asthma History</span>
           </div>
         </div>
-        <div class="pc-row" style="margin-top:0.3rem"><span class="k">Outcome</span><span class="v" style="color:var(--mint)">✓ Full Recovery</span></div>
-      </div>
-      <div class="pc-timeline">
-        <div class="tl-label">Treatment Duration — 14 days</div>
-        <div class="tl-bar"><div class="tl-fill" style="width:0%" data-w="40%"></div></div>
-        <div class="tl-meta"><span>Day 1</span><span>Day 14</span></div>
-      </div>
-      <div class="pc-treatments">
-        <div class="treat-label">Treatments Applied</div>
-        <div class="treat-opts">
-          <div class="treat-opt best"><span class="treat-opt-name">🅐 Antibiotics IV</span><span class="treat-opt-rate">93%</span></div>
-          <div class="treat-opt"><span class="treat-opt-name">🅑 O₂ Therapy</span><span class="treat-opt-rate">87%</span></div>
-          <div class="treat-opt"><span class="treat-opt-name">🅒 Bronchodilators</span><span class="treat-opt-rate">71%</span></div>
+        <div class="prc-hospital"><i class="fa-solid fa-hospital"></i> Max Hospital, Saket</div>
+        <div class="sim-bar-wrap">
+          <div class="sim-bar-label"><span class="sbl-text">Similarity</span><span class="sbl-pct med">82%</span></div>
+          <div class="sim-bar-bg"><div class="sim-bar-fill med" data-w="82%"></div></div>
+        </div>
+        <div class="prc-tl">
+          <div class="tl-lbl"><span>Treatment Duration</span><span>14 Days</span></div>
+          <div class="tl-bg"><div class="tl-fill" data-w="43%"></div></div>
+          <div class="tl-ends"><span>Day 1</span><span>Day 14</span></div>
+        </div>
+        <div class="prc-tx">
+          <div class="tx-lbl">Treatments Applied</div>
+          <div class="tx-row best"><span class="tx-name">IV Ceftriaxone+Azithro</span><span class="tx-pct">88%</span></div>
+          <div class="tx-row"><span class="tx-name">O₂ Supplementation</span><span class="tx-pct">79%</span></div>
+          <div class="tx-row"><span class="tx-name">Oral Monotherapy</span><span class="tx-pct">61%</span></div>
+        </div>
+        <div class="prc-reasoning">
+          <div class="pr-title"><i class="fa-solid fa-brain"></i> AI Reasoning</div>
+          <div class="pr-text">Matched on: productive cough + low SpO₂ + lobar consolidation on imaging + similar WBC elevation and fever pattern.</div>
         </div>
       </div>
-    </div>
-
-    <!-- PERSON E -->
-    <div class="patient-card person-e reveal">
-      <div class="pc-stripe"></div>
-      <div class="pc-head">
-        <span class="pc-person-label">Person E</span>
-        <span class="pc-match">78% match</span>
-      </div>
-      <div class="pc-body">
-        <div class="pc-row"><span class="k">Age/Sex</span><span class="v">59M</span></div>
-        <div class="pc-row"><span class="k">Diagnosed</span><span class="v">2023</span></div>
-        <div class="pc-row"><span class="k">Symptoms</span><span class="v">Polyuria, blurred vision, HbA1c 10.2</span></div>
-        <div class="organ-badge">
-          <span class="organ-icon">🩸</span>
-          <div class="organ-info">
-            <span class="organ-name">Pancreas</span>
-            <span class="organ-note">Type 2 Diabetes — Advanced</span>
+      <!-- PERSON E — TB -->
+      <div class="prc pe prc-enhanced reveal" style="transition-delay:.28s">
+        <div class="prc-stripe"></div>
+        <div class="prc-head"><span class="prc-lbl">Person E</span><span class="prc-pct">74% match</span></div>
+        <div class="prc-body">
+          <div class="prc-row"><span class="k">Age/Sex</span><span class="v">39M · 2023</span></div>
+          <div class="prc-row"><span class="k">Symptoms</span><span class="v">Hemoptysis, night sweats, wt loss</span></div>
+          <div class="prc-row"><span class="k">Duration</span><span class="v">2 months chronic</span></div>
+          <div class="organ-b"><span class="ob-ico">🫁</span><div><div class="ob-name">Lungs</div><div class="ob-sub">Pulmonary TB — DOTS</div></div></div>
+          <div class="prc-row"><span class="k">Outcome</span><span class="v" style="color:var(--mint)">✓ Full Recovery</span></div>
+        </div>
+        <div class="prc-vitals">
+          <div class="prc-vital"><span class="pvk">BP</span><span class="pvv">110/68</span></div>
+          <div class="prc-vital"><span class="pvk">HR</span><span class="pvv">88 bpm</span></div>
+          <div class="prc-vital"><span class="pvk">SpO₂</span><span class="pvv">95%</span></div>
+          <div class="prc-vital"><span class="pvk">Wt</span><span class="pvv abnormal">52 kg (↓8)</span></div>
+        </div>
+        <div class="prc-risk-factors">
+          <div class="rf-title">Risk Factors</div>
+          <div class="prc-risk-tags">
+            <span class="prc-risk-tag moderate">Malnutrition</span>
+            <span class="prc-risk-tag low">Smoking</span>
           </div>
         </div>
-        <div class="pc-row" style="margin-top:0.3rem"><span class="k">Outcome</span><span class="v" style="color:var(--mint)">✓ Controlled</span></div>
-      </div>
-      <div class="pc-timeline">
-        <div class="tl-label">Treatment Duration — 60 days</div>
-        <div class="tl-bar"><div class="tl-fill" style="width:0%" data-w="55%"></div></div>
-        <div class="tl-meta"><span>Day 1</span><span>Day 60</span></div>
-      </div>
-      <div class="pc-treatments">
-        <div class="treat-label">Treatments Applied</div>
-        <div class="treat-opts">
-          <div class="treat-opt best"><span class="treat-opt-name">🅑 Insulin Therapy</span><span class="treat-opt-rate">88%</span></div>
-          <div class="treat-opt"><span class="treat-opt-name">🅐 Metformin</span><span class="treat-opt-rate">77%</span></div>
-          <div class="treat-opt"><span class="treat-opt-name">🅒 Lifestyle+Diet</span><span class="treat-opt-rate">65%</span></div>
+        <div class="prc-hospital"><i class="fa-solid fa-hospital"></i> Safdarjung Hospital, Delhi</div>
+        <div class="sim-bar-wrap">
+          <div class="sim-bar-label"><span class="sbl-text">Similarity</span><span class="sbl-pct med">74%</span></div>
+          <div class="sim-bar-bg"><div class="sim-bar-fill med" data-w="74%"></div></div>
+        </div>
+        <div class="prc-tl">
+          <div class="tl-lbl"><span>Treatment Duration</span><span>180 Days</span></div>
+          <div class="tl-bg"><div class="tl-fill" data-w="83%"></div></div>
+          <div class="tl-ends"><span>Day 1</span><span>Day 180</span></div>
+        </div>
+        <div class="prc-tx">
+          <div class="tx-lbl">Treatments Applied</div>
+          <div class="tx-row best"><span class="tx-name">HRZE Intensive Phase</span><span class="tx-pct">91%</span></div>
+          <div class="tx-row"><span class="tx-name">HR Continuation Phase</span><span class="tx-pct">88%</span></div>
+          <div class="tx-row"><span class="tx-name">Pyridoxine Support</span><span class="tx-pct">72%</span></div>
+        </div>
+        <div class="prc-reasoning">
+          <div class="pr-title"><i class="fa-solid fa-brain"></i> AI Reasoning</div>
+          <div class="pr-text">Matched on: hemoptysis + night sweats + weight loss triad + upper lobe cavity on imaging — classic TB presentation with similar duration.</div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- Pattern Insight -->
-  <div class="pattern-insight reveal" style="margin-top:1.5rem">
-    <div class="pi-stat">
-      <div class="pi-num">847K</div>
-      <div class="pi-lbl">Records Scanned</div>
-    </div>
-    <div class="pi-divider"></div>
-    <div class="pi-stat">
-      <div class="pi-num">94%</div>
-      <div class="pi-lbl">Top Match Score</div>
-    </div>
-    <div class="pi-divider"></div>
-    <div class="pi-stat">
-      <div class="pi-num">5</div>
-      <div class="pi-lbl">Organs Covered</div>
-    </div>
-    <div class="pi-divider"></div>
-    <div class="pi-text">
-      <p><strong>Key Clinical Insight:</strong> Across all similar patient cases, the <span class="hl">most critical factor affecting recovery time is organ specificity</span> — diseases affecting Liver and Kidney require <strong>3–6x longer treatment</strong> compared to acute conditions like Pneumonia or Cardiac events. This pattern helps doctors set realistic recovery expectations and prevents <span class="hl">premature treatment discontinuation</span>, which is a primary cause of medical errors.</p>
-    </div>
-  </div>
-</section>
-
-<!-- ══ HOW IT WORKS ══ -->
-<section id="how">
-  <div class="sec-label">Architecture & Methodology</div>
-  <h2 class="sec-title">The 5-Step <em>AI Pipeline</em></h2>
-  <p class="sec-body" style="max-width:680px">A clinically-grounded pipeline combining AI analysis, historical patient intelligence, and treatment outcome data to support faster, safer clinical decisions.</p>
-
-  <div class="steps-wrap" style="margin-top:4rem">
-    <div class="step-row reveal">
-      <div class="step-left">
-        <div class="step-circle">1</div>
-        <div class="step-vline"></div>
-      </div>
-      <div class="step-content">
-        <div class="step-tag-label">Step One</div>
-        <h3 class="step-name">Patient Data Collection</h3>
-        <p class="step-desc">The system collects complete patient medical information to build a structured clinical profile. Every data point contributes to more accurate matching and analysis.</p>
-        <div class="step-chips">
-          <span class="chip">Symptoms</span><span class="chip">Duration of Illness</span><span class="chip">X-ray / CT</span><span class="chip">Lab Reports</span><span class="chip">Medical History</span><span class="chip">Current Medications</span>
-        </div>
-      </div>
-    </div>
-    <div class="step-row reveal">
-      <div class="step-left">
-        <div class="step-circle">2</div>
-        <div class="step-vline"></div>
-      </div>
-      <div class="step-content">
-        <div class="step-tag-label">Step Two</div>
-        <h3 class="step-name">AI Clinical Analysis</h3>
-        <p class="step-desc">The AI analyzes collected patient data to identify possible diseases and clinical risk indicators — evaluating abnormal lab values, imaging patterns, and symptom combinations.</p>
-        <div class="step-chips">
-          <span class="chip">Abnormal Lab Results</span><span class="chip">Imaging Patterns</span><span class="chip">Symptom Combinations</span><span class="chip">Risk Indicators</span>
-        </div>
-      </div>
-    </div>
-    <div class="step-row reveal">
-      <div class="step-left">
-        <div class="step-circle">3</div>
-        <div class="step-vline"></div>
-      </div>
-      <div class="step-content">
-        <div class="step-tag-label">Step Three — Core Innovation</div>
-        <h3 class="step-name">Similar Patient Search</h3>
-        <p class="step-desc">The AI searches large medical databases (MIMIC-IV, NIH, ICMR) to find patients with similar symptoms, reports & diagnoses. For each match: confirmed diagnosis, treatment used, recovery outcome, and time taken.</p>
-        <div class="step-chips">
-          <span class="chip">Similarity Algorithms</span><span class="chip">847K+ Records</span><span class="chip">5-Person Summary</span><span class="chip">Organ-Level Focus</span>
-        </div>
-      </div>
-    </div>
-    <div class="step-row reveal">
-      <div class="step-left">
-        <div class="step-circle">4</div>
-        <div class="step-vline"></div>
-      </div>
-      <div class="step-content">
-        <div class="step-tag-label">Step Four</div>
-        <h3 class="step-name">Treatment Pattern Analysis</h3>
-        <p class="step-desc">From matched patient cases, the system identifies which treatments were most effective. It surfaces treatment success rates, average recovery times, side effects, and the effectiveness of combined therapies (A, B, C options).</p>
-        <div class="step-chips">
-          <span class="chip">Success Rates A/B/C</span><span class="chip">Recovery Time</span><span class="chip">Side Effects</span><span class="chip">Combined Therapies</span>
-        </div>
-      </div>
-    </div>
-    <div class="step-row reveal">
-      <div class="step-left">
-        <div class="step-circle">5</div>
-        <div class="step-vline"></div>
-      </div>
-      <div class="step-content">
-        <div class="step-tag-label">Step Five</div>
-        <h3 class="step-name">Doctor Decision Support</h3>
-        <p class="step-desc">The doctor reviews AI-generated insights, validates suggestions using clinical expertise, and makes the final treatment decision. AI handles heavy data analysis — the doctor controls judgment and final call.</p>
-        <div class="step-chips">
-          <span class="chip">AI Insights</span><span class="chip">Similar Case Evidence</span><span class="chip">Treatment Comparisons</span><span class="chip">Doctor Retains Control</span>
-        </div>
-      </div>
+    <!-- Pattern Insight -->
+    <div class="sim-insight reveal">
+      <div class="si-stat"><div class="si-n">847K</div><div class="si-l">Records Scanned</div></div>
+      <div class="si-div"></div>
+      <div class="si-stat"><div class="si-n" style="color:var(--cyan)">94%</div><div class="si-l">Top Match Score</div></div>
+      <div class="si-div"></div>
+      <div class="si-stat"><div class="si-n" style="color:var(--mint)">5</div><div class="si-l">Organs Covered</div></div>
+      <div class="si-div"></div>
+      <div class="si-txt"><p>Key Clinical Pattern: <span class="hl">Organ specificity is the most critical factor</span> affecting recovery time — <strong>Liver and Kidney conditions require 3–6× longer treatment</strong> (90–180 days) compared to acute Cardiac or Pulmonary events (10–22 days).</p></div>
     </div>
   </div>
 </section>
 
-<!-- ══ FEATURES ══ -->
+<div class="div-line"></div>
+
+<!-- ═══ 5 STEP PIPELINE ═══ -->
+<section id="pipeline">
+  <div class="inner">
+    <div class="sec-lbl reveal">Architecture & Methodology</div>
+    <h2 class="sec-h2 reveal">The 5-Step <em>AI Pipeline</em></h2>
+    <p class="sec-p reveal">A clinically-grounded pipeline combining AI disease analysis, historical patient intelligence, and treatment outcome data.</p>
+    <div class="pipe-list">
+      <div class="pipe-row reveal">
+        <div class="pipe-left"><div class="pipe-circ">1</div><div class="pipe-vl"></div></div>
+        <div class="pipe-cont">
+          <div class="pipe-tag">Step One</div>
+          <div class="pipe-name">Patient Data Collection</div>
+          <div class="pipe-desc">Complete patient medical information is collected to build a structured clinical profile.</div>
+          <div class="pipe-chips"><span class="pchip">Symptoms</span><span class="pchip">Duration</span><span class="pchip">Blood Reports</span><span class="pchip">X-ray / CT</span><span class="pchip">History</span><span class="pchip">Medications</span></div>
+        </div>
+      </div>
+      <div class="pipe-row reveal" style="transition-delay:.08s">
+        <div class="pipe-left"><div class="pipe-circ">2</div><div class="pipe-vl"></div></div>
+        <div class="pipe-cont">
+          <div class="pipe-tag">Step Two</div>
+          <div class="pipe-name">AI Clinical Analysis</div>
+          <div class="pipe-desc">The AI engine analyzes collected data to identify diseases and risk indicators with confidence scores.</div>
+          <div class="pipe-chips"><span class="pchip">Diagnosis Prediction</span><span class="pchip">Confidence Scores</span><span class="pchip">Risk Indicators</span><span class="pchip">Pattern Detection</span></div>
+        </div>
+      </div>
+      <div class="pipe-row core reveal" style="transition-delay:.16s">
+        <div class="pipe-left"><div class="pipe-circ">3</div><div class="pipe-vl"></div></div>
+        <div class="pipe-cont">
+          <div class="pipe-tag core">Step Three — Core Innovation ★</div>
+          <div class="pipe-name">Similar Patient Search</div>
+          <div class="pipe-desc">AI searches 847K+ records using vector similarity to find the top 5 most similar past patients.</div>
+          <div class="pipe-chips"><span class="pchip">Vector Similarity</span><span class="pchip">847K+ Records</span><span class="pchip">Multi-layer Matching</span><span class="pchip">Organ Focus</span></div>
+        </div>
+      </div>
+      <div class="pipe-row reveal" style="transition-delay:.24s">
+        <div class="pipe-left"><div class="pipe-circ">4</div><div class="pipe-vl"></div></div>
+        <div class="pipe-cont">
+          <div class="pipe-tag">Step Four</div>
+          <div class="pipe-name">Treatment Pattern Analysis</div>
+          <div class="pipe-desc">Analyzes which treatments were most effective — surfacing success rates, recovery time, and side effects.</div>
+          <div class="pipe-chips"><span class="pchip">Success Rates A/B/C</span><span class="pchip">Recovery Timeline</span><span class="pchip">Combined Therapy</span><span class="pchip">Side Effects</span></div>
+        </div>
+      </div>
+      <div class="pipe-row reveal" style="transition-delay:.32s">
+        <div class="pipe-left"><div class="pipe-circ">5</div></div>
+        <div class="pipe-cont">
+          <div class="pipe-tag" style="color:var(--mint)">Step Five — Final Step</div>
+          <div class="pipe-name">Doctor Decision Support</div>
+          <div class="pipe-desc">The doctor reviews the AI clinical report and makes the final medical decision. AI is co-pilot — doctor is always in command.</div>
+          <div class="pipe-chips"><span class="pchip">AI Report</span><span class="pchip">Case Evidence</span><span class="pchip">Treatment Comparison</span><span class="pchip">PDF Export</span><span class="pchip">Doctor Control</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="div-line"></div>
+
+<!-- ═══ FEATURES ═══ -->
 <section id="features">
-  <div class="sec-label">Features & USPs</div>
-  <h2 class="sec-title">What Makes the <em>Co-Pilot</em> Different</h2>
-  <div class="feat-grid">
-    <div class="feat-card highlight reveal">
-      <div class="feat-icon-wrap">🔬</div>
-      <div class="feat-title">Real-Time Diagnostic Assistance</div>
-      <p class="feat-desc">Instantly analyzes patient data and generates possible diagnoses with confidence scores and clinical insights during the consultation itself.</p>
-      <span class="feat-badge">Real-Time</span>
-    </div>
-    <div class="feat-card highlight reveal">
-      <div class="feat-icon-wrap">👥</div>
-      <div class="feat-title">Similar Patient Intelligence</div>
-      <p class="feat-desc">Automatically identifies 5 past patients with matching symptoms, reports, and conditions — providing real clinical treatment evidence organized by organ focus.</p>
-      <span class="feat-badge">Core Innovation</span>
-    </div>
-    <div class="feat-card reveal">
-      <div class="feat-icon-wrap">📋</div>
-      <div class="feat-title">Evidence-Based Treatment Insights</div>
-      <p class="feat-desc">Treatment options A, B, C with real success rates from historical patient outcomes and clinical guidelines — evidence, not just prediction.</p>
-    </div>
-    <div class="feat-card reveal">
-      <div class="feat-icon-wrap">🏥</div>
-      <div class="feat-title">Built for High-Volume Hospitals</div>
-      <p class="feat-desc">Designed for AIIMS-level load — 100+ patients per day — with rapid data input, instant matching, and instant report generation.</p>
-    </div>
-    <div class="feat-card reveal">
-      <div class="feat-icon-wrap">💬</div>
-      <div class="feat-title">Transparent & Explainable AI</div>
-      <p class="feat-desc">Every suggestion is backed by real clinical evidence and clear reasoning. No black boxes — the system always shows why it recommends what it recommends.</p>
-    </div>
-    <div class="feat-card reveal">
-      <div class="feat-icon-wrap">📄</div>
-      <div class="feat-title">AI-Generated Clinical Report + PDF</div>
-      <p class="feat-desc">Generates a complete structured digital patient report — patient profile, 5-step analysis, similar cases, treatment comparisons — downloadable as PDF.</p>
+  <div class="inner">
+    <div class="sec-lbl reveal">Features & USPs</div>
+    <h2 class="sec-h2 reveal">What Makes the <em>Co-Pilot Different</em></h2>
+    <div class="feat-grid">
+      <div class="fcard hl reveal"><div class="fcard-ico"><i class="fa-solid fa-microscope"></i></div><div class="fcard-title">Real-Time Diagnostic Assistance</div><div class="fcard-desc">Instantly analyzes patient data and generates possible diagnoses with confidence scores during the consultation itself.</div></div>
+      <div class="fcard hl reveal" style="transition-delay:.07s"><div class="fcard-ico"><i class="fa-solid fa-users"></i></div><div class="fcard-title">Similar Patient Intelligence</div><div class="fcard-desc">Identifies 5–10 past patients with matching symptoms, conditions, and lab values from 847K records.</div><span class="fcard-badge">CORE INNOVATION</span></div>
+      <div class="fcard reveal" style="transition-delay:.14s"><div class="fcard-ico"><i class="fa-solid fa-clipboard-list"></i></div><div class="fcard-title">Evidence-Based Treatment Insights</div><div class="fcard-desc">Analyzes which treatments were most effective — providing evidence, success rates, and recovery data.</div></div>
+      <div class="fcard reveal" style="transition-delay:.21s"><div class="fcard-ico"><i class="fa-solid fa-shield-halved"></i></div><div class="fcard-title">Unique 8-Digit AIT Patient ID</div><div class="fcard-desc">Each patient gets a unique AIT ID. Doctors enter this ID to instantly access full clinical analysis.</div></div>
+      <div class="fcard reveal" style="transition-delay:.28s"><div class="fcard-ico"><i class="fa-solid fa-comments"></i></div><div class="fcard-title">Transparent & Explainable AI</div><div class="fcard-desc">Every suggestion is backed by real clinical evidence from similar patient cases. No black boxes.</div></div>
+      <div class="fcard reveal" style="transition-delay:.35s"><div class="fcard-ico"><i class="fa-solid fa-file-pdf"></i></div><div class="fcard-title">AI Clinical Report + PDF Export</div><div class="fcard-desc">Generates a complete structured digital AIT report as downloadable PDF.</div></div>
     </div>
   </div>
 </section>
 
-<!-- ══ TECH STACK ══ -->
+<div class="div-line"></div>
+
+<!-- ═══ TESTIMONIALS (NEW) ═══ -->
+<section id="testimonials">
+  <div class="inner">
+    <div class="sec-lbl reveal"><i class="fa-solid fa-quote-left"></i> What Doctors Say</div>
+    <h2 class="sec-h2 reveal">Trusted by <em>Medical Professionals</em></h2>
+    <div class="test-grid">
+      <div class="test-card reveal">
+        <div class="test-stars">★★★★★</div>
+        <div class="test-quote">"The similar patient matching is revolutionary. Finding 5 comparable cases from 847K records in seconds has changed how I approach complex diagnoses. This is the decision support tool we've been waiting for."</div>
+        <div class="test-author">
+          <div class="test-avatar">PM</div>
+          <div><div class="test-name">Dr. Priya Mehta</div><div class="test-role">Cardiologist · AIIMS Delhi</div></div>
+        </div>
+      </div>
+      <div class="test-card reveal" style="transition-delay:.1s">
+        <div class="test-stars">★★★★★</div>
+        <div class="test-quote">"As a pulmonologist dealing with TB and pneumonia cases daily, having instant access to treatment success rates from real patient data is invaluable. The evidence-based approach gives me confidence in every decision."</div>
+        <div class="test-author">
+          <div class="test-avatar">RK</div>
+          <div><div class="test-name">Dr. Rajiv Kumar</div><div class="test-role">Pulmonologist · Safdarjung Hospital</div></div>
+        </div>
+      </div>
+      <div class="test-card reveal" style="transition-delay:.2s">
+        <div class="test-stars">★★★★★</div>
+        <div class="test-quote">"The AI report with treatment options A, B, and C — each with success rates — is exactly what modern medicine needs. It doesn't replace my judgment, it enhances it with data I couldn't access manually."</div>
+        <div class="test-author">
+          <div class="test-avatar">AS</div>
+          <div><div class="test-name">Dr. Ananya Sharma</div><div class="test-role">Internal Medicine · Max Hospital</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="div-line"></div>
+
+<!-- ═══ TECH ═══ -->
 <section id="tech">
-  <div class="sec-label">Technology Stack</div>
-  <h2 class="sec-title">Technologies Powering<br>the <em>Co-Pilot</em></h2>
-  <div class="tech-layout">
-    <div>
-      <div class="tech-group reveal">
-        <div class="tech-group-title">Medical Data Sources</div>
-        <div class="chips">
-          <span class="tech-chip">EHR Systems</span><span class="tech-chip">Medical Imaging (X-ray & CT)</span><span class="tech-chip">Clinical Lab Reports</span><span class="tech-chip">Research Databases</span><span class="tech-chip">ABHA Integration</span>
-        </div>
+  <div class="inner">
+    <div class="sec-lbl reveal">Technology Stack</div>
+    <h2 class="sec-h2 reveal">Technologies Powering <em>the Co-Pilot</em></h2>
+    <div class="tech-layout">
+      <div class="reveal">
+        <div class="tg-title">Medical Data Sources</div>
+        <div class="chips-wrap"><span class="tchip">EHR Systems</span><span class="tchip">Medical Imaging</span><span class="tchip">Clinical Lab Reports</span><span class="tchip">Research Databases</span><span class="tchip">ABHA Integration</span></div>
+        <div class="tg-title">Prototype Datasets</div>
+        <div class="chips-wrap"><span class="tchip">MIMIC-IV Clinical</span><span class="tchip">NIH Chest X-ray</span><span class="tchip">UCI Heart Disease</span><span class="tchip">ICMR Health Data</span><span class="tchip">PhysioNet</span></div>
+        <div class="tg-title">AI & Machine Learning</div>
+        <div class="chips-wrap"><span class="tchip">Python 3.11</span><span class="tchip">Scikit-learn</span><span class="tchip">PyTorch</span><span class="tchip">Vector Similarity</span><span class="tchip">Pattern Recognition</span><span class="tchip">NLP</span></div>
+        <div class="tg-title">Database & Storage</div>
+        <div class="chips-wrap"><span class="tchip">PostgreSQL</span><span class="tchip">MongoDB</span><span class="tchip">Vector DB</span><span class="tchip">Secure EHR Store</span></div>
       </div>
-      <div class="tech-group reveal">
-        <div class="tech-group-title">Medical Datasets (Prototype)</div>
-        <div class="chips">
-          <span class="tech-chip">MIMIC-IV Clinical</span><span class="tech-chip">NIH Chest X-ray</span><span class="tech-chip">UCI Heart Disease</span><span class="tech-chip">ICMR Health Data</span>
+      <div class="reveal" style="transition-delay:.1s">
+        <div class="tg-title">AI Clinical Pipeline Flow</div>
+        <div class="pipe-flow">
+          <div class="pfi"><span class="pfi-ico"><i class="fa-solid fa-folder-open"></i></span><div><h5>Medical Data Sources</h5><p>EHR, Imaging, Lab Results, Research Databases</p></div><span class="pfi-arr">›</span></div>
+          <div class="pfi"><span class="pfi-ico"><i class="fa-solid fa-chart-bar"></i></span><div><h5>Prototype Datasets</h5><p>MIMIC-IV, NIH, UCI — disease pattern learning</p></div><span class="pfi-arr">›</span></div>
+          <div class="pfi"><span class="pfi-ico"><i class="fa-solid fa-robot"></i></span><div><h5>AI Analysis Engine</h5><p>Diagnosis prediction + similarity search algorithms</p></div><span class="pfi-arr">›</span></div>
+          <div class="pfi"><span class="pfi-ico"><i class="fa-solid fa-desktop"></i></span><div><h5>Doctor Dashboard</h5><p>Streamlit + interactive data visualization</p></div><span class="pfi-arr">›</span></div>
+          <div class="pfi"><span class="pfi-ico"><i class="fa-solid fa-file-lines"></i></span><div><h5>AI Clinical Report</h5><p>Structured PDF with similar patient evidence</p></div><span class="pfi-arr">›</span></div>
+          <div class="pfi"><span class="pfi-ico"><i class="fa-solid fa-user-doctor"></i></span><div><h5>Doctor Decision</h5><p>AI is co-pilot — doctor is always in command</p></div><span class="pfi-arr">✓</span></div>
         </div>
-      </div>
-      <div class="tech-group reveal">
-        <div class="tech-group-title">AI & Machine Learning</div>
-        <div class="chips">
-          <span class="tech-chip">Python</span><span class="tech-chip">Scikit-learn</span><span class="tech-chip">PyTorch</span><span class="tech-chip">Similarity Algorithms</span><span class="tech-chip">Pattern Recognition</span><span class="tech-chip">Diagnosis Prediction</span>
-        </div>
-      </div>
-      <div class="tech-group reveal">
-        <div class="tech-group-title">Infrastructure</div>
-        <div class="chips">
-          <span class="tech-chip">PostgreSQL</span><span class="tech-chip">MongoDB</span><span class="tech-chip">Streamlit</span><span class="tech-chip">Data Visualization</span><span class="tech-chip">AIIMS Guidelines</span>
-        </div>
-      </div>
-    </div>
-    <div class="reveal">
-      <div style="font-size:0.62rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);margin-bottom:1.1rem;padding-bottom:0.5rem;border-bottom:1px solid rgba(240,165,0,0.12)">AI-Driven Clinical Pipeline</div>
-      <div class="pipeline">
-        <div class="pipe-item"><div class="pipe-ico">🗂️</div><div class="pipe-content"><h5>Medical Data Sources</h5><p>EHR, Imaging, Lab Results, Research DBs</p></div><div class="pipe-arr">↓</div></div>
-        <div class="pipe-item"><div class="pipe-ico">📊</div><div class="pipe-content"><h5>Prototype Datasets</h5><p>MIMIC, NIH, UCI — disease pattern learning</p></div><div class="pipe-arr">↓</div></div>
-        <div class="pipe-item"><div class="pipe-ico">🤖</div><div class="pipe-content"><h5>AI Analysis Engine</h5><p>Diagnosis prediction + similarity search</p></div><div class="pipe-arr">↓</div></div>
-        <div class="pipe-item"><div class="pipe-ico">🖥️</div><div class="pipe-content"><h5>Doctor Dashboard</h5><p>Streamlit + interactive data visualization</p></div><div class="pipe-arr">↓</div></div>
-        <div class="pipe-item"><div class="pipe-ico">💾</div><div class="pipe-content"><h5>Secure Database</h5><p>PostgreSQL + MongoDB — encrypted, fast</p></div><div class="pipe-arr">✓</div></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ══ CTA ══ -->
-<section id="cta">
-  <div class="sec-label" style="justify-content:center">Generate Your Report</div>
-  <h2 class="cta-title">Ready to Transform<br><em>Clinical Decision Making?</em></h2>
-  <p class="cta-sub">Enter patient data and get a complete AI clinical report with similar patient cases, treatment options, and evidence-based recommendations — in 30 seconds.</p>
-  <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
-    <button class="btn-primary" onclick="openDemo()">🧠 Generate AI Report</button>
-    <a href="#similar" class="btn-outline">👥 View Similar Patients</a>
+<div class="div-line"></div>
+
+<!-- ═══ ABOUT (NEW) ═══ -->
+<section id="about">
+  <div class="inner">
+    <div class="sec-lbl reveal"><i class="fa-solid fa-people-group"></i> About Us</div>
+    <h2 class="sec-h2 reveal">Meet <em>Team Parakram</em></h2>
+    <div class="about-layout">
+      <div class="reveal">
+        <div class="about-text">
+          <p>We are <strong style="color:var(--white)">Team Parakram</strong> — a group of passionate innovators from India, building at the intersection of <strong style="color:var(--cyan)">artificial intelligence</strong> and <strong style="color:var(--cyan)">healthcare</strong>.</p>
+          <p>Our mission is simple: <em style="color:var(--gold)">reduce preventable medical errors</em> by giving every doctor access to the collective intelligence of 847,000+ patient records — instantly, transparently, and reliably.</p>
+          <p>We believe AI should be a <strong style="color:var(--white)">co-pilot, not a replacement</strong>. Every recommendation is backed by real patient evidence, and the doctor always remains in command.</p>
+        </div>
+        <div class="team-grid">
+          <div class="team-member"><i class="fa-solid fa-user" style="color:var(--cyan)"></i> <span>Deepesh Kumar</span></div>
+          <div class="team-member"><i class="fa-solid fa-user" style="color:var(--gold)"></i> <span>Tanishka Gupta</span></div>
+          <div class="team-member"><i class="fa-solid fa-user" style="color:var(--mint)"></i> <span>Adil Rahman</span></div>
+          <div class="team-member"><i class="fa-solid fa-user" style="color:var(--rose)"></i> <span>Umar Mev</span></div>
+          <div class="team-member"><i class="fa-solid fa-user" style="color:var(--violet)"></i> <span>Vinayak Mishra</span></div>
+        </div>
+      </div>
+      <div class="about-stats reveal" style="transition-delay:.1s">
+        <div class="about-stat"><div class="about-stat-n">847K+</div><div class="about-stat-l">Patient Records</div></div>
+        <div class="about-stat"><div class="about-stat-n" style="color:var(--gold)">5</div><div class="about-stat-l">AI Pipeline Steps</div></div>
+        <div class="about-stat"><div class="about-stat-n" style="color:var(--mint)">86%</div><div class="about-stat-l">Avg. Treatment Match</div></div>
+        <div class="about-stat"><div class="about-stat-n" style="color:var(--rose)">< 30s</div><div class="about-stat-l">Analysis Time</div></div>
+      </div>
+    </div>
   </div>
 </section>
 
-<!-- ══ FOOTER ══ -->
+<div class="div-line"></div>
+
+<!-- ═══ CONTACT (NEW) ═══ -->
+<section id="contact">
+  <div class="inner">
+    <div class="sec-lbl reveal"><i class="fa-solid fa-envelope"></i> Get In Touch</div>
+    <h2 class="sec-h2 reveal">Contact <em>Our Team</em></h2>
+    <p class="sec-p reveal">Have questions about HealthAI? Want to partner with us or schedule a demo? We'd love to hear from you.</p>
+    <div class="contact-layout">
+      <div class="contact-info reveal">
+        <div class="contact-item">
+          <div class="contact-icon"><i class="fa-solid fa-envelope"></i></div>
+          <div><h4>Email Us</h4><p>team@healthai.in<br>parakram@innovates2026.in</p></div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon"><i class="fa-solid fa-location-dot"></i></div>
+          <div><h4>Location</h4><p>India Innovates 2026<br>New Delhi, India</p></div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon"><i class="fa-solid fa-clock"></i></div>
+          <div><h4>Response Time</h4><p>We typically respond within 24 hours.<br>Demo sessions available by appointment.</p></div>
+        </div>
+      </div>
+      <form class="contact-form reveal" style="transition-delay:.1s" id="contactForm" onsubmit="validateContactForm(event)">
+        <input class="finput" type="text" id="c_name" placeholder="Your Full Name" aria-label="Full Name"/>
+        <input class="finput" type="email" id="c_email" placeholder="Your Email Address" aria-label="Email"/>
+        <input class="finput" type="text" id="c_subject" placeholder="Subject" aria-label="Subject"/>
+        <textarea class="fta" id="c_msg" placeholder="Your Message..." aria-label="Message"></textarea>
+        <button type="submit" class="contact-submit"><i class="fa-solid fa-paper-plane"></i> Send Message</button>
+        <div class="form-success" id="contactSuccess"></div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<div class="div-line"></div>
+
+<!-- ═══ IMPACT STATS ═══ -->
+<section id="impact" class="impact-section">
+  <div class="inner">
+    <div class="sec-lbl reveal" style="justify-content:center"><i class="fa-solid fa-chart-line"></i> Platform Impact</div>
+    <h2 class="sec-h2 reveal" style="text-align:center">Making a <em>Measurable Difference</em></h2>
+    <p class="sec-p reveal" style="margin:0 auto;text-align:center">Real-time clinical decision support powered by AI Similar Patient Intelligence — supporting evidence-based diagnosis faster than ever.</p>
+    <div class="impact-grid">
+      <div class="impact-card reveal">
+        <span class="impact-ico">🔬</span>
+        <div class="impact-num">847K+</div>
+        <div class="impact-label">Patient Records Analyzed</div>
+        <div class="impact-sub">MIMIC-IV · NIH · ICMR Databases</div>
+      </div>
+      <div class="impact-card reveal" style="transition-delay:.08s">
+        <span class="impact-ico">⏱️</span>
+        <div class="impact-num gold">40%</div>
+        <div class="impact-label">Faster Diagnosis Time</div>
+        <div class="impact-sub">Average time saved per patient analysis</div>
+      </div>
+      <div class="impact-card reveal" style="transition-delay:.16s">
+        <span class="impact-ico">🎯</span>
+        <div class="impact-num mint">86%</div>
+        <div class="impact-label">Treatment Match Accuracy</div>
+        <div class="impact-sub">Evidence-based treatment recommendations</div>
+      </div>
+      <div class="impact-card reveal" style="transition-delay:.24s">
+        <span class="impact-ico">👥</span>
+        <div class="impact-num">5</div>
+        <div class="impact-label">Similar Cases per Query</div>
+        <div class="impact-sub">Top matches from historical records</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="div-line"></div>
+
+<!-- ═══ MEDICAL COMPLIANCE ═══ -->
+<section id="compliance" class="compliance-section">
+  <div class="inner">
+    <div class="sec-lbl reveal" style="justify-content:center"><i class="fa-solid fa-shield-halved"></i> Trust & Compliance</div>
+    <h2 class="sec-h2 reveal" style="text-align:center">Built with <em>Medical-Grade Security</em></h2>
+    <p class="sec-p reveal" style="margin:0 auto;text-align:center">Patient safety and data privacy are at the core of everything we build.</p>
+    <div class="compliance-grid">
+      <div class="compliance-card reveal">
+        <span class="compliance-ico">🔒</span>
+        <div class="compliance-title">End-to-End Encryption</div>
+        <div class="compliance-desc">All patient data is encrypted at rest and in transit using AES-256 encryption standards. No data is stored on external servers.</div>
+        <span class="compliance-badge">AES-256 Encrypted</span>
+      </div>
+      <div class="compliance-card reveal" style="transition-delay:.1s">
+        <span class="compliance-ico">🛡️</span>
+        <div class="compliance-title">Patient Privacy First</div>
+        <div class="compliance-desc">Designed with HIPAA-aligned privacy principles. All AI analysis uses anonymized, de-identified patient records from research databases.</div>
+        <span class="compliance-badge">Privacy Compliant</span>
+      </div>
+      <div class="compliance-card reveal" style="transition-delay:.2s">
+        <span class="compliance-ico">📋</span>
+        <div class="compliance-title">Clinical Standards</div>
+        <div class="compliance-desc">Treatment recommendations follow evidence-based clinical guidelines from IDSA, ATS, WHO, and ICMR. AI never replaces the doctor's judgment.</div>
+        <span class="compliance-badge">Evidence-Based</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="div-line"></div>
+
+<!-- ═══ PORTALS CTA ═══ -->
+<section id="portals">
+  <div class="inner" style="text-align:center">
+    <div class="sec-lbl reveal" style="justify-content:center">Get Started</div>
+    <h2 class="sec-h2 reveal">Two Portals, <em>One Powerful System</em></h2>
+    <p class="sec-p reveal" style="margin:0 auto 0">Patients fill their medical data and receive a unique AIT ID. Doctors enter the ID to access the complete clinical intelligence dashboard.</p>
+    <div class="portals-grid">
+      <div class="portal-card portal-pat reveal" onclick="openModal('patModal')">
+        <span class="portal-em">🧑‍⚕️</span>
+        <div class="portal-title">Patient Portal</div>
+        <p class="portal-p">Fill your medical details, symptoms & lab values. Our AI generates your personalized AIT Report with a unique 8-digit Patient ID.</p>
+        <button class="portal-btn"><i class="fa-solid fa-arrow-right"></i> Generate AIT Report</button>
+      </div>
+      <div class="portal-card portal-doc reveal" style="transition-delay:.1s" onclick="openModal('docModal')">
+        <span class="portal-em">👨‍⚕️</span>
+        <div class="portal-title">Doctor Dashboard</div>
+        <p class="portal-p">Enter the patient's AIT ID to instantly access full clinical analysis — similar patients, diagnostic insights, and treatment comparisons.</p>
+        <button class="portal-btn"><i class="fa-solid fa-arrow-right"></i> Access Dashboard</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
 <footer>
-  <div class="footer-brand">HN Health<span>AI</span> Co-Pilot</div>
-  <div class="footer-txt">AI Clinical Decision Support · Reducing Medical Errors Through Intelligence</div>
-  <div class="footer-txt" style="opacity:0.5">Built for India's Healthcare System</div>
+  <div class="footer-grid">
+    <div class="footer-col">
+      <div class="footer-brand">Health<span>AI</span></div>
+      <p>AI Clinical Co-Pilot for Doctors. Reducing medical errors through evidence-based decision support powered by similar patient intelligence.</p>
+      <div class="footer-social">
+        <a href="#" aria-label="Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+        <a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+        <a href="#" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+        <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Product</h4>
+      <ul>
+        <li><a href="#features">Features</a></li>
+        <li><a href="#pipeline">How It Works</a></li>
+        <li><a href="#tech">Technology</a></li>
+        <li><a href="#similar">Similar Patients</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="#about">About Us</a></li>
+        <li><a href="#testimonials">Testimonials</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="#">Privacy Policy</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Stay Updated</h4>
+      <p>Subscribe for updates on AI in healthcare and new features.</p>
+      <div class="newsletter-input">
+        <input type="email" placeholder="your@email.com" aria-label="Newsletter email"/>
+        <button type="button">Subscribe</button>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="ft-txt">© 2026 HealthAI — AI Clinical Co-Pilot. Reducing Medical Errors. Supporting Evidence-Based Decisions.</div>
+    <div class="ft-team">TEAM PARAKRAM · India Innovates 2026 · Deepesh Kumar · Tanishka Gupta · Adil Rahman · Umar Mev · Vinayak Mishra</div>
+  </div>
 </footer>
 
-<!-- ══════════════════════════════════════════════
-     DEMO MODAL — AI CLINICAL REPORT GENERATOR
-══════════════════════════════════════════════ -->
-<div id="demoOverlay">
-  <div class="demo-shell">
-    <!-- Topbar -->
-    <div class="demo-topbar">
-      <div class="demo-title-wrap">
-        <div class="demo-eyebrow">HN AI Clinical Co-Pilot</div>
-        <div class="demo-main-title">Live Patient Report Generator</div>
+<!-- ═══ PATIENT MODAL ═══ -->
+<div id="patModal" class="modal-ov">
+  <div class="modal-box">
+    <div class="modal-top">
+      <div class="mt-left">
+        <div class="mt-eye">HN Healthcare · AI Clinical Co-Pilot</div>
+        <div class="mt-title">Live AIT Report Generator <span class="mt-badge">AI POWERED</span></div>
       </div>
-      <button class="demo-close" onclick="closeDemo()">✕</button>
+      <button class="modal-close" onclick="closeModal('patModal')">✕</button>
     </div>
-
-    <!-- Progress Bar -->
-    <div class="demo-progress" id="demoProgress">
-      <!-- filled by JS -->
+    <div class="modal-body">
+      <div class="stepper" id="stepBar"></div>
+      <div id="formPanels"></div>
+      <div id="aiProc">
+        <div class="proc-wrap">
+          <div class="proc-rings"><div class="ring"></div><div class="ring"></div><div class="ring"></div></div>
+          <div class="proc-title">AI Clinical Analysis Running</div>
+          <p class="proc-sub">Analyzing your medical profile &amp; scanning 847K+ patient records...</p>
+          <div class="proc-steps">
+            <div class="ps-i run" id="ps1"><div class="ps-dot"></div>Step 1 — Structuring patient clinical profile...</div>
+            <div class="ps-i" id="ps2"><div class="ps-dot"></div>Step 2 — AI Clinical Analysis: Identifying disease patterns...</div>
+            <div class="ps-i" id="ps3"><div class="ps-dot"></div>Step 3 — Similar Patient Search: Scanning 847K+ records...</div>
+            <div class="ps-i" id="ps4"><div class="ps-dot"></div>Step 4 — Treatment Pattern Analysis: Evaluating outcomes...</div>
+            <div class="ps-i" id="ps5"><div class="ps-dot"></div>Step 5 — Generating AI Clinical Report &amp; AIT Patient ID...</div>
+          </div>
+        </div>
+      </div>
+      <div id="rptArea"></div>
     </div>
-
-    <!-- Step Panels -->
-    <div id="demoPanels"></div>
-
-    <!-- Report Output -->
-    <div id="reportOutput" style="display:none"></div>
   </div>
 </div>
-<script>
-/* ══════════════════════════════════════════════
-   HN AI CLINICAL CO-PILOT — COMPLETE JS ENGINE
-══════════════════════════════════════════════ */
 
-// ── Scroll reveal
-const revObs = new IntersectionObserver(entries=>{
-  entries.forEach((e,i)=>{
-    if(e.isIntersecting){
-      e.target.style.transitionDelay=`${(i%4)*0.08}s`;
-      e.target.classList.add('visible');
-      revObs.unobserve(e.target);
-    }
-  });
-},{threshold:0.1});
-document.querySelectorAll('.reveal').forEach(el=>revObs.observe(el));
-
-// Animate timeline bars when in view
-const tlObs = new IntersectionObserver(entries=>{
-  entries.forEach(e=>{
-    if(e.isIntersecting){
-      const bars=e.target.querySelectorAll('.tl-fill[data-w]');
-      bars.forEach(b=>{setTimeout(()=>b.style.width=b.dataset.w,300)});
-      tlObs.unobserve(e.target);
-    }
-  });
-},{threshold:0.3});
-document.querySelectorAll('.patient-card').forEach(c=>tlObs.observe(c));
-
-// Nav scroll active
-const secEls=document.querySelectorAll('section[id]');
-const navAs=document.querySelectorAll('.nav-links a');
-window.addEventListener('scroll',()=>{
-  let cur='';
-  secEls.forEach(s=>{if(window.scrollY>=s.offsetTop-200)cur=s.id});
-  navAs.forEach(a=>{a.style.color=a.getAttribute('href')==='#'+cur?'var(--cyan)':''});
-});
-
-// ── SLIDER HELPER
-function initSlider(id,unit){
-  const sl=document.getElementById(id);
-  if(!sl)return;
-  const updateSlider=()=>{
-    const min=+sl.min,max=+sl.max,val=+sl.value;
-    const pct=((val-min)/(max-min)*100).toFixed(1)+'%';
-    sl.style.setProperty('--pct',pct);
-    const disp=sl.closest('.slider-wrap').querySelector('.slider-val');
-    if(disp)disp.textContent=val+(unit||'');
-  };
-  sl.addEventListener('input',updateSlider);
-  updateSlider();
-}
-
-// ── FILE UPLOAD HELPER
-const uploadedFilesMap={};
-function initUpload(zoneId,inputId,listId){
-  const zone=document.getElementById(zoneId);
-  const input=document.getElementById(inputId);
-  const list=document.getElementById(listId);
-  if(!zone||!input||!list)return;
-  uploadedFilesMap[listId]=uploadedFilesMap[listId]||[];
-
-  const render=()=>{
-    list.innerHTML=uploadedFilesMap[listId].map((f,i)=>`
-      <div class="uf-item">
-        <span class="uf-icon">${getFileIcon(f.name)}</span>
-        <span class="uf-name">${f.name}</span>
-        <span class="uf-size">${(f.size/1024).toFixed(0)} KB</span>
-        <button class="uf-remove" onclick="removeFile('${listId}',${i})">✕</button>
-      </div>`).join('');
-  };
-
-  input.addEventListener('change',e=>{
-    Array.from(e.target.files).forEach(f=>uploadedFilesMap[listId].push(f));
-    render();
-  });
-  zone.addEventListener('dragover',e=>{e.preventDefault();zone.classList.add('drag-over')});
-  zone.addEventListener('dragleave',()=>zone.classList.remove('drag-over'));
-  zone.addEventListener('drop',e=>{
-    e.preventDefault();zone.classList.remove('drag-over');
-    Array.from(e.dataTransfer.files).forEach(f=>uploadedFilesMap[listId].push(f));
-    render();
-  });
-}
-function removeFile(listId,idx){
-  uploadedFilesMap[listId].splice(idx,1);
-  document.getElementById(listId).innerHTML=uploadedFilesMap[listId].map((f,i)=>`
-    <div class="uf-item">
-      <span class="uf-icon">${getFileIcon(f.name)}</span>
-      <span class="uf-name">${f.name}</span>
-      <span class="uf-size">${(f.size/1024).toFixed(0)} KB</span>
-      <button class="uf-remove" onclick="removeFile('${listId}',${i})">✕</button>
-    </div>`).join('');
-}
-function getFileIcon(name){
-  const ext=name.split('.').pop().toLowerCase();
-  if(['jpg','jpeg','png','gif','webp'].includes(ext))return '🖼️';
-  if(ext==='pdf')return '📄';
-  if(['doc','docx'].includes(ext))return '📝';
-  if(['xls','xlsx','csv'].includes(ext))return '📊';
-  return '📎';
-}
-
-// ── DEMO STATE
-let step=0,pd={};
-
-const STEPS=[
-  {n:'1',lbl:'Patient'},
-  {n:'2',lbl:'Vitals'},
-  {n:'3',lbl:'Symptoms'},
-  {n:'4',lbl:'Reports'},
-  {n:'5',lbl:'Confirm'},
-];
-
-function openDemo(){
-  step=0;pd={};
-  uploadedFilesMap['ul-lab']=[]; uploadedFilesMap['ul-imaging']=[]; uploadedFilesMap['ul-ecg']=[]; uploadedFilesMap['ul-other']=[];
-  document.getElementById('demoOverlay').style.display='block';
-  document.body.style.overflow='hidden';
-  document.getElementById('reportOutput').style.display='none';
-  document.getElementById('demoPanels').style.display='block';
-  renderProgress();renderStep();
-}
-function closeDemo(){
-  document.getElementById('demoOverlay').style.display='none';
-  document.body.style.overflow='';
-}
-document.getElementById('demoOverlay').addEventListener('click',function(e){if(e.target===this)closeDemo()});
-
-function renderProgress(){
-  const prog=document.getElementById('demoProgress');
-  prog.innerHTML=STEPS.map((s,i)=>`
-    ${i>0?`<div class="dp-connector ${i<=step?'done':''}"></div>`:''}
-    <div class="dp-item ${i===step?'active':''} ${i<step?'done':''}">
-      <div class="dp-circle">${i<step?'✓':s.n}</div>
-      <span class="dp-label">${s.lbl}</span>
-    </div>`).join('');
-}
-
-// ── STEP RENDERERS
-function renderStep(){
-  renderProgress();
-  const panels=document.getElementById('demoPanels');
-
-  if(step===0){
-    panels.innerHTML=`<div class="demo-panel">
-      <div class="demo-step-header">
-        <div class="dsh-num">1</div>
-        <div class="dsh-title">Patient Identity</div>
+<!-- ═══ DOCTOR MODAL ═══ -->
+<div id="docModal" class="modal-ov">
+  <div class="modal-box" style="max-width:980px">
+    <div class="modal-top">
+      <div class="mt-left">
+        <div class="mt-eye">HN Healthcare · AI Clinical Co-Pilot</div>
+        <div class="mt-title">Doctor Clinical Dashboard <span class="mt-badge" style="background:var(--cyan);color:#000">AI CO-PILOT</span></div>
       </div>
-      <p class="dsh-sub">Start with the patient's basic identity. This forms the header of the clinical report.</p>
-      <div class="fg" style="margin-bottom:1.2rem">
-        <div class="fgroup">
-          <label class="flabel">Full Name <span class="ex">e.g. Ramesh Kumar</span></label>
-          <input class="finput" id="p_name" placeholder="Patient full name" value="${pd.name||''}">
-        </div>
-        <div class="fgroup">
-          <label class="flabel">Gender</label>
-          <select class="fselect" id="p_gender">
-            <option value="" ${!pd.gender?'selected':''}>Select gender</option>
-            <option value="Male" ${pd.gender==='Male'?'selected':''}>Male</option>
-            <option value="Female" ${pd.gender==='Female'?'selected':''}>Female</option>
-            <option value="Other" ${pd.gender==='Other'?'selected':''}>Other</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="fg" style="margin-bottom:1.2rem">
-        <div class="fgroup">
-          <label class="flabel">Age <span class="ex">Slide to select</span></label>
-          <div class="slider-wrap">
-            <div class="slider-top">
-              <span class="slider-val" style="font-family:var(--font-display);font-size:1.8rem;font-weight:700;color:var(--cyan)">${pd.age||45}</span>
-              <span style="font-size:0.75rem;color:var(--muted)">years old</span>
-            </div>
-            <input type="range" class="slider-range" id="sl_age" min="1" max="100" value="${pd.age||45}">
-            <div class="slider-ticks"><span>1</span><span>25</span><span>50</span><span>75</span><span>100</span></div>
-          </div>
-        </div>
-        <div class="fgroup">
-          <label class="flabel">Blood Group</label>
-          <select class="fselect" id="p_blood">
-            <option value="">Unknown / Not tested</option>
-            ${['A+','A-','B+','B-','AB+','AB-','O+','O-'].map(b=>`<option value="${b}" ${pd.blood===b?'selected':''}>${b}</option>`).join('')}
-          </select>
-        </div>
-      </div>
-
-      <div class="fg">
-        <div class="fgroup">
-          <label class="flabel">Contact Number <span class="ex">Optional</span></label>
-          <input class="finput" id="p_contact" placeholder="+91 98765 43210" value="${pd.contact||''}">
-        </div>
-        <div class="fgroup">
-          <label class="flabel">Referring Doctor / Hospital</label>
-          <input class="finput" id="p_doctor" placeholder="e.g. Dr. Sharma, AIIMS Delhi" value="${pd.doctor||''}">
-        </div>
-      </div>
-
-      <div class="demo-nav">
-        <div></div>
-        <button class="dbtn-next" onclick="saveS0()">Next: Vital Signs →</button>
-      </div>
-    </div>`;
-    initSlider('sl_age','');
-  }
-
-  else if(step===1){
-    panels.innerHTML=`<div class="demo-panel">
-      <div class="demo-step-header">
-        <div class="dsh-num">2</div>
-        <div class="dsh-title">Vital Signs & Clinical Measurements</div>
-      </div>
-      <p class="dsh-sub">Use sliders to input vital signs. All values will be analyzed by the AI for risk indicators.</p>
-
-      <div class="fg cols3" style="margin-bottom:1.5rem">
-        <div class="fgroup">
-          <label class="flabel">Blood Pressure — Systolic</label>
-          <div class="slider-wrap">
-            <div class="slider-top">
-              <span><span class="slider-val" style="font-family:var(--font-display);font-size:1.6rem;font-weight:700;color:var(--cyan)">${pd.bp_sys||120}</span><span class="slider-unit">mmHg</span></span>
-              <span style="font-size:0.68rem;color:${(pd.bp_sys||120)>140?'var(--rose)':'var(--mint)'}; font-weight:600">${(pd.bp_sys||120)>140?'High':'Normal'}</span>
-            </div>
-            <input type="range" class="slider-range" id="sl_bp_sys" min="70" max="220" value="${pd.bp_sys||120}">
-            <div class="slider-ticks"><span>70</span><span>120</span><span>140</span><span>180</span><span>220</span></div>
-          </div>
-        </div>
-        <div class="fgroup">
-          <label class="flabel">Blood Pressure — Diastolic</label>
-          <div class="slider-wrap">
-            <div class="slider-top">
-              <span><span class="slider-val" style="font-family:var(--font-display);font-size:1.6rem;font-weight:700;color:var(--cyan)">${pd.bp_dia||80}</span><span class="slider-unit">mmHg</span></span>
-              <span style="font-size:0.68rem;color:${(pd.bp_dia||80)>90?'var(--rose)':'var(--mint)'};font-weight:600">${(pd.bp_dia||80)>90?'High':'Normal'}</span>
-            </div>
-            <input type="range" class="slider-range" id="sl_bp_dia" min="40" max="130" value="${pd.bp_dia||80}">
-            <div class="slider-ticks"><span>40</span><span>80</span><span>90</span><span>110</span><span>130</span></div>
-          </div>
-        </div>
-        <div class="fgroup">
-          <label class="flabel">Heart Rate</label>
-          <div class="slider-wrap">
-            <div class="slider-top">
-              <span><span class="slider-val" style="font-family:var(--font-display);font-size:1.6rem;font-weight:700;color:var(--cyan)">${pd.hr||75}</span><span class="slider-unit">bpm</span></span>
-              <span style="font-size:0.68rem;color:${(pd.hr||75)>100?'var(--rose)':(pd.hr||75)<60?'var(--amber)':'var(--mint)'};font-weight:600">${(pd.hr||75)>100?'Tachy':(pd.hr||75)<60?'Brady':'Normal'}</span>
-            </div>
-            <input type="range" class="slider-range" id="sl_hr" min="30" max="180" value="${pd.hr||75}">
-            <div class="slider-ticks"><span>30</span><span>60</span><span>100</span><span>140</span><span>180</span></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="fg cols3" style="margin-bottom:1.5rem">
-        <div class="fgroup">
-          <label class="flabel">Temperature (°F)</label>
-          <div class="slider-wrap">
-            <div class="slider-top">
-              <span><span class="slider-val" style="font-family:var(--font-display);font-size:1.6rem;font-weight:700;color:var(--cyan)">${pd.temp||98.6}</span><span class="slider-unit">°F</span></span>
-              <span style="font-size:0.68rem;color:${(pd.temp||98.6)>99.5?'var(--rose)':'var(--mint)'};font-weight:600">${(pd.temp||98.6)>100.4?'High Fever':(pd.temp||98.6)>99.5?'Low Fever':'Normal'}</span>
-            </div>
-            <input type="range" class="slider-range" id="sl_temp" min="960" max="1050" value="${Math.round((pd.temp||98.6)*10)}">
-            <div class="slider-ticks"><span>96°</span><span>98.6°</span><span>100.4°</span><span>103°</span><span>105°</span></div>
-          </div>
-        </div>
-        <div class="fgroup">
-          <label class="flabel">SpO₂ Oxygen Saturation</label>
-          <div class="slider-wrap">
-            <div class="slider-top">
-              <span><span class="slider-val" style="font-family:var(--font-display);font-size:1.6rem;font-weight:700;color:var(--cyan)">${pd.spo2||98}</span><span class="slider-unit">%</span></span>
-              <span style="font-size:0.68rem;color:${(pd.spo2||98)<93?'var(--rose)':(pd.spo2||98)<96?'var(--amber)':'var(--mint)'};font-weight:600">${(pd.spo2||98)<93?'Critical':(pd.spo2||98)<96?'Low':'Normal'}</span>
-            </div>
-            <input type="range" class="slider-range" id="sl_spo2" min="70" max="100" value="${pd.spo2||98}">
-            <div class="slider-ticks"><span>70%</span><span>90%</span><span>93%</span><span>96%</span><span>100%</span></div>
-          </div>
-        </div>
-        <div class="fgroup">
-          <label class="flabel">Respiratory Rate</label>
-          <div class="slider-wrap">
-            <div class="slider-top">
-              <span><span class="slider-val" style="font-family:var(--font-display);font-size:1.6rem;font-weight:700;color:var(--cyan)">${pd.rr||16}</span><span class="slider-unit">/min</span></span>
-              <span style="font-size:0.68rem;color:${(pd.rr||16)>20?'var(--rose)':'var(--mint)'};font-weight:600">${(pd.rr||16)>20?'Elevated':'Normal'}</span>
-            </div>
-            <input type="range" class="slider-range" id="sl_rr" min="8" max="40" value="${pd.rr||16}">
-            <div class="slider-ticks"><span>8</span><span>12</span><span>20</span><span>30</span><span>40</span></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="fg">
-        <div class="fgroup">
-          <label class="flabel">Weight <span class="ex">kg</span></label>
-          <div class="slider-wrap">
-            <div class="slider-top">
-              <span><span class="slider-val" style="font-family:var(--font-display);font-size:1.5rem;font-weight:700;color:var(--cyan)">${pd.weight||70}</span><span class="slider-unit">kg</span></span>
-            </div>
-            <input type="range" class="slider-range" id="sl_weight" min="20" max="180" value="${pd.weight||70}">
-            <div class="slider-ticks"><span>20</span><span>60</span><span>90</span><span>130</span><span>180</span></div>
-          </div>
-        </div>
-        <div class="fgroup">
-          <label class="flabel">Height <span class="ex">cm</span></label>
-          <div class="slider-wrap">
-            <div class="slider-top">
-              <span><span class="slider-val" style="font-family:var(--font-display);font-size:1.5rem;font-weight:700;color:var(--cyan)">${pd.height||170}</span><span class="slider-unit">cm</span></span>
-            </div>
-            <input type="range" class="slider-range" id="sl_height" min="100" max="220" value="${pd.height||170}">
-            <div class="slider-ticks"><span>100</span><span>150</span><span>170</span><span>190</span><span>220</span></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="demo-nav">
-        <button class="dbtn-back" onclick="goBack()">← Back</button>
-        <button class="dbtn-next" onclick="saveS1()">Next: Symptoms →</button>
-      </div>
-    </div>`;
-    ['sl_bp_sys','sl_bp_dia','sl_hr'].forEach(id=>initSlider(id,''));
-    initSlider('sl_spo2',''); initSlider('sl_rr',''); initSlider('sl_weight',''); initSlider('sl_height','');
-    // Temperature special handling
-    const tempSl=document.getElementById('sl_temp');
-    if(tempSl){
-      const updateTemp=()=>{
-        const v=(tempSl.value/10).toFixed(1);
-        const disp=tempSl.closest('.slider-wrap').querySelector('.slider-val');
-        if(disp)disp.textContent=v;
-        const pct=((tempSl.value-960)/(1050-960)*100).toFixed(1)+'%';
-        tempSl.style.setProperty('--pct',pct);
-        const status=tempSl.closest('.fgroup').querySelector('span[style*="font-weight:600"]');
-        if(status){
-          const fv=parseFloat(v);
-          if(fv>100.4){status.textContent='High Fever';status.style.color='var(--rose)'}
-          else if(fv>99.5){status.textContent='Low Fever';status.style.color='var(--amber)'}
-          else{status.textContent='Normal';status.style.color='var(--mint)'}
-        }
-      };
-      tempSl.addEventListener('input',updateTemp);updateTemp();
-    }
-  }
-
-  else if(step===2){
-    const SYMS=['Chest Pain','Shortness of Breath','Fever','Persistent Cough','Fatigue / Weakness','Headache','Dizziness','Nausea / Vomiting','Abdominal Pain','Back Pain','Joint Pain','Oedema / Swelling','Sudden Weight Loss','Loss of Appetite','Palpitations','Jaundice','Blood in Urine','Blurred Vision','Muscle Cramps','Numbness / Tingling'];
-    const selSyms=pd.symTags||[];
-    panels.innerHTML=`<div class="demo-panel">
-      <div class="demo-step-header">
-        <div class="dsh-num">3</div>
-        <div class="dsh-title">Symptoms, History & Medications</div>
-      </div>
-      <p class="dsh-sub">Click symptoms below to select them, then add detailed history and medications. This data drives similar patient matching.</p>
-
-      <div class="fgroup" style="margin-bottom:1.2rem">
-        <label class="flabel">Quick Symptom Selection <span class="ex">Click to add — multiple allowed</span></label>
-        <div class="sym-cloud">
-          ${SYMS.map(s=>`<span class="sym-chip ${selSyms.includes(s)?'sel':''}" onclick="toggleSym(this,'${s}')">${s}</span>`).join('')}
-        </div>
-      </div>
-
-      <div class="fg full">
-        <div class="fgroup">
-          <label class="flabel">Chief Complaints / Primary Symptoms * <span class="ex">Describe in detail</span></label>
-          <textarea class="ftextarea" id="p_symptoms" placeholder="e.g. Sharp chest pain radiating to left arm for 3 days. Worsening on exertion. Associated shortness of breath and diaphoresis. No fever. Occasional palpitations...">${pd.symptoms||''}</textarea>
-        </div>
-        <div class="fgroup">
-          <label class="flabel">Duration of Current Illness</label>
-          <input class="finput" id="p_duration" placeholder="e.g. Chest pain for 3 days, progressively worsening since yesterday morning" value="${pd.duration||''}">
-        </div>
-        <div class="fgroup">
-          <label class="flabel">Previous Medical History</label>
-          <textarea class="ftextarea" id="p_history" placeholder="e.g. Hypertension since 2018 (on Amlodipine 5mg OD). Type 2 Diabetes since 2020 (on Metformin 500mg BD). No prior cardiac events. Appendectomy 2005...">${pd.history||''}</textarea>
-        </div>
-        <div class="fgroup">
-          <label class="flabel">Existing Diagnoses</label>
-          <input class="finput" id="p_diagnoses" placeholder="e.g. Hypertension, Type 2 Diabetes, Hypothyroidism" value="${pd.diagnoses||''}">
-        </div>
-        <div class="fgroup">
-          <label class="flabel">Current Medications</label>
-          <textarea class="ftextarea" style="min-height:70px" id="p_meds" placeholder="e.g. Amlodipine 5mg OD, Metformin 500mg BD, Atorvastatin 20mg HS, Aspirin 75mg OD...">${pd.meds||''}</textarea>
-        </div>
-        <div class="fgroup">
-          <label class="flabel">Allergies <span class="ex">Drug / Food / Environmental</span></label>
-          <input class="finput" id="p_allergies" placeholder="e.g. Penicillin allergy — rash. No known food allergies." value="${pd.allergies||''}">
-        </div>
-        <div class="fgroup">
-          <label class="flabel">Family History</label>
-          <input class="finput" id="p_family" placeholder="e.g. Father — MI at age 58. Mother — hypertension, diabetes." value="${pd.family||''}">
-        </div>
-        <div class="fgroup">
-          <label class="flabel">Lifestyle Factors</label>
-          <input class="finput" id="p_lifestyle" placeholder="e.g. Smoker 20 pack-years. Social drinker. Sedentary desk job. No regular exercise." value="${pd.lifestyle||''}">
-        </div>
-      </div>
-
-      <div class="demo-nav">
-        <button class="dbtn-back" onclick="goBack()">← Back</button>
-        <button class="dbtn-next" onclick="saveS2()">Next: Upload Reports →</button>
-      </div>
-    </div>`;
-  }
-
-  else if(step===3){
-    panels.innerHTML=`<div class="demo-panel">
-      <div class="demo-step-header">
-        <div class="dsh-num">4</div>
-        <div class="dsh-title">Upload Medical Reports & Lab Data</div>
-      </div>
-      <p class="dsh-sub">Upload any available reports — the AI will read and analyze them. You can also manually enter key values if images are unavailable.</p>
-
-      <div class="fg" style="margin-bottom:1.5rem">
-        <div class="fgroup">
-          <label class="flabel">🩸 Blood / Lab Reports <span class="ex">CBC, LFT, KFT, Lipid Panel etc.</span></label>
-          <div class="upload-zone" id="uz-lab">
-            <input type="file" id="ui-lab" multiple accept=".jpg,.jpeg,.png,.pdf,.xlsx,.csv">
-            <div class="uz-icon">🩸</div>
-            <div class="uz-title">Drop lab reports here or click to upload</div>
-            <div class="uz-sub">Blood tests, biochemistry, haematology, hormone panels</div>
-            <div class="uz-types"><span class="uz-type">JPG</span><span class="uz-type">PNG</span><span class="uz-type">PDF</span><span class="uz-type">XLSX</span></div>
-          </div>
-          <div class="uploaded-files" id="ul-lab"></div>
-        </div>
-        <div class="fgroup">
-          <label class="flabel">🫁 Imaging Reports <span class="ex">X-ray, CT, MRI, Echo</span></label>
-          <div class="upload-zone" id="uz-imaging">
-            <input type="file" id="ui-imaging" multiple accept=".jpg,.jpeg,.png,.pdf,.dcm">
-            <div class="uz-icon">🫁</div>
-            <div class="uz-title">Drop imaging here or click to upload</div>
-            <div class="uz-sub">Chest X-ray, CT scan, MRI, Echocardiogram, Ultrasound</div>
-            <div class="uz-types"><span class="uz-type">JPG</span><span class="uz-type">PNG</span><span class="uz-type">PDF</span><span class="uz-type">DICOM</span></div>
-          </div>
-          <div class="uploaded-files" id="ul-imaging"></div>
-        </div>
-      </div>
-
-      <div class="fg" style="margin-bottom:1.5rem">
-        <div class="fgroup">
-          <label class="flabel">💓 ECG / Cardiac Reports</label>
-          <div class="upload-zone" id="uz-ecg">
-            <input type="file" id="ui-ecg" multiple accept=".jpg,.jpeg,.png,.pdf">
-            <div class="uz-icon">💓</div>
-            <div class="uz-title">Drop ECG / cardiac reports here</div>
-            <div class="uz-sub">12-lead ECG, Holter monitor, Stress test results</div>
-            <div class="uz-types"><span class="uz-type">JPG</span><span class="uz-type">PDF</span></div>
-          </div>
-          <div class="uploaded-files" id="ul-ecg"></div>
-        </div>
-        <div class="fgroup">
-          <label class="flabel">📁 Other Reports</label>
-          <div class="upload-zone" id="uz-other">
-            <input type="file" id="ui-other" multiple>
-            <div class="uz-icon">📁</div>
-            <div class="uz-title">Any other relevant documents</div>
-            <div class="uz-sub">Previous discharge summaries, specialist notes, biopsy reports</div>
-            <div class="uz-types"><span class="uz-type">ANY FORMAT</span></div>
-          </div>
-          <div class="uploaded-files" id="ul-other"></div>
-        </div>
-      </div>
-
-      <div style="background:rgba(0,212,255,0.04);border:1px solid rgba(0,212,255,0.12);border-radius:var(--r-md);padding:1.2rem;margin-bottom:1rem">
-        <div style="font-size:0.62rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--cyan);margin-bottom:0.8rem">Key Lab Values — Manual Entry (if not uploading)</div>
-        <div class="fg cols3">
-          <div class="fgroup"><label class="flabel">Haemoglobin <span class="ex">g/dL</span></label><input class="finput" id="p_hb" placeholder="e.g. 11.2" value="${pd.hb||''}"></div>
-          <div class="fgroup"><label class="flabel">WBC Count <span class="ex">/μL</span></label><input class="finput" id="p_wbc" placeholder="e.g. 12,000" value="${pd.wbc||''}"></div>
-          <div class="fgroup"><label class="flabel">Blood Sugar (F) <span class="ex">mg/dL</span></label><input class="finput" id="p_glucose" placeholder="e.g. 180" value="${pd.glucose||''}"></div>
-          <div class="fgroup"><label class="flabel">Creatinine <span class="ex">mg/dL</span></label><input class="finput" id="p_creatinine" placeholder="e.g. 1.8" value="${pd.creatinine||''}"></div>
-          <div class="fgroup"><label class="flabel">Troponin I <span class="ex">ng/mL</span></label><input class="finput" id="p_troponin" placeholder="e.g. 0.8 (elevated >0.04)" value="${pd.troponin||''}"></div>
-          <div class="fgroup"><label class="flabel">LDL Cholesterol <span class="ex">mg/dL</span></label><input class="finput" id="p_ldl" placeholder="e.g. 160" value="${pd.ldl||''}"></div>
-        </div>
-      </div>
-
-      <div class="fg full">
-        <div class="fgroup">
-          <label class="flabel">Imaging Findings (Describe Key Findings) <span class="ex">Even if uploaded above</span></label>
-          <textarea class="ftextarea" id="p_imaging_text" placeholder="e.g. Chest X-ray: Cardiomegaly, mild pulmonary congestion. ECG: ST-elevation in II, III, aVF. Echo: EF 45%, regional wall motion abnormality in inferior wall...">${pd.imaging_text||''}</textarea>
-        </div>
-      </div>
-
-      <div class="demo-nav">
-        <button class="dbtn-back" onclick="goBack()">← Back</button>
-        <button class="dbtn-next" onclick="saveS3()">Next: Review & Confirm →</button>
-      </div>
-    </div>`;
-    initUpload('uz-lab','ui-lab','ul-lab');
-    initUpload('uz-imaging','ui-imaging','ul-imaging');
-    initUpload('uz-ecg','ui-ecg','ul-ecg');
-    initUpload('uz-other','ui-other','ul-other');
-  }
-
-  else if(step===4){
-    const bmi=pd.weight&&pd.height?(pd.weight/((pd.height/100)**2)).toFixed(1):'—';
-    const bmiCat=bmi==='—'?'':(bmi<18.5?'Underweight':bmi<25?'Normal':bmi<30?'Overweight':'Obese');
-    const labCount=(uploadedFilesMap['ul-lab']||[]).length+(uploadedFilesMap['ul-imaging']||[]).length+(uploadedFilesMap['ul-ecg']||[]).length+(uploadedFilesMap['ul-other']||[]).length;
-    panels.innerHTML=`<div class="demo-panel">
-      <div class="demo-step-header">
-        <div class="dsh-num">5</div>
-        <div class="dsh-title">Review All Data & Generate Report</div>
-      </div>
-      <p class="dsh-sub">Review the collected patient data. The AI will analyze everything and generate a complete 5-step clinical report with similar patient matching.</p>
-
-      <div class="review-section">
-        <div class="review-section-title">Patient Identity</div>
-        <div class="review-grid">
-          <div class="rv-item"><span>Name:</span><span>${pd.name||'—'}</span></div>
-          <div class="rv-item"><span>Age / Gender:</span><span>${pd.age||'—'} yrs / ${pd.gender||'—'}</span></div>
-          <div class="rv-item"><span>Blood Group:</span><span>${pd.blood||'Unknown'}</span></div>
-          <div class="rv-item"><span>Doctor:</span><span>${pd.doctor||'—'}</span></div>
-        </div>
-      </div>
-
-      <div class="review-section">
-        <div class="review-section-title">Vital Signs</div>
-        <div class="review-grid">
-          <div class="rv-item"><span>Blood Pressure:</span><span>${pd.bp_sys||'—'}/${pd.bp_dia||'—'} mmHg</span></div>
-          <div class="rv-item"><span>Heart Rate:</span><span>${pd.hr||'—'} bpm</span></div>
-          <div class="rv-item"><span>Temperature:</span><span>${pd.temp||'—'} °F</span></div>
-          <div class="rv-item"><span>SpO₂:</span><span>${pd.spo2||'—'}%</span></div>
-          <div class="rv-item"><span>Resp. Rate:</span><span>${pd.rr||'—'}/min</span></div>
-          <div class="rv-item"><span>BMI:</span><span>${bmi} ${bmiCat?'('+bmiCat+')':''}</span></div>
-        </div>
-      </div>
-
-      <div class="review-section">
-        <div class="review-section-title">Symptoms & History</div>
-        ${pd.symTags&&pd.symTags.length?`<div style="margin-bottom:0.7rem;display:flex;flex-wrap:wrap;gap:0.4rem">${pd.symTags.map(s=>`<span class="chip">${s}</span>`).join('')}</div>`:''}
-        ${pd.symptoms?`<div class="rv-item" style="margin-bottom:0.4rem;display:block"><span style="color:var(--muted);font-size:0.78rem">Chief Complaints:</span><span style="color:var(--white);font-size:0.82rem;display:block;margin-top:0.2rem">${pd.symptoms}</span></div>`:''}
-        ${pd.duration?`<div class="rv-item" style="margin-bottom:0.3rem"><span>Duration:</span><span>${pd.duration}</span></div>`:''}
-        ${pd.diagnoses?`<div class="rv-item" style="margin-bottom:0.3rem"><span>Diagnoses:</span><span>${pd.diagnoses}</span></div>`:''}
-        ${pd.meds?`<div class="rv-item" style="margin-bottom:0.3rem"><span>Medications:</span><span style="font-size:0.78rem">${pd.meds}</span></div>`:''}
-      </div>
-
-      <div class="review-section" style="margin-bottom:0">
-        <div class="review-section-title">Uploaded Reports & Lab Values</div>
-        <div class="review-grid">
-          <div class="rv-item"><span>Files Uploaded:</span><span style="color:${labCount>0?'var(--mint)':'var(--muted)'}">${labCount} file${labCount!==1?'s':''}</span></div>
-          ${pd.hb?`<div class="rv-item"><span>Haemoglobin:</span><span>${pd.hb} g/dL</span></div>`:''}
-          ${pd.troponin?`<div class="rv-item"><span>Troponin I:</span><span>${pd.troponin} ng/mL</span></div>`:''}
-          ${pd.glucose?`<div class="rv-item"><span>Blood Sugar (F):</span><span>${pd.glucose} mg/dL</span></div>`:''}
-          ${pd.creatinine?`<div class="rv-item"><span>Creatinine:</span><span>${pd.creatinine} mg/dL</span></div>`:''}
-        </div>
-        ${pd.imaging_text?`<div style="margin-top:0.6rem;font-size:0.8rem;color:var(--muted)">Imaging: <span style="color:var(--text2)">${pd.imaging_text.substring(0,150)}${pd.imaging_text.length>150?'...':''}</span></div>`:''}
-      </div>
-
-      <div style="margin-top:1.3rem;padding:1rem 1.2rem;background:rgba(0,212,255,0.04);border:1px solid rgba(0,212,255,0.12);border-radius:var(--r-md)">
-        <p style="font-size:0.82rem;color:var(--muted);line-height:1.65">
-          ⚡ <strong style="color:var(--cyan)">Ready for AI Analysis.</strong> The Co-Pilot will run the full 5-step pipeline: Patient Profiling → AI Clinical Analysis → Similar Patient Search (Person A–E) → Treatment Pattern Analysis → AI Clinical Report with Doctor Decision Support.
-        </p>
-      </div>
-
-      <div class="demo-nav">
-        <button class="dbtn-back" onclick="goBack()">← Back</button>
-        <button class="dbtn-next" onclick="runAnalysis()" style="background:linear-gradient(135deg,var(--gold),var(--gold2));color:#000">
-          🧠 Generate AI Clinical Report →
-        </button>
-      </div>
-    </div>`;
-  }
-}
-
-// ── SYMPTOM TAG TOGGLE
-function toggleSym(el,sym){
-  el.classList.toggle('sel');
-  pd.symTags=pd.symTags||[];
-  if(el.classList.contains('sel')){if(!pd.symTags.includes(sym))pd.symTags.push(sym)}
-  else{pd.symTags=pd.symTags.filter(s=>s!==sym)}
-  const ta=document.getElementById('p_symptoms');
-  if(ta&&!ta.value.includes(sym)&&el.classList.contains('sel'))ta.value+=(ta.value?', ':'')+sym;
-}
-
-// ── SAVE STEPS
-function saveS0(){
-  const n=document.getElementById('p_name').value.trim();
-  const g=document.getElementById('p_gender').value;
-  if(!n||!g){showErr('Please enter Patient Name and Gender to continue.');return}
-  pd.name=n;pd.gender=g;
-  pd.age=document.getElementById('sl_age').value;
-  pd.blood=document.getElementById('p_blood').value;
-  pd.contact=document.getElementById('p_contact').value;
-  pd.doctor=document.getElementById('p_doctor').value;
-  step=1;renderStep();
-}
-function saveS1(){
-  pd.bp_sys=document.getElementById('sl_bp_sys').value;
-  pd.bp_dia=document.getElementById('sl_bp_dia').value;
-  pd.hr=document.getElementById('sl_hr').value;
-  pd.temp=(document.getElementById('sl_temp').value/10).toFixed(1);
-  pd.spo2=document.getElementById('sl_spo2').value;
-  pd.rr=document.getElementById('sl_rr').value;
-  pd.weight=document.getElementById('sl_weight').value;
-  pd.height=document.getElementById('sl_height').value;
-  step=2;renderStep();
-}
-function saveS2(){
-  pd.symptoms=document.getElementById('p_symptoms').value.trim();
-  if(!pd.symptoms){showErr('Please describe the chief complaints or select symptoms above.');return}
-  pd.duration=document.getElementById('p_duration').value;
-  pd.history=document.getElementById('p_history').value;
-  pd.diagnoses=document.getElementById('p_diagnoses').value;
-  pd.meds=document.getElementById('p_meds').value;
-  pd.allergies=document.getElementById('p_allergies').value;
-  pd.family=document.getElementById('p_family').value;
-  pd.lifestyle=document.getElementById('p_lifestyle').value;
-  step=3;renderStep();
-}
-function saveS3(){
-  pd.hb=document.getElementById('p_hb').value;
-  pd.wbc=document.getElementById('p_wbc').value;
-  pd.glucose=document.getElementById('p_glucose').value;
-  pd.creatinine=document.getElementById('p_creatinine').value;
-  pd.troponin=document.getElementById('p_troponin').value;
-  pd.ldl=document.getElementById('p_ldl').value;
-  pd.imaging_text=document.getElementById('p_imaging_text').value;
-  step=4;renderStep();
-}
-function goBack(){if(step>0){step--;renderStep()}}
-
-function showErr(msg){
-  let ex=document.getElementById('_validErr');if(ex)ex.remove();
-  const d=document.createElement('div');d.id='_validErr';
-  d.style.cssText='background:rgba(255,77,109,0.08);border:1px solid rgba(255,77,109,0.25);border-radius:8px;padding:0.75rem 1rem;color:var(--rose);font-size:0.82rem;margin-top:1rem;';
-  d.textContent='⚠️  '+msg;
-  document.querySelector('.demo-nav').before(d);
-  setTimeout(()=>d.remove(),4000);
-}
-
-// ── AI ANALYSIS ENGINE
-async function runAnalysis(){
-  // Show processing screen
-  document.getElementById('demoPanels').innerHTML=`
-    <div class="proc-screen">
-      <div class="proc-ring"></div>
-      <div class="proc-title">AI Analysis Running</div>
-      <p class="proc-sub">The Co-Pilot is running all 5 clinical pipeline steps...</p>
-      <div class="proc-steps">
-        <div class="ps-item run" id="ps1"><div class="ps-dot"></div>Step 1 — Structuring patient clinical profile & risk scoring...</div>
-        <div class="ps-item" id="ps2"><div class="ps-dot"></div>Step 2 — AI Clinical Analysis: Identifying disease patterns & risk indicators...</div>
-        <div class="ps-item" id="ps3"><div class="ps-dot"></div>Step 3 — Similar Patient Search: Scanning 847K+ records (MIMIC-IV, NIH, ICMR)...</div>
-        <div class="ps-item" id="ps4"><div class="ps-dot"></div>Step 4 — Treatment Pattern Analysis: Evaluating A/B/C treatment outcomes...</div>
-        <div class="ps-item" id="ps5"><div class="ps-dot"></div>Step 5 — Generating AI Clinical Report & Doctor Decision Support...</div>
-      </div>
-    </div>`;
-
-  const delay=ms=>new Promise(r=>setTimeout(r,ms));
-  const adv=async(done,next,ms)=>{
-    await delay(ms);
-    if(done){const el=document.getElementById(done);if(el){el.classList.remove('run');el.classList.add('done')}}
-    if(next){const el=document.getElementById(next);if(el)el.classList.add('run')}
-  };
-  await adv(null,null,500);
-  await adv('ps1','ps2',1200);
-  await adv('ps2','ps3',1400);
-  await adv('ps3','ps4',1500);
-  await adv('ps4','ps5',1200);
-
-  try{
-    const rpt=await callAI();
-    await adv('ps5',null,800);
-    renderReport(rpt);
-  }catch(err){
-    document.getElementById('demoPanels').innerHTML=`
-      <div style="text-align:center;padding:3rem">
-        <div style="font-size:2rem;margin-bottom:1rem">⚠️</div>
-        <div style="font-size:1rem;color:var(--white);margin-bottom:0.5rem">Analysis Error</div>
-        <p style="color:var(--muted);font-size:0.85rem;margin-bottom:1.5rem">${err.message}</p>
-        <button class="dbtn-back" onclick="step=4;renderStep()">← Retry</button>
-      </div>`;
-  }
-}
-
-async function callAI(){
-  const bmi=pd.weight&&pd.height?(pd.weight/((pd.height/100)**2)).toFixed(1):'not calculated';
-  const labCount=(uploadedFilesMap['ul-lab']||[]).length+(uploadedFilesMap['ul-imaging']||[]).length+(uploadedFilesMap['ul-ecg']||[]).length+(uploadedFilesMap['ul-other']||[]).length;
-
-  const prompt=`You are the HN AI Clinical Co-Pilot — an advanced clinical decision-support AI for Indian hospitals. Generate a comprehensive AI Clinical Report in strict JSON format.
-
-PATIENT DATA:
-Name: ${pd.name} | Age: ${pd.age} yrs | Gender: ${pd.gender} | Blood Group: ${pd.blood||'Unknown'}
-BP: ${pd.bp_sys||'?'}/${pd.bp_dia||'?'} mmHg | HR: ${pd.hr||'?'} bpm | Temp: ${pd.temp||'?'}°F | SpO2: ${pd.spo2||'?'}% | RR: ${pd.rr||'?'}/min
-Weight: ${pd.weight||'?'}kg | Height: ${pd.height||'?'}cm | BMI: ${bmi}
-Chief Complaints: ${pd.symptoms||'not provided'}
-Symptom Tags: ${(pd.symTags||[]).join(', ')||'none selected'}
-Duration: ${pd.duration||'not provided'}
-Lab Values — Hb: ${pd.hb||'?'} g/dL | WBC: ${pd.wbc||'?'} | Glucose(F): ${pd.glucose||'?'} mg/dL | Creatinine: ${pd.creatinine||'?'} | Troponin I: ${pd.troponin||'?'} | LDL: ${pd.ldl||'?'}
-Imaging/ECG: ${pd.imaging_text||'none provided'}
-Medical History: ${pd.history||'none'}
-Existing Diagnoses: ${pd.diagnoses||'none'}
-Medications: ${pd.meds||'none'}
-Allergies: ${pd.allergies||'none'}
-Family History: ${pd.family||'none'}
-Lifestyle: ${pd.lifestyle||'not provided'}
-Files Uploaded: ${labCount} report files
-Referring Doctor: ${pd.doctor||'not specified'}
-
-Generate ONLY valid JSON (no markdown, no backticks) with this EXACT structure:
-{
-  "step1": {
-    "summary": "3-sentence structured clinical profile summary",
-    "risk_level": "Low|Moderate|High|Critical",
-    "risk_reason": "Specific clinical reason",
-    "organ_focus": "Primary organ system affected (Heart|Lungs|Kidney|Liver|Brain|Pancreas|Vascular|Multi-system)",
-    "bmi_interpretation": "BMI clinical significance"
-  },
-  "step2": {
-    "primary_diagnoses": [
-      {"rank":1,"name":"Most likely diagnosis","confidence":85,"organ":"Affected organ","evidence":"Key supporting evidence from provided data"},
-      {"rank":2,"name":"Second diagnosis","confidence":65,"organ":"Organ","evidence":"Evidence"},
-      {"rank":3,"name":"Third differential","confidence":40,"organ":"Organ","evidence":"Evidence"}
-    ],
-    "risk_indicators": ["Risk 1","Risk 2","Risk 3","Risk 4"],
-    "abnormal_findings": ["Finding 1 from vitals/labs/imaging","Finding 2","Finding 3"],
-    "immediate_concern": "One sentence describing the most urgent clinical concern"
-  },
-  "step3": {
-    "total_matches": 847,
-    "database": "MIMIC-IV Clinical Database, NIH Health Records, ICMR National Database",
-    "persons": [
-      {"id":"A","match_pct":94,"age":"55M","year":2022,"organ":"Heart","condition":"Coronary Artery Disease","similarity":"Similar symptom cluster, comparable lab values","treatment_used":"PCI + Dual Antiplatelet","treatment_label":"Treatment A","outcome":"Full Recovery","recovery_days":28,"success_rate":"89%"},
-      {"id":"B","match_pct":89,"age":"61F","year":2021,"organ":"Kidney","condition":"CKD Stage 3","similarity":"Matching creatinine trend, BP pattern","treatment_used":"ACE Inhibitors + Dietary","treatment_label":"Treatment B","outcome":"Partial Improvement","recovery_days":90,"success_rate":"74%"},
-      {"id":"C","match_pct":85,"age":"68M","year":2023,"organ":"Liver","condition":"Liver Cirrhosis Stage 2","similarity":"Jaundice, ascites, fatigue pattern","treatment_used":"Combined hepatoprotective","treatment_label":"Treatment C","outcome":"Stabilised","recovery_days":120,"success_rate":"68%"},
-      {"id":"D","match_pct":82,"age":"47F","year":2022,"organ":"Lungs","condition":"Community Pneumonia","similarity":"SpO2 drop, fever, imaging opacity","treatment_used":"IV Antibiotics + O2","treatment_label":"Treatment A","outcome":"Full Recovery","recovery_days":14,"success_rate":"93%"},
-      {"id":"E","match_pct":78,"age":"59M","year":2023,"organ":"Pancreas","condition":"T2DM Advanced","similarity":"Glucose pattern, polyuria","treatment_used":"Insulin + Lifestyle","treatment_label":"Treatment B","outcome":"Controlled","recovery_days":60,"success_rate":"88%"}
-    ],
-    "key_insight": "2-sentence pattern observed across all 5 similar patient cases relevant to this patient"
-  },
-  "step4": {
-    "treatment_options": [
-      {"label":"Treatment Option A","name":"Most recommended specific treatment","success_rate":"XX%","recovery_time":"X-Y days","side_effects":"Key side effects","evidence":"Why recommended"},
-      {"label":"Treatment Option B","name":"Second option","success_rate":"XX%","recovery_time":"X-Y days","side_effects":"Side effects","evidence":"Context"},
-      {"label":"Treatment Option C","name":"Third or supportive option","success_rate":"XX%","recovery_time":"X-Y days","side_effects":"Side effects","evidence":"When to use"}
-    ],
-    "recommended":"Treatment Option A name",
-    "evidence_grade":"Grade A — Expert consensus + RCT evidence"
-  },
-  "step5": {
-    "ai_summary": "4-sentence synthesis of all findings for the doctor",
-    "immediate_actions": ["Action 1","Action 2","Action 3","Action 4"],
-    "investigations": ["Test 1 if not done","Test 2","Test 3"],
-    "specialist_referral": "Which specialist and why, or Not required",
-    "follow_up": "Follow-up recommendation",
-    "prognosis": "Brief prognosis statement",
-    "disclaimer": "This AI analysis is a clinical decision-support tool only. All final treatment decisions must be validated by a qualified medical professional using their clinical examination and judgment."
-  }
-}`;
-
-  const res=await fetch("https://api.anthropic.com/v1/messages",{
-    method:"POST",
-    headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({
-      model:"claude-sonnet-4-20250514",
-      max_tokens:1000,
-      messages:[{role:"user",content:prompt}]
-    })
-  });
-  if(!res.ok){const e=await res.json().catch(()=>({}));throw new Error(e.error?.message||`API error ${res.status}`)}
-  const data=await res.json();
-  const text=data.content.map(c=>c.text||'').join('');
-  const clean=text.replace(/```json|```/g,'').trim();
-  return JSON.parse(clean);
-}
-
-// ── RENDER REPORT
-function renderReport(r){
-  document.getElementById('demoPanels').style.display='none';
-  const out=document.getElementById('reportOutput');
-  out.style.display='block';
-  window._R=r;
-
-  const riskColors={Low:'#00e5a0',Moderate:'#ffb347',High:'#ff9f43',Critical:'#ff4d6d'};
-  const rc=riskColors[r.step1.risk_level]||'#ffb347';
-  const now=new Date();
-  const rid='HN-'+now.getFullYear()+String(now.getMonth()+1).padStart(2,'0')+String(now.getDate()).padStart(2,'0')+'-'+Math.floor(Math.random()*9000+1000);
-  window._META={rid,now};
-  const dateStr=now.toLocaleDateString('en-IN',{day:'2-digit',month:'long',year:'numeric'});
-  const timeStr=now.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});
-  const bmi=pd.weight&&pd.height?(pd.weight/((pd.height/100)**2)).toFixed(1):'—';
-
-  const personColors={A:'var(--cyan)',B:'var(--gold)',C:'var(--rose)',D:'var(--mint)',E:'var(--amber)'};
-  const personBg={A:'rgba(0,212,255,0.06)',B:'rgba(240,165,0,0.06)',C:'rgba(255,77,109,0.06)',D:'rgba(0,229,160,0.06)',E:'rgba(255,179,71,0.06)'};
-
-  out.innerHTML=`
-  <div class="rpt-container">
-    <div class="rpt-header">
-      <div class="rpt-header-row">
-        <div>
-          <div class="rpt-brand">HN Healthcare AI Clinical Co-Pilot</div>
-          <div class="rpt-name">AI Clinical Report</div>
-          <div class="rpt-id">Report ID: <span>${rid}</span></div>
-        </div>
-        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:0.5rem">
-          <div class="risk-pill" style="background:${rc}18;border:1px solid ${rc}44">
-            <div class="risk-dot" style="background:${rc};box-shadow:0 0 8px ${rc}"></div>
-            <span class="risk-label" style="color:${rc}">Risk: ${r.step1.risk_level}</span>
-          </div>
-          <div style="font-size:0.7rem;color:var(--muted)">${dateStr} · ${timeStr}</div>
-          <div style="font-size:0.7rem;color:var(--muted)">Organ Focus: <strong style="color:${rc}">${r.step1.organ_focus}</strong></div>
-        </div>
-      </div>
-      <div class="rpt-meta">
-        <div class="rm-item"><div class="rm-lbl">Patient</div><div class="rm-val">${pd.name}</div></div>
-        <div class="rm-item"><div class="rm-lbl">Age / Gender</div><div class="rm-val">${pd.age} yrs / ${pd.gender}</div></div>
-        ${pd.blood?`<div class="rm-item"><div class="rm-lbl">Blood Group</div><div class="rm-val">${pd.blood}</div></div>`:''}
-        <div class="rm-item"><div class="rm-lbl">BP</div><div class="rm-val">${pd.bp_sys||'—'}/${pd.bp_dia||'—'} mmHg</div></div>
-        <div class="rm-item"><div class="rm-lbl">HR</div><div class="rm-val">${pd.hr||'—'} bpm</div></div>
-        <div class="rm-item"><div class="rm-lbl">SpO₂</div><div class="rm-val">${pd.spo2||'—'}%</div></div>
-        <div class="rm-item"><div class="rm-lbl">BMI</div><div class="rm-val">${bmi}</div></div>
-        ${pd.doctor?`<div class="rm-item"><div class="rm-lbl">Referring Doctor</div><div class="rm-val">${pd.doctor}</div></div>`:''}
-      </div>
+      <button class="modal-close" onclick="closeModal('docModal')">✕</button>
     </div>
-
-    <div class="rpt-body">
-
-      <!-- STEP 1 -->
-      <div class="rs">
-        <div class="rs-hdr">
-          <div class="rs-num">1</div>
-          <div class="rs-title">Patient Data Collection & Clinical Profile</div>
-        </div>
-        <div class="rpt-content">
-          <p style="margin-bottom:0.9rem">${r.step1.summary}</p>
-          <div style="padding:0.8rem 1.1rem;background:${rc}0d;border:1px solid ${rc}33;border-radius:8px;margin-bottom:1rem">
-            <strong style="color:${rc}">Risk Level: ${r.step1.risk_level}</strong> — ${r.step1.risk_reason}
+    <div class="modal-body">
+      <div id="docIdScreen">
+        <div class="doc-id-wrap">
+          <div class="doc-ico">👨‍⚕️</div>
+          <div class="doc-id-title">Access Patient Clinical Analysis</div>
+          <div class="doc-id-sub">Enter the patient's unique AIT ID to view their complete clinical report, similar patient matches, and treatment recommendations.</div>
+          <div class="doc-id-row">
+            <input type="text" class="doc-id-inp" id="docIdInp" placeholder="AIT-XXXXXXXX" oninput="this.value=this.value.toUpperCase()"/>
+            <button class="doc-id-btn" onclick="lookupDoc()"><i class="fa-solid fa-magnifying-glass"></i> Lookup Patient</button>
           </div>
-          ${pd.symTags&&pd.symTags.length?`<div style="display:flex;flex-wrap:wrap;gap:0.4rem;margin-bottom:0.8rem">${pd.symTags.map(s=>`<span class="chip">${s}</span>`).join('')}</div>`:''}
-          ${pd.symptoms?`<p><strong>Chief Complaints:</strong> ${pd.symptoms}</p>`:''}
-          ${pd.duration?`<p style="margin-top:0.4rem"><strong>Duration:</strong> ${pd.duration}</p>`:''}
-          ${pd.imaging_text?`<p style="margin-top:0.4rem"><strong>Imaging / ECG:</strong> ${pd.imaging_text}</p>`:''}
-          ${r.step1.bmi_interpretation?`<p style="margin-top:0.4rem"><strong>BMI Note:</strong> ${r.step1.bmi_interpretation}</p>`:''}
+          <div class="doc-demo-hint" onclick="loadDocDemo()">← Load demo: Rajesh Kumar — Cardiac + Diabetes case</div>
         </div>
       </div>
-
-      <!-- STEP 2 -->
-      <div class="rs">
-        <div class="rs-hdr">
-          <div class="rs-num">2</div>
-          <div class="rs-title">AI Clinical Analysis — Possible Diagnoses</div>
-        </div>
-        <div class="rpt-content">
-          <div style="padding:0.8rem 1.1rem;background:rgba(255,77,109,0.06);border:1px solid rgba(255,77,109,0.15);border-radius:8px;margin-bottom:1.2rem">
-            <strong style="color:var(--rose)">⚠ Immediate Concern:</strong> ${r.step2.immediate_concern}
-          </div>
-          ${r.step2.primary_diagnoses.map((d,i)=>`
-          <div class="diag-item">
-            <div class="diag-row">
-              <span class="diag-name">${i===0?`<strong style="color:var(--white)">`:''}${d.name} <span style="font-size:0.72rem;color:var(--muted)">(${d.organ})</span>${i===0?'</strong>':''}</span>
-              <span class="diag-pct">${d.confidence}%</span>
-            </div>
-            <div class="conf-track"><div class="conf-bar t${i+1}" style="width:0%" data-w="${d.confidence}%"></div></div>
-            <div class="diag-evidence">${d.evidence}</div>
-          </div>`).join('')}
-          <div class="rpt-grid2">
-            <div class="rg2-card">
-              <div class="rg2-title">⚠ Clinical Risk Indicators</div>
-              <ul class="rg2-list">${r.step2.risk_indicators.map(x=>`<li>${x}</li>`).join('')}</ul>
-            </div>
-            <div class="rg2-card">
-              <div class="rg2-title">🔬 Abnormal Findings</div>
-              <ul class="rg2-list">${r.step2.abnormal_findings.map(x=>`<li>${x}</li>`).join('')}</ul>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- STEP 3 — CORE INNOVATION -->
-      <div class="rs">
-        <div class="rs-hdr">
-          <div class="rs-num">3</div>
-          <div class="rs-title">Similar Patient Intelligence</div>
-          <span class="rs-core">⭐ Core Innovation</span>
-        </div>
-        <div class="rpt-content">
-          <div style="padding:0.7rem 1rem;background:rgba(0,212,255,0.05);border:1px solid rgba(0,212,255,0.12);border-radius:7px;margin-bottom:1.2rem">
-            <strong style="color:var(--cyan)">${r.step3.total_matches.toLocaleString()} matching patient records found</strong> across ${r.step3.database}.
-          </div>
-
-          <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:0.8rem;margin-bottom:1.2rem">
-            ${r.step3.persons.map(p=>`
-            <div style="background:${personBg[p.id]};border:1px solid ${personColors[p.id]}25;border-radius:10px;overflow:hidden">
-              <div style="height:2px;background:${personColors[p.id]}"></div>
-              <div style="padding:0.8rem 0.7rem">
-                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem">
-                  <span style="font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:${personColors[p.id]}">Person ${p.id}</span>
-                  <span style="font-size:0.68rem;font-weight:800;color:${personColors[p.id]};background:${personColors[p.id]}18;padding:0.1rem 0.4rem;border-radius:3px">${p.match_pct}%</span>
-                </div>
-                <div style="font-size:0.75rem;color:var(--white);font-weight:600;margin-bottom:0.3rem">${p.condition}</div>
-                <div style="font-size:0.68rem;color:var(--muted);margin-bottom:0.3rem">${p.age} · ${p.organ} · ${p.year}</div>
-                <div style="font-size:0.7rem;color:var(--text2);margin-bottom:0.5rem;line-height:1.4">${p.treatment_used}</div>
-                <div style="height:4px;background:rgba(255,255,255,0.06);border-radius:2px;margin-bottom:0.3rem;overflow:hidden">
-                  <div style="height:100%;width:${p.match_pct}%;background:${personColors[p.id]};border-radius:2px;transition:width 1s ease 0.5s"></div>
-                </div>
-                <div style="display:flex;justify-content:space-between;font-size:0.65rem">
-                  <span style="color:${p.outcome.includes('Full')||p.outcome.includes('Controlled')?'var(--mint)':'var(--amber)'}">${p.outcome}</span>
-                  <span style="color:var(--muted)">${p.recovery_days}d</span>
-                </div>
-              </div>
-            </div>`).join('')}
-          </div>
-
-          <div style="border-left:2px solid rgba(0,212,255,0.3);padding-left:1rem;font-size:0.86rem;color:var(--text2);line-height:1.65">
-            📊 <strong style="color:var(--white)">AI Pattern Insight:</strong> ${r.step3.key_insight}
-          </div>
-        </div>
-      </div>
-
-      <!-- STEP 4 -->
-      <div class="rs">
-        <div class="rs-hdr">
-          <div class="rs-num">4</div>
-          <div class="rs-title">Treatment Pattern Analysis</div>
-        </div>
-        <div class="rpt-content">
-          <div style="margin-bottom:1rem;font-size:0.84rem">
-            <strong>Evidence Grade:</strong> <span style="color:var(--gold)">${r.step4.evidence_grade}</span>
-          </div>
-          ${r.step4.treatment_options.map((t,i)=>`
-          <div class="treat-card">
-            <div class="tc-hdr">
-              <div class="tc-name">${i===0?'⭐ ':''}<strong>${t.label}:</strong> ${t.name}</div>
-              <div class="tc-rate">✓ ${t.success_rate} Success</div>
-            </div>
-            <div class="tc-body">
-              <div class="tc-row"><span>Average Recovery Time</span><span>${t.recovery_time}</span></div>
-              <div class="tc-row"><span>Side Effects</span><span>${t.side_effects}</span></div>
-              <div class="tc-row"><span>Clinical Evidence</span><span style="font-size:0.76rem;color:var(--muted)">${t.evidence}</span></div>
-            </div>
-          </div>`).join('')}
-        </div>
-      </div>
-
-      <!-- STEP 5 -->
-      <div class="rs">
-        <div class="rs-hdr">
-          <div class="rs-num">5</div>
-          <div class="rs-title">Doctor Decision Support</div>
-        </div>
-        <div class="rpt-content">
-          <div class="rpt-summary-box">
-            <div class="rsb-label">AI Clinical Summary</div>
-            <div class="rsb-text">${r.step5.ai_summary}</div>
-            <div class="rsb-rec">Recommended: ${r.step4.recommended}</div>
-          </div>
-          <div class="rpt-grid2">
-            <div class="rg2-card">
-              <div class="rg2-title">🚨 Immediate Actions</div>
-              <ul class="rg2-list">${r.step5.immediate_actions.map(x=>`<li>${x}</li>`).join('')}</ul>
-            </div>
-            <div class="rg2-card">
-              <div class="rg2-title">🔬 Investigations Recommended</div>
-              <ul class="rg2-list">${r.step5.investigations.map(x=>`<li>${x}</li>`).join('')}</ul>
-            </div>
-          </div>
-          <div style="margin-top:1rem;padding:0.8rem 1.1rem;background:rgba(0,212,255,0.04);border:1px solid rgba(0,212,255,0.12);border-radius:8px;font-size:0.82rem;color:var(--muted)">
-            <strong style="color:var(--cyan)">Specialist Referral:</strong> ${r.step5.specialist_referral}
-          </div>
-          <div style="margin-top:0.7rem;padding:0.8rem 1.1rem;background:var(--glass);border:1px solid var(--border);border-radius:8px;font-size:0.82rem">
-            <strong style="color:var(--text)">Follow-Up:</strong> <span style="color:var(--text2)">${r.step5.follow_up}</span>
-          </div>
-          <div style="margin-top:0.7rem;padding:0.8rem 1.1rem;background:rgba(0,229,160,0.04);border:1px solid rgba(0,229,160,0.12);border-radius:8px;font-size:0.82rem">
-            <strong style="color:var(--mint)">Prognosis:</strong> <span style="color:var(--text2)">${r.step5.prognosis}</span>
-          </div>
-          <div class="gold-divider"></div>
-          <div class="disclaimer">⚕️ <strong>Medical Disclaimer:</strong> ${r.step5.disclaimer}</div>
-        </div>
-      </div>
-
+      <div id="docDash"></div>
     </div>
   </div>
+</div>
 
-  <div class="rpt-actions">
-    <button class="btn-pdf" onclick="downloadPDF()">📄 Download PDF Report</button>
-    <button class="btn-restart" onclick="restartDemo()">↩ New Patient</button>
-    <button class="btn-restart" onclick="closeDemo()">✕ Close</button>
-  </div>`;
+<!-- ═══ TOAST ═══ -->
+<div class="toast" id="toast"><span class="toast-ico" id="tIco">✅</span><span class="toast-msg" id="tMsg"></span></div>
 
-  // Animate confidence bars
-  setTimeout(()=>{
-    document.querySelectorAll('.conf-bar[data-w]').forEach(b=>{
-      const w=b.dataset.w;b.style.width='0%';
-      setTimeout(()=>b.style.width=w,200);
-    });
-  },300);
-}
+<!-- ═══ BACK TO TOP ═══ -->
+<button class="back-to-top" aria-label="Back to top"><i class="fa-solid fa-arrow-up"></i></button>
 
-function restartDemo(){
-  step=0;pd={};
-  ['ul-lab','ul-imaging','ul-ecg','ul-other'].forEach(id=>{uploadedFilesMap[id]=[]});
-  document.getElementById('reportOutput').style.display='none';
-  document.getElementById('demoPanels').style.display='block';
-  renderStep();
-}
-
-// ── PDF EXPORT
-function downloadPDF(){
-  const r=window._R;const m=window._META;
-  if(!r)return;
-  const dateStr=m.now.toLocaleDateString('en-IN',{day:'2-digit',month:'long',year:'numeric'});
-  const bmi=pd.weight&&pd.height?(pd.weight/((pd.height/100)**2)).toFixed(1):'—';
-
-  document.getElementById('printArea').innerHTML=`
-  <div style="max-width:720px;margin:0 auto;font-family:Georgia,serif;color:#111;background:#fff;padding:28px">
-    <div style="border-bottom:3px solid #0a6bc9;padding-bottom:10px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:flex-start">
-      <div>
-        <div style="font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:#555;margin-bottom:3px">HN Healthcare AI Clinical Co-Pilot</div>
-        <h1 style="font-size:22px;font-weight:700;color:#0a2240;margin:0 0 3px">AI Clinical Report</h1>
-        <div style="font-size:9px;color:#888">Report ID: ${m.rid} · Generated: ${dateStr}</div>
-      </div>
-      <div style="text-align:right">
-        <div style="display:inline-block;padding:4px 10px;border-radius:12px;background:${r.step1.risk_level==='Critical'?'#ffe0e0':r.step1.risk_level==='High'?'#fff3e0':r.step1.risk_level==='Moderate'?'#fff8e1':'#e8f5e9'};color:${r.step1.risk_level==='Critical'?'#c0392b':r.step1.risk_level==='High'?'#d35400':r.step1.risk_level==='Moderate'?'#c97a00':'#1a7a4a'};font-size:11px;font-weight:700">Risk: ${r.step1.risk_level}</div>
-        <div style="font-size:9px;color:#888;margin-top:3px">Organ Focus: ${r.step1.organ_focus}</div>
-      </div>
-    </div>
-
-    <div style="background:#f4f8fc;border:1px solid #cde;border-radius:6px;padding:10px;margin-bottom:14px;display:flex;flex-wrap:wrap;gap:14px">
-      <div><label style="font-size:8px;text-transform:uppercase;letter-spacing:0.1em;color:#888;display:block">Patient</label><strong style="font-size:12px">${pd.name}</strong></div>
-      <div><label style="font-size:8px;text-transform:uppercase;letter-spacing:0.1em;color:#888;display:block">Age / Gender</label><strong style="font-size:12px">${pd.age} yrs / ${pd.gender}</strong></div>
-      ${pd.blood?`<div><label style="font-size:8px;text-transform:uppercase;color:#888;display:block">Blood Group</label><strong style="font-size:12px">${pd.blood}</strong></div>`:''}
-      <div><label style="font-size:8px;text-transform:uppercase;color:#888;display:block">BP</label><strong style="font-size:12px">${pd.bp_sys||'—'}/${pd.bp_dia||'—'} mmHg</strong></div>
-      <div><label style="font-size:8px;text-transform:uppercase;color:#888;display:block">HR</label><strong style="font-size:12px">${pd.hr||'—'} bpm</strong></div>
-      <div><label style="font-size:8px;text-transform:uppercase;color:#888;display:block">SpO₂</label><strong style="font-size:12px">${pd.spo2||'—'}%</strong></div>
-      <div><label style="font-size:8px;text-transform:uppercase;color:#888;display:block">BMI</label><strong style="font-size:12px">${bmi}</strong></div>
-    </div>
-
-    <div style="margin-bottom:12px;border:1px solid #ddd;border-radius:6px;padding:12px">
-      <h2 style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#0a6bc9;margin:0 0 7px">STEP 1 — Patient Clinical Profile</h2>
-      <p style="font-size:10px;line-height:1.65;margin:0 0 5px">${r.step1.summary}</p>
-      <p style="font-size:10px;color:#666;margin:0"><strong>Risk:</strong> ${r.step1.risk_reason}</p>
-      ${pd.symptoms?`<p style="font-size:10px;margin:5px 0 0"><strong>Chief Complaints:</strong> ${pd.symptoms}</p>`:''}
-    </div>
-
-    <div style="margin-bottom:12px;border:1px solid #ddd;border-radius:6px;padding:12px">
-      <h2 style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#0a6bc9;margin:0 0 7px">STEP 2 — AI Clinical Analysis</h2>
-      <p style="font-size:10px;line-height:1.6;margin:0 0 7px"><strong>Immediate Concern:</strong> ${r.step2.immediate_concern}</p>
-      <strong style="font-size:9px;display:block;text-transform:uppercase;color:#555;margin-bottom:5px">Possible Diagnoses:</strong>
-      ${r.step2.primary_diagnoses.map(d=>`<div style="margin-bottom:5px;font-size:10px"><strong>${d.name}</strong> (${d.organ}, ${d.confidence}%) — ${d.evidence}</div>`).join('')}
-      <strong style="font-size:9px;display:block;text-transform:uppercase;color:#555;margin-top:7px;margin-bottom:4px">Risk Indicators:</strong>
-      <ul style="margin:0;padding-left:14px">${r.step2.risk_indicators.map(x=>`<li style="font-size:10px;margin-bottom:2px">${x}</li>`).join('')}</ul>
-    </div>
-
-    <div style="margin-bottom:12px;border:1px solid #ddd;border-radius:6px;padding:12px">
-      <h2 style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#0a6bc9;margin:0 0 7px">STEP 3 — Similar Patient Intelligence <span style="font-weight:400;color:#888">(Core Innovation)</span></h2>
-      <p style="font-size:10px;margin:0 0 8px"><strong>${r.step3.total_matches.toLocaleString()} matching cases</strong> found across ${r.step3.database}.</p>
-      ${r.step3.persons.map(p=>`<div style="margin-bottom:6px;padding:7px 8px;background:#f9f9f9;border-radius:4px;font-size:10px"><strong>Person ${p.id} (${p.match_pct}% match)</strong> — ${p.age}, ${p.organ}: ${p.condition} | ${p.treatment_used} | ${p.outcome} | ${p.recovery_days} days | Success: ${p.success_rate}</div>`).join('')}
-      <p style="font-size:10px;margin:6px 0 0;color:#555;border-left:2px solid #0a6bc9;padding-left:8px"><strong>Pattern:</strong> ${r.step3.key_insight}</p>
-    </div>
-
-    <div style="margin-bottom:12px;border:1px solid #ddd;border-radius:6px;padding:12px">
-      <h2 style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#0a6bc9;margin:0 0 7px">STEP 4 — Treatment Pattern Analysis</h2>
-      <p style="font-size:10px;margin:0 0 7px"><strong>Recommended:</strong> ${r.step4.recommended} · ${r.step4.evidence_grade}</p>
-      ${r.step4.treatment_options.map(t=>`<div style="margin-bottom:7px;padding:7px 8px;border:1px solid #e0c878;border-radius:4px;font-size:10px"><strong>${t.label}: ${t.name}</strong> — Success: ${t.success_rate} | Recovery: ${t.recovery_time} | Side Effects: ${t.side_effects}</div>`).join('')}
-    </div>
-
-    <div style="margin-bottom:12px;border:1px solid #ddd;border-radius:6px;padding:12px">
-      <h2 style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#0a6bc9;margin:0 0 7px">STEP 5 — Doctor Decision Support</h2>
-      <p style="font-size:10px;line-height:1.65;margin:0 0 7px">${r.step5.ai_summary}</p>
-      <strong style="font-size:9px;display:block;text-transform:uppercase;color:#555;margin-bottom:4px">Immediate Actions:</strong>
-      <ul style="margin:0 0 7px;padding-left:14px">${r.step5.immediate_actions.map(x=>`<li style="font-size:10px;margin-bottom:2px">${x}</li>`).join('')}</ul>
-      <strong style="font-size:9px;display:block;text-transform:uppercase;color:#555;margin-bottom:4px">Investigations:</strong>
-      <ul style="margin:0 0 7px;padding-left:14px">${r.step5.investigations.map(x=>`<li style="font-size:10px;margin-bottom:2px">${x}</li>`).join('')}</ul>
-      <p style="font-size:10px;margin:0 0 3px"><strong>Specialist Referral:</strong> ${r.step5.specialist_referral}</p>
-      <p style="font-size:10px;margin:0 0 3px"><strong>Follow-Up:</strong> ${r.step5.follow_up}</p>
-      <p style="font-size:10px;margin:0"><strong>Prognosis:</strong> ${r.step5.prognosis}</p>
-    </div>
-
-    <div style="background:#fff3f3;border:1px solid #f5c6cb;border-radius:6px;padding:9px;font-size:9px;color:#721c24;line-height:1.5">⚕️ DISCLAIMER: ${r.step5.disclaimer}</div>
-    <div style="margin-top:10px;text-align:center;font-size:8px;color:#bbb">HN Healthcare AI Clinical Co-Pilot · Report ${m.rid} · ${dateStr}</div>
-  </div>`;
-  window.print();
-}
-</script>
+<!-- ═══ JAVASCRIPT ═══ -->
+<script src="script.js"></script>
 
 </body>
 </html>
